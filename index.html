@@ -2612,7 +2612,743 @@
                 correct: 1,
                 explanation: "Recommendations AI supports different <strong>optimization objectives</strong>. Change from click optimization to <strong>conversion or revenue optimization</strong>.",
                 evidence: [{ quote: "Recommendations AI supports multiple <span class='evidence-highlight'>optimization objectives</span>: click-through rate, <span class='evidence-highlight'>conversion rate</span>, and <span class='evidence-highlight'>revenue per session</span>. Select the objective that aligns with your <span class='evidence-highlight'>business goals</span>, not just engagement metrics.", source: "Google Cloud Documentation", document: "Recommendations AI", section: "Optimization Objectives", url: "https://cloud.google.com/recommendations-ai/docs/placements" }]
-            }
+            },
+            // ==================== NVIDIA Additional Questions ====================
+            {
+                vendor: "nvidia",
+                domain: "Flash Attention",
+                question: "You are optimizing transformer inference on H100 GPUs. The model uses standard attention with 128K context length and memory usage is excessive. What optimization provides the MOST significant memory reduction while maintaining exact attention computation?",
+                options: [
+                    "Enable Flash Attention 2 which uses tiling to reduce memory from O(N²) to O(N)",
+                    "Use sparse attention patterns to skip computing certain attention weights",
+                    "Reduce the number of attention heads by 50%",
+                    "Switch to linear attention approximations"
+                ],
+                correct: 0,
+                explanation: "<strong>Flash Attention 2</strong> uses tiling and recomputation to reduce memory complexity from O(N²) to O(N) while computing mathematically exact attention.",
+                evidence: [{ quote: "FlashAttention-2 achieves <span class='evidence-highlight'>2-4x speedup</span> over FlashAttention and up to <span class='evidence-highlight'>9x speedup</span> over standard attention. Memory usage is <span class='evidence-highlight'>O(N) instead of O(N²)</span> by not materializing the full attention matrix.", source: "arXiv", document: "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning", section: "Abstract", url: "https://arxiv.org/abs/2307.08691" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "MIG",
+                question: "Your organization needs to serve multiple small AI models on a single A100 GPU. Each model requires 10GB of GPU memory. What NVIDIA feature allows secure multi-tenant GPU sharing with guaranteed resources?",
+                options: [
+                    "CUDA MPS (Multi-Process Service) for time-slicing between processes",
+                    "MIG (Multi-Instance GPU) to partition the GPU into isolated instances",
+                    "NVIDIA vGPU for virtualized GPU access",
+                    "Kubernetes GPU sharing with time-slicing"
+                ],
+                correct: 1,
+                explanation: "<strong>MIG (Multi-Instance GPU)</strong> partitions an A100/H100 into up to 7 isolated instances, each with dedicated memory, cache, and compute resources.",
+                evidence: [{ quote: "Multi-Instance GPU (MIG) can <span class='evidence-highlight'>partition the GPU into as many as seven instances</span>, each fully isolated with its own <span class='evidence-highlight'>high-bandwidth memory, cache, and compute cores</span>.", source: "NVIDIA Documentation", document: "NVIDIA Multi-Instance GPU User Guide", section: "Introduction", url: "https://docs.nvidia.com/datacenter/tesla/mig-user-guide/" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "Tensor Cores",
+                question: "You're optimizing a matrix multiplication kernel on H100. The matrices are FP16 but results show Tensor Cores are not being utilized. What is the MOST likely cause?",
+                options: [
+                    "Matrix dimensions are not multiples of 16",
+                    "The CUDA version is too old",
+                    "FP16 is not supported on H100 Tensor Cores",
+                    "cuBLAS is not linked correctly"
+                ],
+                correct: 0,
+                explanation: "Tensor Cores require matrix dimensions to be <strong>multiples of 8 or 16</strong> depending on the data type. Non-aligned dimensions fall back to CUDA cores.",
+                evidence: [{ quote: "To use Tensor Cores efficiently, matrix dimensions should be <span class='evidence-highlight'>multiples of 8 for FP16</span> and multiples of 16 for INT8. Misaligned dimensions result in <span class='evidence-highlight'>fallback to CUDA cores</span>.", source: "NVIDIA Documentation", document: "CUDA C++ Programming Guide", section: "Tensor Core Operations", url: "https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#tensor-cores" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "NVSwitch",
+                question: "You're architecting an 8-GPU DGX H100 system for training. What interconnect technology provides all-to-all GPU communication without traversing PCIe?",
+                options: [
+                    "NVLink only, connecting GPUs in a ring topology",
+                    "NVSwitch enabling full bisection bandwidth between all GPUs",
+                    "PCIe Gen5 with GPU Direct RDMA",
+                    "InfiniBand HDR with GPUDirect"
+                ],
+                correct: 1,
+                explanation: "<strong>NVSwitch</strong> in DGX H100 provides full bisection bandwidth, allowing any GPU to communicate with any other at full NVLink speed simultaneously.",
+                evidence: [{ quote: "DGX H100 features third-generation <span class='evidence-highlight'>NVSwitch</span> providing <span class='evidence-highlight'>full bisection bandwidth</span> of 900GB/s between all 8 GPUs. Every GPU can communicate with every other GPU at <span class='evidence-highlight'>full NVLink bandwidth simultaneously</span>.", source: "NVIDIA Documentation", document: "DGX H100 System Architecture", section: "NVSwitch Topology", url: "https://docs.nvidia.com/dgx/dgxh100-user-guide/" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "Continuous Batching",
+                question: "Your vLLM deployment shows GPU utilization dropping to 30% between batches. Requests arrive continuously but batch sizes vary. What vLLM feature addresses this?",
+                options: [
+                    "Static batching with larger batch sizes",
+                    "Continuous batching that adds new requests to running batches",
+                    "Request queuing with fixed intervals",
+                    "GPU memory oversubscription"
+                ],
+                correct: 1,
+                explanation: "<strong>Continuous batching</strong> (also called iteration-level batching) adds new requests to running batches at each iteration, maximizing GPU utilization.",
+                evidence: [{ quote: "vLLM implements <span class='evidence-highlight'>continuous batching</span> (iteration-level scheduling) which can <span class='evidence-highlight'>insert new requests into a running batch</span> at each iteration. This achieves up to <span class='evidence-highlight'>23x higher throughput</span> than static batching.", source: "vLLM Documentation", document: "vLLM Overview", section: "Continuous Batching", url: "https://docs.vllm.ai/en/latest/" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "PagedAttention",
+                question: "Your LLM serving system wastes 60% of GPU memory due to variable sequence lengths. What vLLM innovation addresses KV-cache memory fragmentation?",
+                options: [
+                    "Pre-allocating maximum sequence length for all requests",
+                    "PagedAttention storing KV-cache in non-contiguous blocks like OS virtual memory",
+                    "Compressing KV-cache values to reduce size",
+                    "Offloading KV-cache to CPU memory"
+                ],
+                correct: 1,
+                explanation: "<strong>PagedAttention</strong> manages KV-cache like virtual memory, allocating small fixed-size blocks on demand, reducing fragmentation to near zero.",
+                evidence: [{ quote: "PagedAttention stores the KV cache in <span class='evidence-highlight'>non-contiguous paged memory</span>, similar to virtual memory in operating systems. This reduces memory waste from <span class='evidence-highlight'>60-80% to under 4%</span>.", source: "vLLM Documentation", document: "PagedAttention", section: "Memory Management", url: "https://blog.vllm.ai/2023/06/20/vllm.html" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "Speculative Decoding",
+                question: "Your Llama 70B deployment has high latency due to memory bandwidth limitations during autoregressive decoding. What technique uses a smaller model to speed up generation?",
+                options: [
+                    "Model distillation to create a faster model",
+                    "Speculative decoding using a draft model to propose multiple tokens",
+                    "Increasing batch size to improve GPU utilization",
+                    "Quantizing the model to INT4"
+                ],
+                correct: 1,
+                explanation: "<strong>Speculative decoding</strong> uses a small draft model to propose multiple tokens, then verifies them in parallel with the large model, reducing total iterations.",
+                evidence: [{ quote: "Speculative decoding uses a <span class='evidence-highlight'>smaller draft model</span> to generate candidate tokens, which are then <span class='evidence-highlight'>verified in parallel</span> by the target model. This can achieve <span class='evidence-highlight'>2-3x speedup</span> without changing output quality.", source: "NVIDIA Developer Blog", document: "Speculative Decoding for LLMs", section: "How It Works", url: "https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "TensorRT-LLM",
+                question: "You're deploying Llama 3.1 8B on H100 using TensorRT-LLM. The build process generates multiple engine files. What determines which optimizations are applied?",
+                options: [
+                    "The CUDA driver version",
+                    "The build configuration including precision, max batch size, and plugin settings",
+                    "The operating system version",
+                    "The model's original training framework"
+                ],
+                correct: 1,
+                explanation: "TensorRT-LLM engines are built with specific <strong>configurations</strong> that determine precision, batch sizes, sequence lengths, and which optimized plugins to use.",
+                evidence: [{ quote: "TensorRT-LLM engines are built with specific <span class='evidence-highlight'>configuration parameters</span> including dtype (FP16/FP8/INT8), <span class='evidence-highlight'>max_batch_size</span>, max_input_len, and <span class='evidence-highlight'>plugin settings</span> that determine runtime behavior.", source: "NVIDIA Documentation", document: "TensorRT-LLM", section: "Building Engines", url: "https://nvidia.github.io/TensorRT-LLM/" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "Triton Server",
+                question: "Your Triton Inference Server deployment needs to serve both a preprocessing model (CPU) and inference model (GPU). What Triton feature connects them without client round-trips?",
+                options: [
+                    "Model warmup to preload both models",
+                    "Ensemble models that chain multiple models server-side",
+                    "Dynamic batching across both models",
+                    "Shared memory between CPU and GPU"
+                ],
+                correct: 1,
+                explanation: "<strong>Ensemble models</strong> in Triton define a DAG of models, executing them server-side without client involvement between steps.",
+                evidence: [{ quote: "An <span class='evidence-highlight'>ensemble model</span> represents a pipeline of one or more models. Triton <span class='evidence-highlight'>schedules execution</span> of the ensemble and passes tensors between models <span class='evidence-highlight'>without returning to the client</span>.", source: "NVIDIA Documentation", document: "Triton Inference Server", section: "Ensemble Models", url: "https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/architecture.html#ensemble-models" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "cuDNN",
+                question: "Your CNN training on H100 shows lower than expected performance. Profiling reveals convolutions are not using the fastest algorithms. What cuDNN feature auto-tunes for your specific hardware and input shapes?",
+                options: [
+                    "cuDNN heuristics mode for general-purpose performance",
+                    "cuDNN benchmark mode that tests algorithms and caches the fastest",
+                    "Manual algorithm selection via cuDNN API",
+                    "TensorFloat-32 mode for faster math"
+                ],
+                correct: 1,
+                explanation: "<strong>cuDNN benchmark mode</strong> runs multiple algorithms on the first iteration and caches the fastest for subsequent calls with the same shapes.",
+                evidence: [{ quote: "When <span class='evidence-highlight'>cudnn.benchmark = True</span>, cuDNN will <span class='evidence-highlight'>benchmark multiple convolution algorithms</span> and select the fastest. Results are <span class='evidence-highlight'>cached</span> for repeated input shapes.", source: "PyTorch Documentation", document: "CUDA Semantics", section: "cuDNN", url: "https://pytorch.org/docs/stable/notes/cuda.html#cuda-convolution-benchmarking" }]
+            },
+            // ==================== AWS Additional Questions ====================
+            {
+                vendor: "aws",
+                domain: "SageMaker Inference",
+                question: "Your SageMaker endpoint serves a PyTorch model with variable-length text inputs. Latency varies from 50ms to 2 seconds. What SageMaker feature can reduce latency variance for similar-length inputs?",
+                options: [
+                    "Enable SageMaker Neo compilation for the model",
+                    "Configure dynamic batching with batch strategy MaxPayloadInMB",
+                    "Use Inference Recommender to find optimal instance",
+                    "Enable Elastic Inference accelerators"
+                ],
+                correct: 1,
+                explanation: "<strong>Dynamic batching</strong> with MaxPayloadInMB groups similar-sized requests, reducing per-request overhead and latency variance.",
+                evidence: [{ quote: "Configure <span class='evidence-highlight'>BatchStrategy</span> to MaxPayloadInMB to group requests by payload size. This creates <span class='evidence-highlight'>more uniform batches</span> and reduces latency variance for variable-length inputs.", source: "AWS Documentation", document: "SageMaker Developer Guide", section: "Batch Transform", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform.html" }]
+            },
+            {
+                vendor: "aws",
+                domain: "Bedrock",
+                question: "Your application uses Amazon Bedrock to generate responses. Users complain about slow time-to-first-token. The model is Claude 3 Sonnet with 4K token prompts. What is the MOST effective optimization?",
+                options: [
+                    "Enable response streaming to return tokens as they're generated",
+                    "Switch to a smaller model like Claude 3 Haiku",
+                    "Increase provisioned throughput",
+                    "Use prompt caching to reduce repeated prefix processing"
+                ],
+                correct: 0,
+                explanation: "<strong>Response streaming</strong> returns tokens immediately as generated, dramatically reducing perceived time-to-first-token.",
+                evidence: [{ quote: "Use <span class='evidence-highlight'>response streaming</span> to receive model output as it's generated rather than waiting for the complete response. This significantly <span class='evidence-highlight'>reduces perceived latency</span>.", source: "AWS Documentation", document: "Amazon Bedrock User Guide", section: "Inference", url: "https://docs.aws.amazon.com/bedrock/latest/userguide/inference.html" }]
+            },
+            {
+                vendor: "aws",
+                domain: "Trainium",
+                question: "You're training a 7B parameter model on AWS Trainium (trn1.32xlarge). Training throughput is 30% lower than expected. Profiling shows high collective communication overhead. What should you optimize?",
+                options: [
+                    "Reduce the number of Trainium chips used",
+                    "Enable tensor parallelism across NeuronCores within each chip",
+                    "Use pipeline parallelism to overlap communication with compute",
+                    "Increase the batch size to amortize communication costs"
+                ],
+                correct: 2,
+                explanation: "<strong>Pipeline parallelism</strong> overlaps communication with computation by processing different micro-batches in different stages simultaneously.",
+                evidence: [{ quote: "Pipeline parallelism <span class='evidence-highlight'>overlaps computation with communication</span> by having different pipeline stages process different micro-batches. This <span class='evidence-highlight'>hides communication latency</span> and improves throughput.", source: "AWS Documentation", document: "Neuron SDK Guide", section: "Distributed Training", url: "https://awsdocs-neuron.readthedocs-hosted.com/en/latest/frameworks/torch/torch-neuronx/tutorials/training/pipeline_parallelism.html" }]
+            },
+            {
+                vendor: "aws",
+                domain: "EFA",
+                question: "Your distributed training job on p5.48xlarge instances shows 400 Gbps network throughput instead of the expected 3200 Gbps. What is the MOST likely cause?",
+                options: [
+                    "EFA is not enabled on the instances",
+                    "Only one EFA device is being used instead of all 32",
+                    "The security group is blocking EFA traffic",
+                    "NCCL is not configured to use EFA"
+                ],
+                correct: 1,
+                explanation: "p5.48xlarge has <strong>32 EFA devices</strong> providing 3200 Gbps total. Using only one device limits throughput to 400 Gbps.",
+                evidence: [{ quote: "p5.48xlarge instances include <span class='evidence-highlight'>32 EFA devices</span>, each providing 100 Gbps for a total of <span class='evidence-highlight'>3200 Gbps</span> network bandwidth. Ensure your application uses <span class='evidence-highlight'>all available EFA devices</span>.", source: "AWS Documentation", document: "EC2 Instance Types", section: "P5 Instances", url: "https://aws.amazon.com/ec2/instance-types/p5/" }]
+            },
+            {
+                vendor: "aws",
+                domain: "Inferentia2",
+                question: "Your NLP model on Inferentia2 (inf2.xlarge) achieves target throughput but latency exceeds requirements. The model fits on one NeuronCore. What should you try?",
+                options: [
+                    "Use a larger inf2 instance with more NeuronCores",
+                    "Enable dynamic batching to process more requests",
+                    "Compile the model with higher optimization level (O3)",
+                    "Duplicate the model across NeuronCores for parallel inference"
+                ],
+                correct: 3,
+                explanation: "<strong>Model replication</strong> across NeuronCores allows parallel inference on multiple requests, reducing average latency.",
+                evidence: [{ quote: "For latency-sensitive workloads, <span class='evidence-highlight'>replicate the model across multiple NeuronCores</span>. Each replica handles requests in parallel, <span class='evidence-highlight'>reducing queue wait time</span> and average latency.", source: "AWS Documentation", document: "Neuron SDK", section: "Performance Optimization", url: "https://awsdocs-neuron.readthedocs-hosted.com/en/latest/general/appnotes/perf/performance-tuning.html" }]
+            },
+            // ==================== Azure Additional Questions ====================
+            {
+                vendor: "azure",
+                domain: "Azure OpenAI",
+                question: "Your Azure OpenAI deployment of GPT-4 hits rate limits during peak hours. The deployment uses standard capacity. What is the MOST effective solution for predictable high-volume workloads?",
+                options: [
+                    "Implement exponential backoff retry logic",
+                    "Deploy Provisioned Throughput Units (PTU) for guaranteed capacity",
+                    "Distribute requests across multiple regions",
+                    "Use a content filter to reduce token consumption"
+                ],
+                correct: 1,
+                explanation: "<strong>Provisioned Throughput Units (PTU)</strong> provide guaranteed capacity for Azure OpenAI, eliminating rate limiting for predictable workloads.",
+                evidence: [{ quote: "For predictable high-volume workloads, use <span class='evidence-highlight'>Provisioned Throughput Units (PTU)</span>. PTU deployments provide <span class='evidence-highlight'>guaranteed throughput capacity</span> and are not subject to shared capacity rate limits.", source: "Microsoft Documentation", document: "Azure OpenAI Service", section: "Provisioned Throughput", url: "https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/provisioned-throughput" }]
+            },
+            {
+                vendor: "azure",
+                domain: "Azure ML Compute",
+                question: "Your Azure ML training job on NC A100 v4 VMs takes 4 hours. Spot instances would save 70% but the job cannot tolerate interruption. What Azure ML feature allows cost savings with interruption handling?",
+                options: [
+                    "Use low-priority VMs which are never preempted",
+                    "Enable checkpointing and use spot instances with automatic recovery",
+                    "Use reserved instances for the 3-year term",
+                    "Scale down during off-peak hours"
+                ],
+                correct: 1,
+                explanation: "<strong>Checkpointing with spot instances</strong> saves state periodically, allowing jobs to resume from the last checkpoint after preemption.",
+                evidence: [{ quote: "Use <span class='evidence-highlight'>checkpointing</span> with Azure ML managed spot training. When spot VMs are preempted, training automatically <span class='evidence-highlight'>resumes from the last checkpoint</span> on new spot capacity.", source: "Microsoft Documentation", document: "Azure Machine Learning", section: "Managed Spot Training", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-use-spot-instances" }]
+            },
+            {
+                vendor: "azure",
+                domain: "InfiniBand",
+                question: "Your multi-node training on ND H100 v5 VMs shows lower than expected scaling efficiency. The NCCL AllReduce bandwidth is 200 GB/s per GPU instead of the expected 400 GB/s. What should you verify?",
+                options: [
+                    "That NCCL is using InfiniBand instead of TCP",
+                    "That GPUDirect RDMA is enabled for direct GPU-NIC communication",
+                    "That all VMs are in the same availability zone",
+                    "All of the above"
+                ],
+                correct: 3,
+                explanation: "All three factors affect InfiniBand performance: <strong>NCCL transport, GPUDirect RDMA, and VM placement</strong> must all be correctly configured.",
+                evidence: [{ quote: "For optimal distributed training: ensure <span class='evidence-highlight'>NCCL uses InfiniBand transport</span>, enable <span class='evidence-highlight'>GPUDirect RDMA</span> for direct GPU-to-NIC transfers, and place VMs in the same <span class='evidence-highlight'>availability zone</span> or proximity placement group.", source: "Microsoft Documentation", document: "Azure ML Best Practices", section: "Distributed Training", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-train-distributed-gpu" }]
+            },
+            {
+                vendor: "azure",
+                domain: "Cognitive Services",
+                question: "Your Azure AI Vision application processes 10,000 images/hour. Standard tier costs are high. Images are product photos with consistent backgrounds. What can reduce costs while maintaining accuracy?",
+                options: [
+                    "Use the free tier with rate limiting",
+                    "Pre-process images to reduce resolution before API calls",
+                    "Train a custom model with Azure Custom Vision for your specific use case",
+                    "Batch images into PDF documents"
+                ],
+                correct: 2,
+                explanation: "<strong>Custom Vision</strong> models can be deployed to containers for unlimited local inference, eliminating per-transaction API costs.",
+                evidence: [{ quote: "Export <span class='evidence-highlight'>Custom Vision models to containers</span> for deployment anywhere. Container deployments have <span class='evidence-highlight'>no per-prediction charges</span>, only compute costs.", source: "Microsoft Documentation", document: "Custom Vision", section: "Export Models", url: "https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/export-your-model" }]
+            },
+            {
+                vendor: "azure",
+                domain: "AKS for ML",
+                question: "Your AKS cluster runs ML inference workloads. GPU utilization varies from 10% to 90%. You want to scale GPU nodes based on actual GPU utilization, not just pod count. What should you configure?",
+                options: [
+                    "Horizontal Pod Autoscaler with custom GPU metrics",
+                    "Cluster Autoscaler with GPU node pools",
+                    "KEDA scaler with Prometheus GPU metrics",
+                    "Manual scaling based on monitoring alerts"
+                ],
+                correct: 2,
+                explanation: "<strong>KEDA</strong> with Prometheus GPU metrics enables scaling based on actual GPU utilization, not just Kubernetes resource requests.",
+                evidence: [{ quote: "Use <span class='evidence-highlight'>KEDA (Kubernetes Event-Driven Autoscaler)</span> with the <span class='evidence-highlight'>Prometheus scaler</span> to scale based on custom metrics like GPU utilization from DCGM exporter.", source: "Microsoft Documentation", document: "AKS Best Practices", section: "GPU Scaling", url: "https://learn.microsoft.com/en-us/azure/aks/gpu-cluster" }]
+            },
+            // ==================== GCP Additional Questions ====================
+            {
+                vendor: "gcp",
+                domain: "TPU v5e",
+                question: "You're training a vision transformer on TPU v5e pod. Throughput is 40% lower than v4 despite more chips. Profiling shows high embedding table lookup time. What is likely the cause?",
+                options: [
+                    "TPU v5e has lower HBM bandwidth than v4",
+                    "TPU v5e has less HBM per chip, requiring more embedding sharding",
+                    "The XLA compiler is not optimizing for v5e architecture",
+                    "v5e requires different batch size tuning"
+                ],
+                correct: 1,
+                explanation: "TPU v5e has <strong>16GB HBM per chip</strong> vs v4's 32GB, requiring more sharding for large embedding tables, increasing communication.",
+                evidence: [{ quote: "TPU v5e provides <span class='evidence-highlight'>16 GB HBM per chip</span> compared to 32 GB on v4. For models with large embedding tables, this may require <span class='evidence-highlight'>additional sharding</span>, increasing inter-chip communication.", source: "Google Cloud Documentation", document: "Cloud TPU v5e", section: "Specifications", url: "https://cloud.google.com/tpu/docs/v5e" }]
+            },
+            {
+                vendor: "gcp",
+                domain: "Vertex AI Pipelines",
+                question: "Your Vertex AI Pipeline runs daily but often fails at the data validation step due to upstream data issues. You want failures to trigger alerts but not block the entire pipeline. What should you configure?",
+                options: [
+                    "Use try/except in the component code",
+                    "Configure the component with error handling to continue on failure",
+                    "Split into separate pipelines with pub/sub triggers",
+                    "Use Vertex AI scheduled jobs instead of pipelines"
+                ],
+                correct: 1,
+                explanation: "Vertex AI Pipelines support <strong>exit handlers and conditional execution</strong> that can handle failures gracefully without blocking.",
+                evidence: [{ quote: "Use <span class='evidence-highlight'>exit handlers</span> to execute cleanup or notification steps regardless of pipeline status. Configure <span class='evidence-highlight'>conditional execution</span> to skip downstream steps based on component status.", source: "Google Cloud Documentation", document: "Vertex AI Pipelines", section: "Error Handling", url: "https://cloud.google.com/vertex-ai/docs/pipelines/build-pipeline" }]
+            },
+            {
+                vendor: "gcp",
+                domain: "BigQuery ML",
+                question: "Your BigQuery ML classification model training fails with 'resources exceeded' for a 500GB dataset. The model type is BOOSTED_TREE_CLASSIFIER. What is the recommended solution?",
+                options: [
+                    "Increase BigQuery slot reservation",
+                    "Use DATA_SPLIT_METHOD to train on a sample",
+                    "Export data to Vertex AI for training",
+                    "Switch to LOGISTIC_REG which handles larger datasets"
+                ],
+                correct: 2,
+                explanation: "For large datasets exceeding BigQuery ML limits, <strong>export to Vertex AI</strong> which has more flexible compute options.",
+                evidence: [{ quote: "For datasets exceeding BigQuery ML limits, <span class='evidence-highlight'>export to Cloud Storage</span> and train using <span class='evidence-highlight'>Vertex AI custom training</span> which offers scalable compute resources.", source: "Google Cloud Documentation", document: "BigQuery ML", section: "Limitations", url: "https://cloud.google.com/bigquery/docs/bqml-introduction" }]
+            },
+            {
+                vendor: "gcp",
+                domain: "Gemini API",
+                question: "Your application uses Gemini API for document analysis. Processing time for 100-page PDFs is 45 seconds. Users expect faster responses. What Gemini feature can improve perceived performance?",
+                options: [
+                    "Use Gemini Flash instead of Gemini Pro",
+                    "Enable response streaming to return partial results",
+                    "Pre-process documents to extract text only",
+                    "Use batch prediction API"
+                ],
+                correct: 1,
+                explanation: "<strong>Response streaming</strong> returns tokens as they're generated, allowing users to see partial results immediately.",
+                evidence: [{ quote: "Use <span class='evidence-highlight'>streaming responses</span> to receive tokens as they're generated. For document analysis, this lets users <span class='evidence-highlight'>see initial insights immediately</span> while processing continues.", source: "Google Cloud Documentation", document: "Gemini API", section: "Streaming", url: "https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference" }]
+            },
+            {
+                vendor: "gcp",
+                domain: "Cloud Run for ML",
+                question: "Your Cloud Run service serves a 2GB ML model. Cold start takes 30 seconds due to model loading. The service receives sporadic traffic with gaps of hours. What is the MOST cost-effective solution?",
+                options: [
+                    "Set minimum instances to 1 to eliminate cold starts",
+                    "Use Cloud Run startup CPU boost with model caching",
+                    "Migrate to GKE for persistent pods",
+                    "Use Vertex AI endpoints instead"
+                ],
+                correct: 1,
+                explanation: "<strong>Startup CPU boost</strong> temporarily increases CPU during cold start, combined with model caching strategies, reduces cold start time significantly.",
+                evidence: [{ quote: "Enable <span class='evidence-highlight'>startup CPU boost</span> to temporarily increase CPU allocation during startup. Combined with <span class='evidence-highlight'>lazy loading</span> or Cloud Storage FUSE caching, this significantly <span class='evidence-highlight'>reduces cold start times</span>.", source: "Google Cloud Documentation", document: "Cloud Run", section: "Startup", url: "https://cloud.google.com/run/docs/configuring/cpu-boost" }]
+            },
+            // ==================== More NVIDIA Questions ====================
+            {
+                vendor: "nvidia",
+                domain: "DeepSpeed",
+                question: "You're training a 70B parameter model using DeepSpeed ZeRO-3 on 8x H100 GPUs. Memory per GPU is still insufficient. What DeepSpeed feature can further reduce memory by offloading optimizer states?",
+                options: [
+                    "ZeRO-Infinity with NVMe offloading",
+                    "Gradient accumulation with larger steps",
+                    "Mixed precision training with FP16",
+                    "Activation checkpointing"
+                ],
+                correct: 0,
+                explanation: "<strong>ZeRO-Infinity</strong> offloads optimizer states, gradients, and parameters to CPU and NVMe, enabling training of trillion-parameter models.",
+                evidence: [{ quote: "ZeRO-Infinity extends ZeRO-3 with <span class='evidence-highlight'>CPU and NVMe offloading</span>. This enables training models with <span class='evidence-highlight'>trillions of parameters</span> on limited GPU memory by leveraging system memory and fast SSDs.", source: "DeepSpeed Documentation", document: "ZeRO-Infinity", section: "Overview", url: "https://www.deepspeed.ai/tutorials/zero-offload/" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "NCCL",
+                question: "Your multi-node training on 4x DGX H100 systems shows high AllReduce latency. Network profiling shows messages are fragmented into many small packets. What NCCL parameter should you tune?",
+                options: [
+                    "NCCL_BUFFSIZE to increase buffer size",
+                    "NCCL_NTHREADS to add more communication threads",
+                    "NCCL_MAX_NCHANNELS to increase parallelism",
+                    "NCCL_SOCKET_IFNAME to select the right interface"
+                ],
+                correct: 0,
+                explanation: "<strong>NCCL_BUFFSIZE</strong> controls the buffer size for collective operations. Larger buffers reduce fragmentation overhead for large messages.",
+                evidence: [{ quote: "NCCL_BUFFSIZE sets the <span class='evidence-highlight'>buffer size per channel</span>. Larger buffers (e.g., 8MB+) reduce <span class='evidence-highlight'>message fragmentation</span> and improve throughput for large AllReduce operations.", source: "NVIDIA Documentation", document: "NCCL Documentation", section: "Environment Variables", url: "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "Nsight Systems",
+                question: "You're profiling a PyTorch training job on H100 and see frequent gaps between CUDA kernels. The gaps show CPU activity. What is the MOST likely cause and how do you confirm?",
+                options: [
+                    "Python GIL contention, confirm with Nsight Systems CPU view",
+                    "Insufficient GPU memory causing swapping",
+                    "CUDA stream synchronization points",
+                    "DataLoader bottleneck"
+                ],
+                correct: 2,
+                explanation: "<strong>CUDA synchronization points</strong> (explicit or implicit) cause the GPU to wait for the CPU. Nsight Systems timeline shows these as gaps between kernel executions.",
+                evidence: [{ quote: "Gaps between CUDA kernels often indicate <span class='evidence-highlight'>synchronization points</span>. Look for cudaDeviceSynchronize, cudaStreamSynchronize, or <span class='evidence-highlight'>implicit syncs</span> from operations like .item() or print in PyTorch.", source: "NVIDIA Documentation", document: "Nsight Systems User Guide", section: "GPU Analysis", url: "https://docs.nvidia.com/nsight-systems/UserGuide/index.html" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "FP8 Training",
+                question: "You're implementing FP8 training on H100 for a transformer model. Loss spikes occur during training. What technique stabilizes FP8 training while maintaining speedup?",
+                options: [
+                    "Use static scaling factors computed from calibration data",
+                    "Implement delayed scaling with per-tensor dynamic scaling",
+                    "Fallback to FP16 for all operations",
+                    "Reduce learning rate by 10x"
+                ],
+                correct: 1,
+                explanation: "<strong>Delayed scaling</strong> with per-tensor dynamic scale factors adapts to activation distributions during training, preventing overflow/underflow.",
+                evidence: [{ quote: "FP8 training uses <span class='evidence-highlight'>delayed scaling</span> where scale factors are computed from the <span class='evidence-highlight'>maximum absolute values</span> of previous iterations. Per-tensor scaling provides fine-grained adaptation.", source: "NVIDIA Documentation", document: "Transformer Engine", section: "FP8 Training", url: "https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/examples/fp8_training.html" }]
+            },
+            {
+                vendor: "nvidia",
+                domain: "GPU Direct Storage",
+                question: "Your data pipeline loads 10TB of training data from NVMe SSDs. GPU memory bandwidth is underutilized while CPUs are at 100%. What technology bypasses CPU for direct GPU loading?",
+                options: [
+                    "CUDA Unified Memory",
+                    "GPUDirect Storage (GDS) for direct NVMe-to-GPU transfer",
+                    "Memory-mapped files with mmap",
+                    "NVIDIA DALI with GPU decoding"
+                ],
+                correct: 1,
+                explanation: "<strong>GPUDirect Storage</strong> enables direct DMA transfers between NVMe storage and GPU memory, bypassing CPU and system memory entirely.",
+                evidence: [{ quote: "GPUDirect Storage enables a <span class='evidence-highlight'>direct data path</span> between local or remote storage (NVMe/NVMe-oF) and GPU memory. This <span class='evidence-highlight'>bypasses the CPU</span> and avoids system memory copies.", source: "NVIDIA Documentation", document: "GPUDirect Storage", section: "Overview", url: "https://docs.nvidia.com/gpudirect-storage/overview-guide/index.html" }]
+            },
+            // ==================== More AWS Questions ====================
+            {
+                vendor: "aws",
+                domain: "SageMaker HyperPod",
+                question: "Your organization trains large foundation models requiring weeks of compute. Instance failures cause training restarts and wasted compute. What SageMaker feature provides resilient long-running training?",
+                options: [
+                    "SageMaker managed spot training",
+                    "SageMaker HyperPod with automatic health monitoring and recovery",
+                    "SageMaker Debugger with anomaly detection",
+                    "EC2 Auto Scaling groups with training AMI"
+                ],
+                correct: 1,
+                explanation: "<strong>SageMaker HyperPod</strong> provides resilient infrastructure for foundation model training with automatic health monitoring, node replacement, and checkpoint recovery.",
+                evidence: [{ quote: "SageMaker HyperPod provides <span class='evidence-highlight'>resilient infrastructure</span> for training large models. It includes <span class='evidence-highlight'>automatic health monitoring</span>, node replacement, and <span class='evidence-highlight'>seamless checkpoint recovery</span>.", source: "AWS Documentation", document: "SageMaker HyperPod", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html" }]
+            },
+            {
+                vendor: "aws",
+                domain: "Bedrock Guardrails",
+                question: "Your Bedrock application must prevent generation of harmful content and PII exposure. What Bedrock feature provides these protections without custom code?",
+                options: [
+                    "Custom Lambda preprocessing",
+                    "Bedrock Guardrails with content filters and PII detection",
+                    "CloudWatch Logs with pattern matching",
+                    "AWS WAF with request inspection"
+                ],
+                correct: 1,
+                explanation: "<strong>Bedrock Guardrails</strong> provide built-in content filtering, PII detection, and topic blocking without custom implementation.",
+                evidence: [{ quote: "Bedrock Guardrails provide <span class='evidence-highlight'>content filters</span> for harmful categories, <span class='evidence-highlight'>PII detection and redaction</span>, denied topics, and word filters. Apply guardrails to any model invocation.", source: "AWS Documentation", document: "Amazon Bedrock", section: "Guardrails", url: "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html" }]
+            },
+            {
+                vendor: "aws",
+                domain: "SageMaker Pipelines",
+                question: "Your ML pipeline needs to conditionally execute different model training based on data validation results. What SageMaker Pipelines feature enables this?",
+                options: [
+                    "Callback steps with external logic",
+                    "ConditionStep with conditional branching",
+                    "Lambda steps for custom logic",
+                    "Step Functions integration"
+                ],
+                correct: 1,
+                explanation: "<strong>ConditionStep</strong> enables branching in SageMaker Pipelines based on conditions like data quality checks or parameter values.",
+                evidence: [{ quote: "Use <span class='evidence-highlight'>ConditionStep</span> to add conditional logic to pipelines. Define conditions based on <span class='evidence-highlight'>step outputs or parameters</span> and execute different branches accordingly.", source: "AWS Documentation", document: "SageMaker Pipelines", section: "Conditions", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html#step-type-condition" }]
+            },
+            {
+                vendor: "aws",
+                domain: "FSx for Lustre",
+                question: "Your distributed training job reads a 50TB dataset from S3. Multiple p5 instances read the same files simultaneously. What storage solution provides high-throughput shared access?",
+                options: [
+                    "EBS volumes with Multi-Attach",
+                    "FSx for Lustre linked to S3 for high-performance shared storage",
+                    "EFS with Max I/O performance mode",
+                    "Instance store with data replication"
+                ],
+                correct: 1,
+                explanation: "<strong>FSx for Lustre</strong> provides high-throughput parallel file system that can link to S3 for transparent data access across multiple instances.",
+                evidence: [{ quote: "FSx for Lustre provides <span class='evidence-highlight'>sub-millisecond latency</span> and up to <span class='evidence-highlight'>hundreds of GB/s throughput</span>. Link to S3 for automatic data import/export and <span class='evidence-highlight'>shared access</span> across instances.", source: "AWS Documentation", document: "FSx for Lustre", section: "Performance", url: "https://docs.aws.amazon.com/fsx/latest/LustreGuide/performance.html" }]
+            },
+            {
+                vendor: "aws",
+                domain: "Neuron Compiler",
+                question: "Your model compiled for Inferentia2 shows lower accuracy than the original. The model uses custom attention with softmax temperature. What compiler option preserves numerical accuracy?",
+                options: [
+                    "Enable mixed-precision compilation",
+                    "Use --auto-cast none to disable automatic casting",
+                    "Increase compiler optimization level",
+                    "Enable operator fusion"
+                ],
+                correct: 1,
+                explanation: "<strong>--auto-cast none</strong> preserves original model precision, preventing accuracy loss from automatic FP16/BF16 conversion.",
+                evidence: [{ quote: "Use <span class='evidence-highlight'>--auto-cast none</span> to disable automatic type casting. This preserves <span class='evidence-highlight'>original model precision</span> for operations sensitive to numerical accuracy.", source: "AWS Documentation", document: "Neuron Compiler", section: "Compiler Options", url: "https://awsdocs-neuron.readthedocs-hosted.com/en/latest/compiler/neuronx-cc/api-reference-guide/neuron-compiler-cli-reference-guide.html" }]
+            },
+            // ==================== More Azure Questions ====================
+            {
+                vendor: "azure",
+                domain: "Prompt Flow",
+                question: "Your team builds complex LLM applications with multiple prompts, tools, and conditional logic. What Azure AI Studio feature provides visual development and testing?",
+                options: [
+                    "Azure ML Designer",
+                    "Prompt Flow for LLM application orchestration",
+                    "Logic Apps with OpenAI connector",
+                    "Azure Functions with Durable Functions"
+                ],
+                correct: 1,
+                explanation: "<strong>Prompt Flow</strong> provides visual development of LLM applications with prompt variants, tools integration, and evaluation capabilities.",
+                evidence: [{ quote: "Prompt Flow provides a <span class='evidence-highlight'>visual development experience</span> for LLM apps. Create <span class='evidence-highlight'>flows connecting prompts, tools, and code</span>. Test variants and evaluate quality.", source: "Microsoft Documentation", document: "Azure AI Studio", section: "Prompt Flow", url: "https://learn.microsoft.com/en-us/azure/ai-studio/how-to/prompt-flow" }]
+            },
+            {
+                vendor: "azure",
+                domain: "Model Catalog",
+                question: "Your organization needs to evaluate multiple foundation models for a specific task before deployment. What Azure AI feature enables standardized model comparison?",
+                options: [
+                    "Azure ML model registry",
+                    "Model Catalog with model benchmarks and evaluation",
+                    "Hugging Face Hub integration",
+                    "Custom evaluation pipelines"
+                ],
+                correct: 1,
+                explanation: "<strong>Model Catalog</strong> provides curated models with benchmarks, enabling comparison and evaluation before deployment.",
+                evidence: [{ quote: "Model Catalog provides access to <span class='evidence-highlight'>curated foundation models</span> with <span class='evidence-highlight'>benchmark results</span>. Evaluate and compare models using <span class='evidence-highlight'>standardized metrics</span> before deployment.", source: "Microsoft Documentation", document: "Azure AI Studio", section: "Model Catalog", url: "https://learn.microsoft.com/en-us/azure/ai-studio/how-to/model-catalog-overview" }]
+            },
+            {
+                vendor: "azure",
+                domain: "Managed Online Endpoints",
+                question: "Your Azure ML online endpoint serves traffic globally. Users in Asia experience high latency. The model is deployed in East US. What is the recommended solution?",
+                options: [
+                    "Enable Azure CDN for the endpoint",
+                    "Deploy to multiple regions with Azure Traffic Manager",
+                    "Increase instance count in East US",
+                    "Enable autoscaling based on latency"
+                ],
+                correct: 1,
+                explanation: "<strong>Multi-region deployment with Traffic Manager</strong> routes users to the nearest endpoint, reducing latency for global users.",
+                evidence: [{ quote: "For global availability, deploy <span class='evidence-highlight'>endpoints in multiple regions</span>. Use <span class='evidence-highlight'>Azure Traffic Manager</span> to route requests to the <span class='evidence-highlight'>nearest healthy endpoint</span>.", source: "Microsoft Documentation", document: "Azure ML", section: "Managed Online Endpoints", url: "https://learn.microsoft.com/en-us/azure/machine-learning/concept-endpoints" }]
+            },
+            {
+                vendor: "azure",
+                domain: "Data Labeling",
+                question: "Your team needs to label 100,000 images for object detection. Budget is limited but quality is critical. What Azure ML feature optimizes labeling cost and quality?",
+                options: [
+                    "Export to third-party labeling service",
+                    "Azure ML Data Labeling with ML-assisted labeling",
+                    "Use Azure Vision API for auto-labeling",
+                    "Crowdsource via Azure marketplace"
+                ],
+                correct: 1,
+                explanation: "<strong>ML-assisted labeling</strong> uses trained models to pre-label data, reducing manual effort while maintaining quality through human verification.",
+                evidence: [{ quote: "ML-assisted labeling <span class='evidence-highlight'>pre-labels data</span> using trained models. Human labelers <span class='evidence-highlight'>verify and correct</span> predictions, <span class='evidence-highlight'>reducing manual effort by up to 50%</span>.", source: "Microsoft Documentation", document: "Azure ML", section: "Data Labeling", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-image-labeling-projects" }]
+            },
+            {
+                vendor: "azure",
+                domain: "Responsible AI",
+                question: "Your deployed model shows bias against certain demographic groups in production. What Azure ML feature helps identify and mitigate fairness issues?",
+                options: [
+                    "Azure ML Model Monitoring",
+                    "Responsible AI Dashboard with fairness assessment",
+                    "Application Insights custom metrics",
+                    "Manual bias testing"
+                ],
+                correct: 1,
+                explanation: "<strong>Responsible AI Dashboard</strong> includes fairness assessment tools to identify disparities across demographic groups and suggest mitigations.",
+                evidence: [{ quote: "Responsible AI Dashboard includes <span class='evidence-highlight'>fairness assessment</span> to identify <span class='evidence-highlight'>performance disparities</span> across sensitive groups. Visualize fairness metrics and explore <span class='evidence-highlight'>mitigation strategies</span>.", source: "Microsoft Documentation", document: "Azure ML", section: "Responsible AI", url: "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai-dashboard" }]
+            },
+            // ==================== More GCP Questions ====================
+            {
+                vendor: "gcp",
+                domain: "TPU Multislice",
+                question: "You need to train a model larger than what fits on a single TPU v5p pod. What GCP feature enables training across multiple TPU pods?",
+                options: [
+                    "TPU pod slicing",
+                    "Multislice training for cross-pod parallelism",
+                    "Cloud TPU VMs in a managed instance group",
+                    "Dataflow with TPU workers"
+                ],
+                correct: 1,
+                explanation: "<strong>Multislice training</strong> enables distributed training across multiple TPU pods, connected via datacenter network for massive scale.",
+                evidence: [{ quote: "Multislice enables <span class='evidence-highlight'>training across multiple TPU slices</span> (pods). Slices are connected via <span class='evidence-highlight'>high-bandwidth datacenter network</span>, enabling training of models too large for a single pod.", source: "Google Cloud Documentation", document: "Cloud TPU", section: "Multislice", url: "https://cloud.google.com/tpu/docs/multislice-introduction" }]
+            },
+            {
+                vendor: "gcp",
+                domain: "Vertex AI Feature Store",
+                question: "Your real-time ML system needs feature values with sub-10ms latency. Features are computed from streaming data. What Vertex AI Feature Store capability supports this?",
+                options: [
+                    "Batch ingestion from BigQuery",
+                    "Online serving with streaming ingestion",
+                    "Feature caching in application layer",
+                    "Materialized views in BigQuery"
+                ],
+                correct: 1,
+                explanation: "<strong>Online serving with streaming ingestion</strong> enables real-time feature updates and low-latency serving for production ML systems.",
+                evidence: [{ quote: "Feature Store supports <span class='evidence-highlight'>streaming ingestion</span> for real-time feature updates. Online serving provides <span class='evidence-highlight'>sub-10ms latency</span> for point lookups.", source: "Google Cloud Documentation", document: "Vertex AI Feature Store", section: "Online Serving", url: "https://cloud.google.com/vertex-ai/docs/featurestore/overview" }]
+            },
+            {
+                vendor: "gcp",
+                domain: "Vertex AI Search",
+                question: "Your enterprise search application needs to combine semantic search with structured filters and access control. What Vertex AI capability provides this?",
+                options: [
+                    "Matching Engine for vector similarity only",
+                    "Vertex AI Search with hybrid search and ACLs",
+                    "BigQuery vector search",
+                    "Cloud Search with ML ranking"
+                ],
+                correct: 1,
+                explanation: "<strong>Vertex AI Search</strong> combines semantic and keyword search with metadata filtering and enterprise access controls.",
+                evidence: [{ quote: "Vertex AI Search provides <span class='evidence-highlight'>hybrid search</span> combining semantic and keyword matching. Support for <span class='evidence-highlight'>metadata filters</span> and <span class='evidence-highlight'>ACL-based access control</span> for enterprise use cases.", source: "Google Cloud Documentation", document: "Vertex AI Search", section: "Overview", url: "https://cloud.google.com/generative-ai-app-builder/docs/enterprise-search-introduction" }]
+            },
+            {
+                vendor: "gcp",
+                domain: "Model Garden",
+                question: "Your team wants to fine-tune Gemma on proprietary data. What Vertex AI feature provides access to open models with fine-tuning capabilities?",
+                options: [
+                    "AutoML for custom model training",
+                    "Model Garden with one-click fine-tuning",
+                    "Custom training jobs with manual setup",
+                    "AI Platform Notebooks with manual scripts"
+                ],
+                correct: 1,
+                explanation: "<strong>Model Garden</strong> provides curated open models like Gemma with integrated fine-tuning, deployment, and evaluation capabilities.",
+                evidence: [{ quote: "Model Garden provides <span class='evidence-highlight'>150+ foundation models</span> including Gemma. <span class='evidence-highlight'>One-click fine-tuning</span> and deployment with Vertex AI infrastructure.", source: "Google Cloud Documentation", document: "Model Garden", section: "Overview", url: "https://cloud.google.com/vertex-ai/generative-ai/docs/model-garden/explore-models" }]
+            },
+            {
+                vendor: "gcp",
+                domain: "Vertex AI Experiments",
+                question: "Your ML team runs many training experiments but struggles to compare results and reproduce runs. What Vertex AI feature provides experiment tracking?",
+                options: [
+                    "Cloud Logging for training metrics",
+                    "Vertex AI Experiments with automatic tracking and comparison",
+                    "BigQuery for metrics storage",
+                    "TensorBoard only"
+                ],
+                correct: 1,
+                explanation: "<strong>Vertex AI Experiments</strong> automatically tracks parameters, metrics, and artifacts, enabling comparison and reproduction of ML experiments.",
+                evidence: [{ quote: "Vertex AI Experiments <span class='evidence-highlight'>automatically tracks</span> parameters, metrics, and artifacts. <span class='evidence-highlight'>Compare experiments</span> in the UI and reproduce runs with tracked configurations.", source: "Google Cloud Documentation", document: "Vertex AI Experiments", section: "Overview", url: "https://cloud.google.com/vertex-ai/docs/experiments/intro-vertex-ai-experiments" }]
+            },
+            // ==================== Extended Question Bank ====================
+            { vendor: "nvidia", domain: "CUDA Streams", question: "Your CUDA application processes multiple independent tasks. Profiling shows kernels execute sequentially despite being independent. What enables concurrent kernel execution?", options: ["Use multiple CUDA streams for parallel task execution", "Increase thread block size", "Enable persistent threads", "Use CUDA graphs"], correct: 0, explanation: "<strong>Multiple CUDA streams</strong> enable concurrent kernel execution for independent operations.", evidence: [{ quote: "Concurrent kernel execution requires <span class='evidence-highlight'>multiple streams</span>. Operations in different streams can <span class='evidence-highlight'>execute in parallel</span> if resources permit.", source: "NVIDIA Documentation", document: "CUDA Programming Guide", section: "Streams", url: "https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#streams" }] },
+            { vendor: "nvidia", domain: "CUDA Graphs", question: "Your inference pipeline has high kernel launch overhead due to many small kernels. What NVIDIA technology captures and replays entire workflows?", options: ["CUDA Graphs to capture and replay kernel sequences", "CUDA Dynamic Parallelism", "Cooperative Groups", "CUDA MPS"], correct: 0, explanation: "<strong>CUDA Graphs</strong> capture a sequence of operations and replay them with minimal launch overhead.", evidence: [{ quote: "CUDA Graphs capture a <span class='evidence-highlight'>sequence of operations</span> including kernels and memory copies. Replay the graph with <span class='evidence-highlight'>reduced launch overhead</span>.", source: "NVIDIA Documentation", document: "CUDA Programming Guide", section: "CUDA Graphs", url: "https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#cuda-graphs" }] },
+            { vendor: "nvidia", domain: "Hopper Architecture", question: "H100 introduces a new memory hierarchy level between shared memory and global memory. What is this feature called?", options: ["Distributed Shared Memory allowing cross-SM data sharing", "L3 cache", "HBM3 cache", "Unified memory cache"], correct: 0, explanation: "<strong>Distributed Shared Memory</strong> on H100 enables direct access to other SMs' shared memory within a cluster.", evidence: [{ quote: "H100 introduces <span class='evidence-highlight'>Distributed Shared Memory</span> (DSMEM), enabling threads in one SM to directly <span class='evidence-highlight'>access shared memory of other SMs</span> in the same cluster.", source: "NVIDIA Documentation", document: "H100 Architecture Whitepaper", section: "Memory Hierarchy", url: "https://resources.nvidia.com/en-us-tensor-core" }] },
+            { vendor: "nvidia", domain: "Thread Block Clusters", question: "H100 supports a new programming abstraction that groups multiple thread blocks. What enables cooperative execution across thread blocks?", options: ["Thread Block Clusters for inter-block cooperation", "Warp specialization", "Dynamic parallelism", "Cooperative groups"], correct: 0, explanation: "<strong>Thread Block Clusters</strong> group thread blocks that can cooperate using distributed shared memory and cluster-level synchronization.", evidence: [{ quote: "Thread Block Clusters group up to <span class='evidence-highlight'>16 thread blocks</span> that can cooperate via <span class='evidence-highlight'>distributed shared memory</span> and cluster barriers.", source: "NVIDIA Documentation", document: "CUDA Programming Guide", section: "Thread Block Clusters", url: "https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#thread-block-clusters" }] },
+            { vendor: "nvidia", domain: "Transformer Engine", question: "What NVIDIA library provides automatic mixed precision for transformer models on H100 with FP8 support?", options: ["Transformer Engine with automatic FP8 recipe management", "cuDNN", "TensorRT", "APEX"], correct: 0, explanation: "<strong>Transformer Engine</strong> provides automatic FP8/FP16/BF16 precision management for transformer layers.", evidence: [{ quote: "Transformer Engine provides <span class='evidence-highlight'>automatic mixed precision</span> for transformers. It manages <span class='evidence-highlight'>FP8 scaling factors</span> automatically for stable training.", source: "NVIDIA Documentation", document: "Transformer Engine", section: "Overview", url: "https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/index.html" }] },
+            { vendor: "nvidia", domain: "NIM", question: "Your organization wants to deploy optimized LLMs without managing infrastructure complexity. What NVIDIA service provides pre-optimized model containers?", options: ["NVIDIA NIM (NVIDIA Inference Microservices)", "NVIDIA NGC containers", "TensorRT-LLM manual builds", "Custom vLLM deployments"], correct: 0, explanation: "<strong>NVIDIA NIM</strong> provides pre-optimized, containerized AI models ready for deployment with built-in optimizations.", evidence: [{ quote: "NVIDIA NIM provides <span class='evidence-highlight'>pre-built, optimized inference microservices</span> for popular AI models. Deploy with <span class='evidence-highlight'>one command</span>, no manual optimization required.", source: "NVIDIA Documentation", document: "NVIDIA NIM", section: "Overview", url: "https://developer.nvidia.com/nim" }] },
+            { vendor: "nvidia", domain: "cuBLAS", question: "Your matrix multiplication performance is suboptimal on H100. Profiling shows cuBLAS is using a legacy API. What cuBLAS feature provides best H100 performance?", options: ["cuBLASLt (cuBLAS Light) API with algorithm selection", "cuBLAS Level 3 BLAS", "cuBLAS tensor core operations", "cuBLAS batched GEMM"], correct: 0, explanation: "<strong>cuBLASLt</strong> provides fine-grained algorithm selection and supports latest hardware features including FP8.", evidence: [{ quote: "cuBLASLt provides <span class='evidence-highlight'>algorithm enumeration and selection</span> for optimal performance. Supports <span class='evidence-highlight'>FP8 compute</span> on H100 and advanced layout options.", source: "NVIDIA Documentation", document: "cuBLAS Documentation", section: "cuBLASLt", url: "https://docs.nvidia.com/cuda/cublas/index.html#cublaslt" }] },
+            { vendor: "nvidia", domain: "Memory Optimization", question: "Your LLM inference shows high memory bandwidth utilization but low compute utilization. What optimization reduces memory traffic for attention computation?", options: ["Multi-Query Attention (MQA) or Grouped-Query Attention (GQA)", "Increase batch size", "Use FP32 instead of FP16", "Disable flash attention"], correct: 0, explanation: "<strong>MQA/GQA</strong> reduces KV-cache size by sharing key-value heads, reducing memory bandwidth requirements.", evidence: [{ quote: "Grouped-Query Attention uses <span class='evidence-highlight'>fewer KV heads</span> than query heads, reducing <span class='evidence-highlight'>KV-cache memory</span> and bandwidth by 4-8x while maintaining quality.", source: "arXiv", document: "GQA: Training Generalized Multi-Query Transformer Models", section: "Abstract", url: "https://arxiv.org/abs/2305.13245" }] },
+            { vendor: "aws", domain: "Bedrock Agents", question: "Your application needs an AI agent that can call APIs, search databases, and maintain conversation state. What Bedrock feature provides this?", options: ["Bedrock Agents with action groups and knowledge bases", "Lambda functions with Bedrock", "Step Functions with Bedrock integration", "Custom agent framework"], correct: 0, explanation: "<strong>Bedrock Agents</strong> orchestrate multi-step tasks with API actions, knowledge base queries, and conversation management.", evidence: [{ quote: "Bedrock Agents can <span class='evidence-highlight'>orchestrate multi-step tasks</span> using action groups (APIs), <span class='evidence-highlight'>knowledge bases</span>, and maintain conversation context automatically.", source: "AWS Documentation", document: "Amazon Bedrock", section: "Agents", url: "https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html" }] },
+            { vendor: "aws", domain: "Bedrock Knowledge Bases", question: "Your RAG application needs to ingest documents and provide citations in responses. What Bedrock feature manages the vector database and retrieval?", options: ["Bedrock Knowledge Bases with managed embeddings and retrieval", "Custom OpenSearch implementation", "Lambda with Pinecone", "SageMaker Feature Store"], correct: 0, explanation: "<strong>Bedrock Knowledge Bases</strong> manages document ingestion, embedding, storage, and retrieval with automatic citation.", evidence: [{ quote: "Knowledge Bases for Amazon Bedrock <span class='evidence-highlight'>automatically handles</span> chunking, embedding, and vector storage. Responses include <span class='evidence-highlight'>citations and source documents</span>.", source: "AWS Documentation", document: "Amazon Bedrock", section: "Knowledge Bases", url: "https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html" }] },
+            { vendor: "aws", domain: "SageMaker JumpStart", question: "Your team wants to quickly deploy a pre-trained foundation model without manual setup. What SageMaker feature provides one-click model deployment?", options: ["SageMaker JumpStart with pre-configured foundation models", "SageMaker Model Registry", "SageMaker Autopilot", "SageMaker Neo"], correct: 0, explanation: "<strong>SageMaker JumpStart</strong> provides pre-trained models with one-click deployment and optional fine-tuning.", evidence: [{ quote: "JumpStart provides <span class='evidence-highlight'>one-click deployment</span> of foundation models. Models are <span class='evidence-highlight'>pre-configured</span> with optimized instance types and serving containers.", source: "AWS Documentation", document: "SageMaker JumpStart", section: "Foundation Models", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/studio-jumpstart.html" }] },
+            { vendor: "aws", domain: "ParallelCluster", question: "Your HPC ML workload requires a managed cluster with Slurm and GPU instances. What AWS service provides this?", options: ["AWS ParallelCluster with Slurm and GPU support", "EKS with GPU nodes", "EMR with GPU instances", "Batch with GPU support"], correct: 0, explanation: "<strong>AWS ParallelCluster</strong> is an open-source cluster management tool supporting Slurm, GPU instances, and EFA.", evidence: [{ quote: "ParallelCluster deploys <span class='evidence-highlight'>HPC clusters with Slurm</span> scheduler, <span class='evidence-highlight'>GPU instances</span>, EFA networking, and FSx storage integration.", source: "AWS Documentation", document: "AWS ParallelCluster", section: "Overview", url: "https://docs.aws.amazon.com/parallelcluster/latest/ug/what-is-aws-parallelcluster.html" }] },
+            { vendor: "aws", domain: "SageMaker Model Cards", question: "Your organization requires documentation of model capabilities, limitations, and intended use. What SageMaker feature provides standardized model documentation?", options: ["SageMaker Model Cards for structured model documentation", "SageMaker Model Registry metadata", "Custom documentation in S3", "SageMaker Experiments logging"], correct: 0, explanation: "<strong>Model Cards</strong> provide standardized documentation including model details, intended uses, and ethical considerations.", evidence: [{ quote: "Model Cards provide <span class='evidence-highlight'>standardized documentation</span> for ML models including intended uses, <span class='evidence-highlight'>limitations, ethical considerations</span>, and performance metrics.", source: "AWS Documentation", document: "SageMaker Model Cards", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html" }] },
+            { vendor: "aws", domain: "SageMaker Clarify", question: "Your model approval process requires bias detection and explainability reports. What SageMaker feature provides these analyses?", options: ["SageMaker Clarify for bias detection and explainability", "SageMaker Debugger", "SageMaker Model Monitor", "Custom Lambda analysis"], correct: 0, explanation: "<strong>SageMaker Clarify</strong> detects bias in data and models, and provides feature importance explanations.", evidence: [{ quote: "Clarify detects <span class='evidence-highlight'>bias in training data and models</span>, provides <span class='evidence-highlight'>feature attributions</span> for explainability, and generates compliance reports.", source: "AWS Documentation", document: "SageMaker Clarify", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-configure-processing-jobs.html" }] },
+            { vendor: "azure", domain: "Azure AI Search", question: "Your RAG application needs hybrid search combining keyword and vector similarity. What Azure service provides this?", options: ["Azure AI Search with hybrid search capabilities", "Azure Cognitive Search with custom scoring", "Azure Cosmos DB vector search", "Custom Elasticsearch deployment"], correct: 0, explanation: "<strong>Azure AI Search</strong> supports hybrid search combining BM25 keyword ranking with vector similarity in one query.", evidence: [{ quote: "Azure AI Search supports <span class='evidence-highlight'>hybrid search</span> combining <span class='evidence-highlight'>keyword (BM25) and vector similarity</span> in a single query with reciprocal rank fusion.", source: "Microsoft Documentation", document: "Azure AI Search", section: "Hybrid Search", url: "https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview" }] },
+            { vendor: "azure", domain: "Content Safety", question: "Your application generates user-facing content and must filter harmful outputs. What Azure service provides content moderation?", options: ["Azure AI Content Safety with configurable severity filters", "Custom content filters", "Azure Firewall", "Application Gateway WAF"], correct: 0, explanation: "<strong>Azure AI Content Safety</strong> provides configurable filters for hate, violence, sexual, and self-harm content.", evidence: [{ quote: "Content Safety provides <span class='evidence-highlight'>configurable severity filters</span> for hate, violence, sexual, and self-harm categories with <span class='evidence-highlight'>adjustable thresholds</span>.", source: "Microsoft Documentation", document: "Azure AI Content Safety", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview" }] },
+            { vendor: "azure", domain: "Semantic Kernel", question: "Your team builds AI applications requiring orchestration of multiple AI services and plugins. What Microsoft SDK simplifies this?", options: ["Semantic Kernel for AI orchestration with plugins", "LangChain on Azure", "Azure Functions orchestration", "Logic Apps with AI connectors"], correct: 0, explanation: "<strong>Semantic Kernel</strong> is an SDK for building AI agents with plugin architecture and multi-model support.", evidence: [{ quote: "Semantic Kernel provides <span class='evidence-highlight'>AI orchestration</span> with plugins, <span class='evidence-highlight'>planners</span>, and memory. Supports multiple AI services and models.", source: "Microsoft Documentation", document: "Semantic Kernel", section: "Overview", url: "https://learn.microsoft.com/en-us/semantic-kernel/overview/" }] },
+            { vendor: "azure", domain: "Azure ML Registry", question: "Your organization has multiple ML teams sharing models across workspaces. What Azure ML feature provides centralized model governance?", options: ["Azure ML Registry for cross-workspace model sharing", "Azure ML Model Registry per workspace", "Azure Container Registry", "Azure DevOps artifacts"], correct: 0, explanation: "<strong>Azure ML Registry</strong> enables centralized model storage with cross-workspace sharing and governance.", evidence: [{ quote: "Azure ML Registry provides <span class='evidence-highlight'>centralized storage</span> for models, environments, and components with <span class='evidence-highlight'>cross-workspace sharing</span> and RBAC.", source: "Microsoft Documentation", document: "Azure ML Registry", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-share-models-pipelines-across-workspaces-with-registries" }] },
+            { vendor: "azure", domain: "Serverless Inference", question: "Your model has unpredictable traffic with long idle periods. Paying for always-on compute is wasteful. What Azure ML deployment option fits?", options: ["Serverless endpoints with pay-per-use billing", "Managed online endpoints with autoscaling", "Kubernetes deployment", "Batch endpoints"], correct: 0, explanation: "<strong>Serverless endpoints</strong> provide pay-per-request billing with no idle costs, ideal for unpredictable traffic.", evidence: [{ quote: "Serverless endpoints provide <span class='evidence-highlight'>pay-per-token billing</span> with no infrastructure costs during idle periods. <span class='evidence-highlight'>Auto-scales to zero</span> when not in use.", source: "Microsoft Documentation", document: "Azure ML", section: "Serverless Endpoints", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-deploy-models-serverless" }] },
+            { vendor: "gcp", domain: "Imagen", question: "Your application needs to generate images from text descriptions. What Vertex AI capability provides this?", options: ["Imagen for text-to-image generation", "Custom Vision API", "AutoML Vision", "Cloud Vision API"], correct: 0, explanation: "<strong>Imagen</strong> on Vertex AI generates high-quality images from text prompts with style control.", evidence: [{ quote: "Imagen generates <span class='evidence-highlight'>photorealistic images from text</span>. Supports <span class='evidence-highlight'>style control, inpainting</span>, and image editing capabilities.", source: "Google Cloud Documentation", document: "Imagen", section: "Overview", url: "https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview" }] },
+            { vendor: "gcp", domain: "Gemini Function Calling", question: "Your Gemini application needs to call external APIs based on user requests. What Gemini capability enables this?", options: ["Function calling to invoke external APIs", "Custom plugins", "Cloud Functions integration", "Webhooks"], correct: 0, explanation: "<strong>Function calling</strong> allows Gemini to identify when to call functions and extract parameters from natural language.", evidence: [{ quote: "Function calling enables Gemini to <span class='evidence-highlight'>identify when external functions are needed</span> and <span class='evidence-highlight'>extract structured parameters</span> from natural language.", source: "Google Cloud Documentation", document: "Gemini API", section: "Function Calling", url: "https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling" }] },
+            { vendor: "gcp", domain: "Document AI", question: "Your workflow processes invoices and needs to extract structured data. What GCP service provides document understanding?", options: ["Document AI for structured extraction from documents", "Cloud Vision OCR", "Natural Language API", "Custom NLP model"], correct: 0, explanation: "<strong>Document AI</strong> provides pre-trained and custom processors for extracting structured data from documents.", evidence: [{ quote: "Document AI includes <span class='evidence-highlight'>specialized processors</span> for invoices, receipts, contracts. Extracts <span class='evidence-highlight'>structured data</span> with confidence scores.", source: "Google Cloud Documentation", document: "Document AI", section: "Processors", url: "https://cloud.google.com/document-ai/docs/processors-list" }] },
+            { vendor: "gcp", domain: "Grounding", question: "Your Gemini application needs responses grounded in Google Search or your enterprise data. What Vertex AI feature provides this?", options: ["Grounding with Google Search or custom data sources", "Custom RAG implementation", "Knowledge Graph integration", "BigQuery data connection"], correct: 0, explanation: "<strong>Grounding</strong> connects Gemini responses to Google Search results or your enterprise data sources.", evidence: [{ quote: "Grounding connects Gemini to <span class='evidence-highlight'>Google Search</span> or <span class='evidence-highlight'>Vertex AI Search data stores</span> for factual, up-to-date responses with citations.", source: "Google Cloud Documentation", document: "Vertex AI", section: "Grounding", url: "https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview" }] },
+            { vendor: "gcp", domain: "Model Evaluation", question: "Your team needs to evaluate Gemini model responses for safety and quality before production. What Vertex AI feature provides this?", options: ["Evaluation Service with safety and quality metrics", "Custom evaluation pipelines", "Human evaluation only", "A/B testing in production"], correct: 0, explanation: "<strong>Evaluation Service</strong> provides automated metrics for response quality, safety, and groundedness.", evidence: [{ quote: "Evaluation Service computes <span class='evidence-highlight'>quality metrics</span> (coherence, fluency), <span class='evidence-highlight'>safety scores</span>, and groundedness metrics for Gemini responses.", source: "Google Cloud Documentation", document: "Vertex AI", section: "Model Evaluation", url: "https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview" }] },
+            { vendor: "gcp", domain: "Batch Prediction", question: "You need to run predictions on millions of records overnight. Real-time endpoints are too expensive. What Vertex AI feature fits?", options: ["Batch prediction jobs with BigQuery integration", "Scheduled Cloud Functions", "Dataflow with model calls", "Pub/Sub triggered inference"], correct: 0, explanation: "<strong>Batch prediction</strong> processes large datasets efficiently with pay-per-use pricing, reading from BigQuery or GCS.", evidence: [{ quote: "Batch prediction processes <span class='evidence-highlight'>large datasets</span> from BigQuery or Cloud Storage. <span class='evidence-highlight'>Pay only for compute time</span>, ideal for offline scoring.", source: "Google Cloud Documentation", document: "Vertex AI", section: "Batch Prediction", url: "https://cloud.google.com/vertex-ai/docs/predictions/get-batch-predictions" }] },
+            { vendor: "nvidia", domain: "DALI", question: "Your training data pipeline is bottlenecked on CPU image preprocessing. GPUs are underutilized. What NVIDIA library accelerates data loading?", options: ["NVIDIA DALI for GPU-accelerated data loading", "cuDF for data processing", "RAPIDS cuML", "TensorFlow Data Service"], correct: 0, explanation: "<strong>NVIDIA DALI</strong> performs data loading and augmentation on GPU, eliminating CPU preprocessing bottlenecks.", evidence: [{ quote: "DALI accelerates data loading by performing <span class='evidence-highlight'>decoding and augmentation on GPU</span>. Provides <span class='evidence-highlight'>2-6x higher throughput</span> than CPU pipelines.", source: "NVIDIA Documentation", document: "DALI", section: "Overview", url: "https://docs.nvidia.com/deeplearning/dali/user-guide/docs/" }] },
+            { vendor: "nvidia", domain: "Megatron-LM", question: "You need to train a 175B parameter model from scratch. What framework provides efficient 3D parallelism for LLM training?", options: ["Megatron-LM with tensor, pipeline, and data parallelism", "PyTorch DDP only", "Horovod", "Single-GPU with gradient checkpointing"], correct: 0, explanation: "<strong>Megatron-LM</strong> provides efficient 3D parallelism (tensor, pipeline, data) for training massive language models.", evidence: [{ quote: "Megatron-LM implements <span class='evidence-highlight'>3D parallelism</span> combining tensor, pipeline, and data parallelism. Achieves <span class='evidence-highlight'>high scaling efficiency</span> for models with hundreds of billions of parameters.", source: "NVIDIA Documentation", document: "Megatron-LM", section: "Overview", url: "https://github.com/NVIDIA/Megatron-LM" }] },
+            { vendor: "nvidia", domain: "NeMo", question: "Your team needs to fine-tune an LLM with parameter-efficient methods like LoRA and deploy it with optimizations. What NVIDIA framework provides this end-to-end?", options: ["NVIDIA NeMo for training and optimization", "Hugging Face Transformers only", "Custom PyTorch implementation", "TensorFlow Extended"], correct: 0, explanation: "<strong>NeMo</strong> provides end-to-end LLM workflows including PEFT methods, optimization, and deployment integration.", evidence: [{ quote: "NeMo provides <span class='evidence-highlight'>end-to-end LLM workflows</span> including LoRA, adapter tuning, and <span class='evidence-highlight'>export to TensorRT-LLM</span> for optimized inference.", source: "NVIDIA Documentation", document: "NeMo", section: "Overview", url: "https://docs.nvidia.com/nemo-framework/user-guide/latest/overview.html" }] },
+            { vendor: "aws", domain: "Ground Truth Plus", question: "Your team lacks capacity for large-scale data labeling. You need a managed service with human labelers. What AWS service provides this?", options: ["SageMaker Ground Truth Plus for managed labeling", "SageMaker Ground Truth self-service", "Amazon Mechanical Turk direct", "Third-party labeling service"], correct: 0, explanation: "<strong>Ground Truth Plus</strong> provides fully managed data labeling with AWS expert workforce.", evidence: [{ quote: "Ground Truth Plus provides <span class='evidence-highlight'>fully managed labeling</span> with expert workforce. AWS handles <span class='evidence-highlight'>project management</span>, quality control, and labeler training.", source: "AWS Documentation", document: "Ground Truth Plus", section: "Overview", url: "https://aws.amazon.com/sagemaker/data-labeling/" }] },
+            { vendor: "aws", domain: "Model Monitor", question: "Your production model shows degrading accuracy. You need automated detection of data drift. What SageMaker feature provides this?", options: ["SageMaker Model Monitor with drift detection", "CloudWatch custom metrics", "Custom Lambda monitoring", "Manual periodic evaluation"], correct: 0, explanation: "<strong>Model Monitor</strong> automatically detects data drift, model quality degradation, and bias drift in production.", evidence: [{ quote: "Model Monitor <span class='evidence-highlight'>continuously monitors</span> data quality, model quality, and bias. Automatically <span class='evidence-highlight'>detects drift</span> and sends alerts when thresholds are exceeded.", source: "AWS Documentation", document: "SageMaker Model Monitor", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html" }] },
+            { vendor: "azure", domain: "Batch Endpoints", question: "Your ML workflow requires scoring large datasets on a schedule. What Azure ML deployment type is designed for this?", options: ["Batch endpoints for scheduled large-scale inference", "Online endpoints with high concurrency", "Azure Batch compute", "Azure Data Factory with ML calls"], correct: 0, explanation: "<strong>Batch endpoints</strong> are optimized for asynchronous processing of large datasets with automatic scaling.", evidence: [{ quote: "Batch endpoints process <span class='evidence-highlight'>large datasets asynchronously</span>. Support <span class='evidence-highlight'>parallel execution</span> across multiple compute nodes with automatic scaling.", source: "Microsoft Documentation", document: "Azure ML", section: "Batch Endpoints", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-use-batch-endpoint" }] },
+            { vendor: "azure", domain: "AutoML", question: "Your team needs to quickly build a classification model without deep ML expertise. What Azure ML feature automates model selection?", options: ["AutoML with automated feature engineering and model selection", "Azure ML Designer", "Notebooks with manual experimentation", "Pre-built cognitive services"], correct: 0, explanation: "<strong>AutoML</strong> automatically performs feature engineering, algorithm selection, and hyperparameter tuning.", evidence: [{ quote: "AutoML <span class='evidence-highlight'>automates feature engineering</span>, algorithm selection, and hyperparameter tuning. Produces <span class='evidence-highlight'>explainable models</span> with performance metrics.", source: "Microsoft Documentation", document: "Azure ML AutoML", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/machine-learning/concept-automated-ml" }] },
+            { vendor: "gcp", domain: "AutoML Vertex", question: "Your organization needs custom ML models but lacks ML engineering expertise. What Vertex AI capability trains models without code?", options: ["AutoML for no-code model training", "Custom training with pre-built containers", "BigQuery ML", "AI Platform Notebooks"], correct: 0, explanation: "<strong>AutoML</strong> trains custom models for vision, language, and tabular data without writing code.", evidence: [{ quote: "AutoML trains <span class='evidence-highlight'>production-quality models</span> for classification, detection, and NLP without code. <span class='evidence-highlight'>Automatic architecture search</span> and hyperparameter tuning.", source: "Google Cloud Documentation", document: "Vertex AI AutoML", section: "Overview", url: "https://cloud.google.com/vertex-ai/docs/beginner/beginners-guide" }] },
+            { vendor: "gcp", domain: "Workbench", question: "Your data scientists need managed Jupyter environments with pre-installed ML libraries. What Vertex AI service provides this?", options: ["Vertex AI Workbench with managed notebooks", "Colab Enterprise", "Compute Engine with custom image", "Cloud Shell"], correct: 0, explanation: "<strong>Vertex AI Workbench</strong> provides managed Jupyter environments with pre-installed ML frameworks and Git integration.", evidence: [{ quote: "Workbench provides <span class='evidence-highlight'>managed Jupyter instances</span> with pre-installed TensorFlow, PyTorch, and <span class='evidence-highlight'>Vertex AI SDK integration</span>.", source: "Google Cloud Documentation", document: "Vertex AI Workbench", section: "Overview", url: "https://cloud.google.com/vertex-ai/docs/workbench/introduction" }] },
+            // Batch 4 - More comprehensive coverage
+            { vendor: "nvidia", domain: "Blackwell Architecture", question: "NVIDIA's B200 GPU introduces second-generation transformer engine. What is the key improvement over H100?", options: ["4-bit FP4 compute support for higher throughput", "Higher clock speeds", "More CUDA cores", "Larger L2 cache"], correct: 0, explanation: "<strong>FP4 compute</strong> on B200 doubles throughput compared to FP8 for inference workloads.", evidence: [{ quote: "B200 Transformer Engine supports <span class='evidence-highlight'>FP4 precision</span> with up to <span class='evidence-highlight'>2x throughput improvement</span> compared to H100 FP8 for inference.", source: "NVIDIA Documentation", document: "Blackwell Architecture", section: "Transformer Engine", url: "https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/" }] },
+            { vendor: "nvidia", domain: "GH200", question: "NVIDIA GH200 Grace Hopper Superchip combines CPU and GPU. What interconnect connects them?", options: ["NVLink-C2C with 900 GB/s bandwidth", "PCIe Gen5", "CXL", "InfiniBand"], correct: 0, explanation: "<strong>NVLink-C2C</strong> provides 900 GB/s coherent connection between Grace CPU and Hopper GPU.", evidence: [{ quote: "Grace Hopper uses <span class='evidence-highlight'>NVLink-C2C</span> providing <span class='evidence-highlight'>900 GB/s bidirectional</span> coherent bandwidth between CPU and GPU.", source: "NVIDIA Documentation", document: "GH200 Architecture", section: "Interconnect", url: "https://www.nvidia.com/en-us/data-center/grace-hopper-superchip/" }] },
+            { vendor: "nvidia", domain: "Collective Communications", question: "Your distributed training uses AllGather for embedding lookups. Performance is poor on large clusters. What NCCL algorithm improves this?", options: ["Recursive halving-doubling for large messages", "Ring algorithm", "Tree algorithm", "Direct send-receive"], correct: 0, explanation: "<strong>Recursive halving-doubling</strong> is optimal for AllGather/ReduceScatter with large messages on large clusters.", evidence: [{ quote: "NCCL selects <span class='evidence-highlight'>recursive halving-doubling</span> for AllGather/ReduceScatter with large messages, achieving <span class='evidence-highlight'>optimal bandwidth</span> on large clusters.", source: "NVIDIA Documentation", document: "NCCL", section: "Algorithms", url: "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html" }] },
+            { vendor: "nvidia", domain: "Profiling", question: "You need to identify memory bottlenecks in your CUDA application. What NVIDIA tool provides detailed memory traffic analysis?", options: ["Nsight Compute for detailed kernel analysis", "Nsight Systems", "nvprof", "cuda-memcheck"], correct: 0, explanation: "<strong>Nsight Compute</strong> provides detailed per-kernel analysis including memory throughput, cache hit rates, and roofline analysis.", evidence: [{ quote: "Nsight Compute provides <span class='evidence-highlight'>detailed kernel-level metrics</span> including memory throughput, <span class='evidence-highlight'>cache statistics</span>, and roofline analysis.", source: "NVIDIA Documentation", document: "Nsight Compute", section: "Overview", url: "https://docs.nvidia.com/nsight-compute/NsightComputeCli/index.html" }] },
+            { vendor: "nvidia", domain: "Warp Divergence", question: "Your CUDA kernel shows low active warp percentage. Profiling reveals warp divergence. What is the primary cause?", options: ["Conditional branches where threads in a warp take different paths", "Insufficient shared memory", "Too many registers per thread", "Memory coalescing issues"], correct: 0, explanation: "<strong>Warp divergence</strong> occurs when threads in a warp execute different branches, serializing execution.", evidence: [{ quote: "Warp divergence occurs when threads within a warp <span class='evidence-highlight'>take different execution paths</span> in conditional code. The warp <span class='evidence-highlight'>serializes execution</span> of both paths.", source: "NVIDIA Documentation", document: "CUDA Programming Guide", section: "Control Flow", url: "https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#control-flow-instructions" }] },
+            { vendor: "nvidia", domain: "Memory Coalescing", question: "Your global memory reads show low throughput despite high occupancy. Profiling shows many memory transactions per request. What optimization improves this?", options: ["Ensure coalesced memory access with aligned, contiguous addressing", "Use more shared memory", "Reduce thread block size", "Enable L1 caching"], correct: 0, explanation: "<strong>Memory coalescing</strong> combines multiple thread accesses into fewer transactions when threads access contiguous addresses.", evidence: [{ quote: "For optimal throughput, ensure threads in a warp access <span class='evidence-highlight'>contiguous, aligned memory addresses</span>. This allows <span class='evidence-highlight'>coalescing</span> into fewer memory transactions.", source: "NVIDIA Documentation", document: "CUDA Programming Guide", section: "Memory Access Patterns", url: "https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#device-memory-accesses" }] },
+            { vendor: "nvidia", domain: "Occupancy", question: "Your kernel achieves only 50% occupancy due to register usage. What technique can increase occupancy?", options: ["Use launch bounds to hint at register usage to compiler", "Increase shared memory usage", "Use larger thread blocks", "Enable persistent threads"], correct: 0, explanation: "<strong>__launch_bounds__</strong> hints to the compiler about thread count, allowing better register allocation for higher occupancy.", evidence: [{ quote: "Use <span class='evidence-highlight'>__launch_bounds__</span> to specify maximum threads per block. This helps the compiler <span class='evidence-highlight'>optimize register allocation</span> for target occupancy.", source: "NVIDIA Documentation", document: "CUDA Programming Guide", section: "Launch Bounds", url: "https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#launch-bounds" }] },
+            { vendor: "aws", domain: "Kendra", question: "Your enterprise needs intelligent search across documents with ML-powered relevance. What AWS service provides this?", options: ["Amazon Kendra for ML-powered enterprise search", "OpenSearch Service", "CloudSearch", "Elasticsearch"], correct: 0, explanation: "<strong>Amazon Kendra</strong> uses ML to understand natural language queries and rank results by relevance.", evidence: [{ quote: "Kendra uses <span class='evidence-highlight'>ML to understand natural language</span> queries and provides <span class='evidence-highlight'>highly relevant answers</span> from your document repositories.", source: "AWS Documentation", document: "Amazon Kendra", section: "Overview", url: "https://docs.aws.amazon.com/kendra/latest/dg/what-is-kendra.html" }] },
+            { vendor: "aws", domain: "Textract", question: "Your application needs to extract tables and forms from scanned documents. What AWS service specializes in this?", options: ["Amazon Textract for document data extraction", "Amazon Comprehend", "Amazon Rekognition", "Amazon Translate"], correct: 0, explanation: "<strong>Amazon Textract</strong> uses ML to extract text, tables, and forms from scanned documents and images.", evidence: [{ quote: "Textract automatically extracts <span class='evidence-highlight'>text, tables, and forms</span> from documents. Goes beyond simple OCR to <span class='evidence-highlight'>understand document structure</span>.", source: "AWS Documentation", document: "Amazon Textract", section: "Overview", url: "https://docs.aws.amazon.com/textract/latest/dg/what-is.html" }] },
+            { vendor: "aws", domain: "Comprehend", question: "Your application needs to analyze sentiment and extract entities from customer reviews. What AWS service provides NLP capabilities?", options: ["Amazon Comprehend for NLP and text analytics", "Amazon Translate", "Amazon Lex", "Amazon Polly"], correct: 0, explanation: "<strong>Amazon Comprehend</strong> provides sentiment analysis, entity extraction, and topic modeling for text.", evidence: [{ quote: "Comprehend uses NLP to <span class='evidence-highlight'>extract insights from text</span> including sentiment, entities, key phrases, and <span class='evidence-highlight'>custom classification</span>.", source: "AWS Documentation", document: "Amazon Comprehend", section: "Overview", url: "https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html" }] },
+            { vendor: "aws", domain: "Rekognition", question: "Your application needs to detect faces and objects in images. What AWS service provides computer vision?", options: ["Amazon Rekognition for image and video analysis", "Amazon Textract", "Amazon Comprehend", "Amazon Lookout for Vision"], correct: 0, explanation: "<strong>Amazon Rekognition</strong> provides object detection, facial analysis, and content moderation for images and video.", evidence: [{ quote: "Rekognition provides <span class='evidence-highlight'>object and scene detection</span>, facial analysis, celebrity recognition, and <span class='evidence-highlight'>content moderation</span> for images and video.", source: "AWS Documentation", document: "Amazon Rekognition", section: "Overview", url: "https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html" }] },
+            { vendor: "aws", domain: "Personalize", question: "Your e-commerce site needs real-time product recommendations. What AWS service provides ML-powered personalization?", options: ["Amazon Personalize for real-time recommendations", "Amazon SageMaker", "Custom Lambda with ML", "Amazon Kendra"], correct: 0, explanation: "<strong>Amazon Personalize</strong> provides real-time and batch recommendations using the same ML technology as Amazon.com.", evidence: [{ quote: "Personalize creates <span class='evidence-highlight'>real-time personalized recommendations</span> using the same ML technology that powers <span class='evidence-highlight'>Amazon.com recommendations</span>.", source: "AWS Documentation", document: "Amazon Personalize", section: "Overview", url: "https://docs.aws.amazon.com/personalize/latest/dg/what-is-personalize.html" }] },
+            { vendor: "aws", domain: "Lex", question: "Your application needs a conversational interface with voice and text. What AWS service provides chatbot capabilities?", options: ["Amazon Lex for conversational AI", "Amazon Polly", "Amazon Transcribe", "Amazon Comprehend"], correct: 0, explanation: "<strong>Amazon Lex</strong> provides conversational AI with speech recognition and natural language understanding.", evidence: [{ quote: "Lex provides <span class='evidence-highlight'>conversational interfaces</span> with automatic speech recognition (ASR) and <span class='evidence-highlight'>natural language understanding</span> (NLU).", source: "AWS Documentation", document: "Amazon Lex", section: "Overview", url: "https://docs.aws.amazon.com/lex/latest/dg/what-is.html" }] },
+            { vendor: "azure", domain: "Speech Services", question: "Your application needs text-to-speech with custom voices. What Azure service provides this?", options: ["Azure AI Speech with Custom Neural Voice", "Azure Cognitive Services", "Azure Bot Service", "Azure Communication Services"], correct: 0, explanation: "<strong>Azure AI Speech</strong> provides text-to-speech with 400+ voices and custom neural voice training.", evidence: [{ quote: "Azure AI Speech provides <span class='evidence-highlight'>400+ neural voices</span> and <span class='evidence-highlight'>Custom Neural Voice</span> to create unique voices for your brand.", source: "Microsoft Documentation", document: "Azure AI Speech", section: "Text-to-speech", url: "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/text-to-speech" }] },
+            { vendor: "azure", domain: "Language Understanding", question: "Your chatbot needs to understand user intents and extract entities. What Azure service provides NLU?", options: ["Conversational Language Understanding (CLU)", "Azure Bot Framework", "Azure Cognitive Search", "QnA Maker"], correct: 0, explanation: "<strong>CLU</strong> provides intent classification and entity extraction for building conversational AI.", evidence: [{ quote: "Conversational Language Understanding provides <span class='evidence-highlight'>intent classification</span> and <span class='evidence-highlight'>entity extraction</span> for building conversational applications.", source: "Microsoft Documentation", document: "Azure AI Language", section: "CLU", url: "https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview" }] },
+            { vendor: "azure", domain: "Form Recognizer", question: "Your workflow processes invoices and receipts. What Azure service extracts structured data from documents?", options: ["Azure AI Document Intelligence (Form Recognizer)", "Azure Computer Vision OCR", "Azure Cognitive Search", "Azure Logic Apps"], correct: 0, explanation: "<strong>Document Intelligence</strong> extracts key-value pairs, tables, and layout from documents using pre-built and custom models.", evidence: [{ quote: "Document Intelligence extracts <span class='evidence-highlight'>key-value pairs, tables</span>, and document structure. Pre-built models for <span class='evidence-highlight'>invoices, receipts, IDs</span>, and more.", source: "Microsoft Documentation", document: "Azure AI Document Intelligence", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/overview" }] },
+            { vendor: "azure", domain: "Translator", question: "Your global application needs real-time text translation with custom terminology. What Azure service provides this?", options: ["Azure AI Translator with custom models", "Azure Cognitive Services", "Azure OpenAI", "Azure Bot Service"], correct: 0, explanation: "<strong>Azure AI Translator</strong> provides real-time translation with custom terminology and domain adaptation.", evidence: [{ quote: "Translator provides <span class='evidence-highlight'>real-time translation</span> in 100+ languages. Custom Translator enables <span class='evidence-highlight'>domain-specific terminology</span> and style.", source: "Microsoft Documentation", document: "Azure AI Translator", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/ai-services/translator/translator-overview" }] },
+            { vendor: "azure", domain: "Computer Vision", question: "Your application needs to analyze images for objects, text, and faces. What Azure service provides this?", options: ["Azure AI Vision for image analysis", "Azure Custom Vision", "Azure Form Recognizer", "Azure Video Indexer"], correct: 0, explanation: "<strong>Azure AI Vision</strong> analyzes images for objects, text (OCR), faces, and scene understanding.", evidence: [{ quote: "Azure AI Vision provides <span class='evidence-highlight'>image analysis</span> including object detection, OCR, <span class='evidence-highlight'>spatial analysis</span>, and background removal.", source: "Microsoft Documentation", document: "Azure AI Vision", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview" }] },
+            { vendor: "gcp", domain: "Speech-to-Text", question: "Your call center needs real-time transcription with speaker diarization. What GCP service provides this?", options: ["Cloud Speech-to-Text with speaker diarization", "Cloud Natural Language", "Dialogflow", "Media Translation"], correct: 0, explanation: "<strong>Speech-to-Text</strong> provides real-time transcription with speaker diarization, punctuation, and multi-channel support.", evidence: [{ quote: "Speech-to-Text supports <span class='evidence-highlight'>speaker diarization</span>, automatic punctuation, and <span class='evidence-highlight'>multi-channel recognition</span> for call center use cases.", source: "Google Cloud Documentation", document: "Speech-to-Text", section: "Features", url: "https://cloud.google.com/speech-to-text/docs/speech-to-text-supported-languages" }] },
+            { vendor: "gcp", domain: "Natural Language", question: "Your application needs to analyze sentiment and extract entities from text. What GCP service provides NLP?", options: ["Cloud Natural Language for text analysis", "Dialogflow", "Document AI", "Translation AI"], correct: 0, explanation: "<strong>Cloud Natural Language</strong> provides sentiment analysis, entity extraction, and syntax analysis.", evidence: [{ quote: "Natural Language API provides <span class='evidence-highlight'>sentiment analysis</span>, entity recognition, <span class='evidence-highlight'>content classification</span>, and syntax analysis.", source: "Google Cloud Documentation", document: "Natural Language", section: "Overview", url: "https://cloud.google.com/natural-language/docs/basics" }] },
+            { vendor: "gcp", domain: "Vision AI", question: "Your application needs to detect objects and text in images. What GCP service provides computer vision?", options: ["Cloud Vision AI for image analysis", "Video AI", "AutoML Vision", "Document AI"], correct: 0, explanation: "<strong>Cloud Vision AI</strong> detects objects, faces, text, and explicit content in images.", evidence: [{ quote: "Vision AI <span class='evidence-highlight'>detects objects, faces, and text</span> in images. Provides <span class='evidence-highlight'>label detection</span>, landmark recognition, and safe search.", source: "Google Cloud Documentation", document: "Vision AI", section: "Overview", url: "https://cloud.google.com/vision/docs/features-list" }] },
+            { vendor: "gcp", domain: "Dialogflow", question: "Your organization needs to build a multi-channel conversational agent. What GCP service provides this?", options: ["Dialogflow CX for enterprise conversational AI", "Cloud Natural Language", "Speech-to-Text", "Text-to-Speech"], correct: 0, explanation: "<strong>Dialogflow CX</strong> provides visual flow builder, version control, and multi-channel deployment for enterprise bots.", evidence: [{ quote: "Dialogflow CX provides <span class='evidence-highlight'>visual flow builder</span>, A/B testing, and <span class='evidence-highlight'>advanced NLU</span> for complex conversational experiences.", source: "Google Cloud Documentation", document: "Dialogflow CX", section: "Overview", url: "https://cloud.google.com/dialogflow/cx/docs" }] },
+            { vendor: "gcp", domain: "Translation", question: "Your application needs to translate documents while preserving formatting. What GCP service provides this?", options: ["Cloud Translation with document translation", "Natural Language API", "Document AI", "AutoML Translation"], correct: 0, explanation: "<strong>Cloud Translation</strong> provides document translation preserving original formatting for PDFs and Office documents.", evidence: [{ quote: "Cloud Translation supports <span class='evidence-highlight'>document translation</span> that preserves <span class='evidence-highlight'>original formatting</span> in PDF, Word, and other document types.", source: "Google Cloud Documentation", document: "Cloud Translation", section: "Document Translation", url: "https://cloud.google.com/translate/docs/advanced/translate-documents" }] },
+            { vendor: "nvidia", domain: "INT8 Calibration", question: "Your INT8 quantized model shows accuracy degradation. Profiling shows activation ranges are incorrectly calibrated. What improves this?", options: ["Use more representative calibration data covering edge cases", "Use larger calibration batch size", "Switch to symmetric quantization", "Reduce calibration iterations"], correct: 0, explanation: "<strong>Representative calibration data</strong> that covers the full range of expected inputs improves INT8 accuracy.", evidence: [{ quote: "INT8 calibration requires <span class='evidence-highlight'>representative data</span> covering the expected <span class='evidence-highlight'>input distribution</span>. Poor calibration data leads to clipping and accuracy loss.", source: "NVIDIA Documentation", document: "TensorRT Developer Guide", section: "INT8 Calibration", url: "https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#int8-calibration" }] },
+            { vendor: "nvidia", domain: "Layer Fusion", question: "Your TensorRT inference shows many small kernels. What optimization combines operations to reduce kernel launches?", options: ["Layer fusion to combine compatible operations", "Increase batch size", "Use FP16 precision", "Enable CUDA graphs"], correct: 0, explanation: "<strong>Layer fusion</strong> combines compatible operations (Conv+BN+ReLU) into single kernels, reducing launch overhead.", evidence: [{ quote: "TensorRT <span class='evidence-highlight'>fuses compatible layers</span> like Conv+BatchNorm+ReLU into single kernels, <span class='evidence-highlight'>reducing kernel launch overhead</span> and memory traffic.", source: "NVIDIA Documentation", document: "TensorRT Developer Guide", section: "Layer Fusion", url: "https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#fusion" }] },
+            { vendor: "aws", domain: "Transcribe", question: "Your call center needs to transcribe calls with speaker identification. What AWS service provides this?", options: ["Amazon Transcribe with speaker diarization", "Amazon Polly", "Amazon Comprehend", "Amazon Lex"], correct: 0, explanation: "<strong>Amazon Transcribe</strong> provides automatic speech recognition with speaker diarization and custom vocabulary.", evidence: [{ quote: "Transcribe provides <span class='evidence-highlight'>speaker diarization</span> to identify different speakers, <span class='evidence-highlight'>custom vocabulary</span> for domain-specific terms, and PII redaction.", source: "AWS Documentation", document: "Amazon Transcribe", section: "Overview", url: "https://docs.aws.amazon.com/transcribe/latest/dg/what-is.html" }] },
+            { vendor: "aws", domain: "Polly", question: "Your application needs natural-sounding text-to-speech in multiple languages. What AWS service provides this?", options: ["Amazon Polly for text-to-speech", "Amazon Transcribe", "Amazon Lex", "Amazon Comprehend"], correct: 0, explanation: "<strong>Amazon Polly</strong> converts text to lifelike speech using neural voices in multiple languages.", evidence: [{ quote: "Polly provides <span class='evidence-highlight'>neural text-to-speech</span> voices that sound natural. Supports <span class='evidence-highlight'>60+ voices</span> in multiple languages.", source: "AWS Documentation", document: "Amazon Polly", section: "Overview", url: "https://docs.aws.amazon.com/polly/latest/dg/what-is.html" }] },
+            { vendor: "azure", domain: "Video Indexer", question: "Your media company needs to extract insights from video content including transcription, faces, and topics. What Azure service provides this?", options: ["Azure Video Indexer for video AI", "Azure Media Services", "Azure Computer Vision", "Azure Cognitive Search"], correct: 0, explanation: "<strong>Video Indexer</strong> extracts rich metadata from videos including transcription, face detection, and topic modeling.", evidence: [{ quote: "Video Indexer extracts <span class='evidence-highlight'>rich metadata</span> including transcription, faces, objects, brands, <span class='evidence-highlight'>topics, and sentiment</span> from videos.", source: "Microsoft Documentation", document: "Azure Video Indexer", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/azure-video-indexer/video-indexer-overview" }] },
+            { vendor: "gcp", domain: "Video Intelligence", question: "Your media application needs to detect objects and track them across video frames. What GCP service provides this?", options: ["Video Intelligence API for video analysis", "Vision AI", "AutoML Video", "Cloud Composer"], correct: 0, explanation: "<strong>Video Intelligence</strong> provides object tracking, shot detection, and content moderation for videos.", evidence: [{ quote: "Video Intelligence provides <span class='evidence-highlight'>object tracking</span>, shot detection, explicit content detection, and <span class='evidence-highlight'>streaming video analysis</span>.", source: "Google Cloud Documentation", document: "Video Intelligence", section: "Overview", url: "https://cloud.google.com/video-intelligence/docs/features" }] },
+            // Batch 5 - Security, MLOps, and Production
+            { vendor: "nvidia", domain: "Confidential Computing", question: "Your organization processes sensitive data and needs GPU compute with hardware-level isolation. What NVIDIA feature provides this?", options: ["NVIDIA Confidential Computing with H100 hardware isolation", "MIG isolation", "vGPU", "Container isolation"], correct: 0, explanation: "<strong>Confidential Computing</strong> on H100 provides hardware-level memory encryption and isolation using TEE.", evidence: [{ quote: "H100 supports <span class='evidence-highlight'>Confidential Computing</span> with hardware-level <span class='evidence-highlight'>memory encryption</span> and Trusted Execution Environment (TEE) for secure AI workloads.", source: "NVIDIA Documentation", document: "Confidential Computing", section: "Overview", url: "https://www.nvidia.com/en-us/data-center/solutions/confidential-computing/" }] },
+            { vendor: "nvidia", domain: "Model Parallelism", question: "Your 70B parameter model doesn't fit on a single GPU. You need to split the model across multiple GPUs. What parallelism strategy splits model layers?", options: ["Pipeline parallelism to split model into stages across GPUs", "Data parallelism", "Tensor parallelism", "Expert parallelism"], correct: 0, explanation: "<strong>Pipeline parallelism</strong> splits model layers into stages, each running on different GPUs with micro-batches.", evidence: [{ quote: "Pipeline parallelism <span class='evidence-highlight'>partitions model layers</span> into stages across GPUs. Each stage processes different <span class='evidence-highlight'>micro-batches</span> simultaneously.", source: "NVIDIA Documentation", document: "Megatron-LM", section: "Pipeline Parallelism", url: "https://github.com/NVIDIA/Megatron-LM" }] },
+            { vendor: "nvidia", domain: "Tensor Parallelism", question: "Your attention computation is bottlenecked by single-GPU memory bandwidth. What parallelism splits individual layers across GPUs?", options: ["Tensor parallelism to shard weight matrices across GPUs", "Pipeline parallelism", "Data parallelism", "Sequence parallelism"], correct: 0, explanation: "<strong>Tensor parallelism</strong> shards weight matrices across GPUs, enabling parallel computation of matrix operations.", evidence: [{ quote: "Tensor parallelism <span class='evidence-highlight'>shards weight matrices</span> across GPUs. Each GPU computes a <span class='evidence-highlight'>portion of matrix operations</span> and results are combined via all-reduce.", source: "NVIDIA Documentation", document: "Megatron-LM", section: "Tensor Parallelism", url: "https://github.com/NVIDIA/Megatron-LM" }] },
+            { vendor: "nvidia", domain: "Sequence Parallelism", question: "Your long-context model's activation memory exceeds GPU memory during training. What technique partitions activations across sequence dimension?", options: ["Sequence parallelism to distribute activations across GPUs", "Activation checkpointing", "Gradient accumulation", "ZeRO optimization"], correct: 0, explanation: "<strong>Sequence parallelism</strong> partitions activations across the sequence dimension, reducing per-GPU memory.", evidence: [{ quote: "Sequence parallelism <span class='evidence-highlight'>partitions activations</span> across GPUs along the sequence dimension, <span class='evidence-highlight'>reducing activation memory</span> per GPU.", source: "NVIDIA Documentation", document: "Megatron-LM", section: "Sequence Parallelism", url: "https://github.com/NVIDIA/Megatron-LM" }] },
+            { vendor: "nvidia", domain: "Gradient Checkpointing", question: "Your training runs out of GPU memory during backprop due to stored activations. What technique trades compute for memory?", options: ["Gradient/activation checkpointing to recompute activations", "Gradient accumulation", "Mixed precision", "ZeRO optimization"], correct: 0, explanation: "<strong>Gradient checkpointing</strong> discards intermediate activations and recomputes them during backward pass.", evidence: [{ quote: "Gradient checkpointing <span class='evidence-highlight'>recomputes activations</span> during backward pass instead of storing them, <span class='evidence-highlight'>trading compute for memory</span>.", source: "PyTorch Documentation", document: "Checkpointing", section: "Overview", url: "https://pytorch.org/docs/stable/checkpoint.html" }] },
+            { vendor: "aws", domain: "SageMaker Feature Store", question: "Your ML system needs to share features between training and inference with consistent values. What AWS service provides this?", options: ["SageMaker Feature Store for feature management", "S3 with versioning", "DynamoDB", "ElastiCache"], correct: 0, explanation: "<strong>Feature Store</strong> provides centralized feature storage with online and offline stores for consistent features.", evidence: [{ quote: "Feature Store provides <span class='evidence-highlight'>centralized repository</span> for features with <span class='evidence-highlight'>online and offline stores</span> ensuring training-serving consistency.", source: "AWS Documentation", document: "SageMaker Feature Store", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store.html" }] },
+            { vendor: "aws", domain: "SageMaker Experiments", question: "Your team runs many training experiments and needs to track hyperparameters and metrics. What SageMaker feature provides this?", options: ["SageMaker Experiments for ML experiment tracking", "CloudWatch metrics", "S3 versioning", "MLflow on EC2"], correct: 0, explanation: "<strong>SageMaker Experiments</strong> tracks parameters, metrics, and artifacts across training runs for comparison.", evidence: [{ quote: "Experiments <span class='evidence-highlight'>tracks parameters, metrics</span>, and artifacts. <span class='evidence-highlight'>Compare runs</span> and visualize results in SageMaker Studio.", source: "AWS Documentation", document: "SageMaker Experiments", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/experiments.html" }] },
+            { vendor: "aws", domain: "SageMaker Debugger", question: "Your training job shows unexpected loss spikes. You need to debug tensor values during training. What SageMaker feature helps?", options: ["SageMaker Debugger for training analysis", "CloudWatch Logs", "Custom print statements", "Profiler"], correct: 0, explanation: "<strong>SageMaker Debugger</strong> captures tensor values during training and detects anomalies like exploding gradients.", evidence: [{ quote: "Debugger <span class='evidence-highlight'>captures tensor values</span> during training. Detects anomalies like <span class='evidence-highlight'>vanishing gradients, exploding tensors</span>, and loss plateaus.", source: "AWS Documentation", document: "SageMaker Debugger", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/train-debugger.html" }] },
+            { vendor: "aws", domain: "Data Wrangler", question: "Your data scientists need to prepare and transform data for ML without writing code. What SageMaker tool provides this?", options: ["Data Wrangler for visual data preparation", "AWS Glue", "Athena", "Custom notebooks"], correct: 0, explanation: "<strong>Data Wrangler</strong> provides visual interface for data preparation, transformation, and feature engineering.", evidence: [{ quote: "Data Wrangler provides <span class='evidence-highlight'>visual interface</span> to import, transform, and export data. <span class='evidence-highlight'>300+ built-in transformations</span> without code.", source: "AWS Documentation", document: "SageMaker Data Wrangler", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/data-wrangler.html" }] },
+            { vendor: "aws", domain: "Shadow Testing", question: "Your ML system needs to test new model versions in production without affecting users. What deployment pattern enables this?", options: ["Shadow deployments to mirror traffic without impacting users", "A/B testing", "Canary deployment", "Blue-green deployment"], correct: 0, explanation: "<strong>Shadow deployments</strong> send production traffic to new models for comparison without serving their responses.", evidence: [{ quote: "Shadow variants receive <span class='evidence-highlight'>mirrored production traffic</span> but responses are <span class='evidence-highlight'>not served to users</span>. Compare against production model.", source: "AWS Documentation", document: "SageMaker Endpoints", section: "Shadow Variants", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/model-shadow-deployment.html" }] },
+            { vendor: "azure", domain: "ML Designer", question: "Your team needs to build ML pipelines visually without code. What Azure ML feature provides drag-and-drop pipeline building?", options: ["Azure ML Designer for visual pipeline authoring", "Notebooks", "AutoML", "CLI v2"], correct: 0, explanation: "<strong>ML Designer</strong> provides drag-and-drop interface for building ML pipelines with pre-built components.", evidence: [{ quote: "Designer provides <span class='evidence-highlight'>drag-and-drop canvas</span> for building ML pipelines. <span class='evidence-highlight'>Pre-built components</span> for common ML tasks.", source: "Microsoft Documentation", document: "Azure ML Designer", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/machine-learning/concept-designer" }] },
+            { vendor: "azure", domain: "MLOps", question: "Your organization needs to automate ML model deployment and monitoring. What Azure ML capability provides MLOps?", options: ["Azure ML CLI v2 and pipelines for MLOps automation", "Azure DevOps only", "GitHub Actions only", "Manual deployment"], correct: 0, explanation: "<strong>Azure ML CLI v2</strong> enables GitOps-style MLOps with declarative YAML definitions for reproducible workflows.", evidence: [{ quote: "CLI v2 enables <span class='evidence-highlight'>GitOps-style MLOps</span> with declarative YAML. Define <span class='evidence-highlight'>reproducible workflows</span> for training, deployment, and monitoring.", source: "Microsoft Documentation", document: "Azure ML CLI v2", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-train-cli" }] },
+            { vendor: "azure", domain: "Model Monitoring", question: "Your deployed model's performance is degrading over time. What Azure ML feature detects drift and quality issues?", options: ["Model Monitoring for drift detection", "Application Insights only", "Custom metrics", "Manual evaluation"], correct: 0, explanation: "<strong>Model Monitoring</strong> detects data drift, prediction drift, and model quality degradation in production.", evidence: [{ quote: "Model monitoring <span class='evidence-highlight'>detects drift</span> in input data and predictions. <span class='evidence-highlight'>Automatic alerts</span> when quality metrics degrade.", source: "Microsoft Documentation", document: "Azure ML Model Monitoring", section: "Overview", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-monitor-model-performance" }] },
+            { vendor: "azure", domain: "Managed Identity", question: "Your Azure ML jobs need to access Key Vault and Storage without managing credentials. What Azure feature provides this?", options: ["Managed Identity for credential-free authentication", "Service Principal", "Shared Access Signatures", "Account keys"], correct: 0, explanation: "<strong>Managed Identity</strong> provides automatic credential management for accessing Azure resources securely.", evidence: [{ quote: "Managed Identity provides <span class='evidence-highlight'>automatic credential management</span>. Azure ML resources can <span class='evidence-highlight'>securely access</span> Key Vault, Storage without explicit credentials.", source: "Microsoft Documentation", document: "Azure ML Security", section: "Managed Identity", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-identity-based-service-authentication" }] },
+            { vendor: "azure", domain: "Private Endpoints", question: "Your Azure ML workspace must not be accessible from public internet. What Azure feature provides private network access?", options: ["Private Endpoints for VNet-only access", "Service Endpoints", "VPN Gateway", "Azure Firewall"], correct: 0, explanation: "<strong>Private Endpoints</strong> provide private IP addresses for Azure ML services within your VNet.", evidence: [{ quote: "Private endpoints provide <span class='evidence-highlight'>private IP addresses</span> for Azure ML. All traffic stays within <span class='evidence-highlight'>your virtual network</span>.", source: "Microsoft Documentation", document: "Azure ML Security", section: "Private Endpoints", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-configure-private-link" }] },
+            { vendor: "gcp", domain: "Vertex AI Model Monitoring", question: "Your production model needs automatic drift detection without manual threshold setting. What Vertex AI feature provides this?", options: ["AutoML model monitoring with automatic thresholds", "Cloud Monitoring custom metrics", "BigQuery analysis", "Manual monitoring"], correct: 0, explanation: "<strong>Vertex AI Model Monitoring</strong> automatically learns baseline distributions and detects anomalies.", evidence: [{ quote: "Model Monitoring <span class='evidence-highlight'>automatically learns</span> baseline distributions and <span class='evidence-highlight'>detects drift</span> without manual threshold configuration.", source: "Google Cloud Documentation", document: "Vertex AI Model Monitoring", section: "Overview", url: "https://cloud.google.com/vertex-ai/docs/model-monitoring/overview" }] },
+            { vendor: "gcp", domain: "Vertex AI Tensorboard", question: "Your distributed training needs real-time visualization of metrics across workers. What Vertex AI service provides this?", options: ["Vertex AI TensorBoard for distributed training visualization", "Cloud Monitoring", "BigQuery visualization", "Data Studio"], correct: 0, explanation: "<strong>Vertex AI TensorBoard</strong> provides managed TensorBoard with distributed training support and persistent storage.", evidence: [{ quote: "Vertex AI TensorBoard provides <span class='evidence-highlight'>managed TensorBoard</span> with <span class='evidence-highlight'>persistent storage</span> and support for distributed training visualization.", source: "Google Cloud Documentation", document: "Vertex AI TensorBoard", section: "Overview", url: "https://cloud.google.com/vertex-ai/docs/experiments/tensorboard-overview" }] },
+            { vendor: "gcp", domain: "VPC-SC", question: "Your organization needs data exfiltration protection for Vertex AI workloads. What GCP feature provides this?", options: ["VPC Service Controls for data exfiltration prevention", "VPC peering", "Cloud NAT", "Private Service Connect"], correct: 0, explanation: "<strong>VPC Service Controls</strong> create security perimeters to prevent data exfiltration from GCP services.", evidence: [{ quote: "VPC Service Controls create <span class='evidence-highlight'>security perimeters</span> around GCP resources. <span class='evidence-highlight'>Prevent data exfiltration</span> from Vertex AI and other services.", source: "Google Cloud Documentation", document: "VPC Service Controls", section: "Overview", url: "https://cloud.google.com/vpc-service-controls/docs/overview" }] },
+            { vendor: "gcp", domain: "Private Endpoints", question: "Your Vertex AI endpoints must only be accessible from your VPC. What feature provides private access?", options: ["Private endpoints with Private Service Connect", "VPC peering", "Cloud NAT", "Load balancer"], correct: 0, explanation: "<strong>Private endpoints</strong> using Private Service Connect provide VNet-only access to Vertex AI endpoints.", evidence: [{ quote: "Private endpoints provide <span class='evidence-highlight'>private access</span> to Vertex AI services. Traffic stays within <span class='evidence-highlight'>your VPC</span> without internet exposure.", source: "Google Cloud Documentation", document: "Vertex AI", section: "Private Endpoints", url: "https://cloud.google.com/vertex-ai/docs/predictions/using-private-endpoints" }] },
+            { vendor: "gcp", domain: "Customer-Managed Encryption", question: "Your compliance requires you to manage your own encryption keys for ML data. What GCP feature enables this?", options: ["CMEK (Customer-Managed Encryption Keys)", "Default encryption", "Client-side encryption", "Cloud HSM only"], correct: 0, explanation: "<strong>CMEK</strong> allows you to manage encryption keys in Cloud KMS for Vertex AI resources.", evidence: [{ quote: "CMEK enables you to <span class='evidence-highlight'>manage encryption keys</span> in Cloud KMS. Control encryption for <span class='evidence-highlight'>Vertex AI datasets, models</span>, and endpoints.", source: "Google Cloud Documentation", document: "Vertex AI", section: "CMEK", url: "https://cloud.google.com/vertex-ai/docs/general/cmek" }] },
+            // Batch 6 - Advanced Optimization and Scaling
+            { vendor: "nvidia", domain: "LoRA", question: "Your organization needs to fine-tune LLMs efficiently without storing full model copies. What parameter-efficient technique updates only low-rank matrices?",options: ["LoRA (Low-Rank Adaptation) for efficient fine-tuning", "Full fine-tuning", "Pruning", "Knowledge distillation"], correct: 0, explanation: "<strong>LoRA</strong> adds trainable low-rank matrices to frozen model weights, reducing training parameters by 1000x.", evidence: [{ quote: "LoRA adds <span class='evidence-highlight'>low-rank decomposition matrices</span> to frozen weights. Reduces <span class='evidence-highlight'>trainable parameters by 10,000x</span> with minimal accuracy loss.", source: "arXiv", document: "LoRA: Low-Rank Adaptation", section: "Abstract", url: "https://arxiv.org/abs/2106.09685" }] },
+            { vendor: "nvidia", domain: "QLoRA", question: "Your fine-tuning needs to run on consumer GPUs with limited memory. What technique combines quantization with LoRA?", options: ["QLoRA combining 4-bit quantization with LoRA", "Standard LoRA", "8-bit AdamW", "Gradient checkpointing"], correct: 0, explanation: "<strong>QLoRA</strong> quantizes base model to 4-bit and trains LoRA adapters, enabling 65B fine-tuning on 48GB GPUs.", evidence: [{ quote: "QLoRA uses <span class='evidence-highlight'>4-bit quantization</span> for base model with LoRA adapters. Enables <span class='evidence-highlight'>65B model fine-tuning</span> on single 48GB GPU.", source: "arXiv", document: "QLoRA", section: "Abstract", url: "https://arxiv.org/abs/2305.14314" }] },
+            { vendor: "nvidia", domain: "AWQ", question: "Your inference needs aggressive quantization while preserving quality. What technique protects salient weights during quantization?", options: ["AWQ (Activation-aware Weight Quantization)", "RTN (Round-to-nearest)", "GPTQ", "SmoothQuant"], correct: 0, explanation: "<strong>AWQ</strong> identifies salient weights based on activation patterns and protects them during quantization.", evidence: [{ quote: "AWQ identifies <span class='evidence-highlight'>salient weights</span> based on activation magnitudes and <span class='evidence-highlight'>protects them</span> during quantization for better accuracy.", source: "arXiv", document: "AWQ", section: "Abstract", url: "https://arxiv.org/abs/2306.00978" }] },
+            { vendor: "nvidia", domain: "GPTQ", question: "Your model deployment requires one-shot weight quantization without retraining. What post-training quantization method is optimized for transformers?", options: ["GPTQ for one-shot transformer quantization", "AWQ", "SmoothQuant", "GGUF"], correct: 0, explanation: "<strong>GPTQ</strong> performs layer-wise quantization using approximate second-order information, achieving high accuracy.", evidence: [{ quote: "GPTQ uses <span class='evidence-highlight'>layer-wise quantization</span> with approximate Hessian. Achieves <span class='evidence-highlight'>4-bit quantization</span> with minimal accuracy loss.", source: "arXiv", document: "GPTQ", section: "Abstract", url: "https://arxiv.org/abs/2210.17323" }] },
+            { vendor: "aws", domain: "Savings Plans", question: "Your ML workloads use consistent GPU compute. You want to reduce costs with commitment. What AWS pricing model provides this?", options: ["SageMaker Savings Plans for committed usage discounts", "Reserved Instances", "Spot Instances", "On-Demand"], correct: 0, explanation: "<strong>SageMaker Savings Plans</strong> provide up to 64% savings for committed hourly usage across instance types.", evidence: [{ quote: "SageMaker Savings Plans provide <span class='evidence-highlight'>up to 64% savings</span> over On-Demand. Commitment applies <span class='evidence-highlight'>across instance families</span> and regions.", source: "AWS Documentation", document: "SageMaker Pricing", section: "Savings Plans", url: "https://aws.amazon.com/sagemaker/pricing/" }] },
+            { vendor: "aws", domain: "Inference Recommender", question: "Your team needs to select the optimal instance type for a new model. What SageMaker tool automates performance benchmarking?", options: ["Inference Recommender for automated benchmarking", "Manual testing", "Documentation review", "Cost calculator"], correct: 0, explanation: "<strong>Inference Recommender</strong> automatically benchmarks models across instance types to find optimal cost-performance.", evidence: [{ quote: "Inference Recommender <span class='evidence-highlight'>automatically benchmarks</span> your model. Recommends <span class='evidence-highlight'>optimal instance types</span> based on latency, throughput, and cost.", source: "AWS Documentation", document: "SageMaker Inference Recommender", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/inference-recommender.html" }] },
+            { vendor: "aws", domain: "Multi-Model Endpoints", question: "Your inference service hosts hundreds of small models. Deploying each separately is cost-prohibitive. What SageMaker feature helps?", options: ["Multi-Model Endpoints to serve many models from one endpoint", "Multi-Container Endpoints", "Serverless Inference", "Batch Transform"], correct: 0, explanation: "<strong>Multi-Model Endpoints</strong> dynamically load models on demand, reducing costs for many-model scenarios.", evidence: [{ quote: "Multi-Model Endpoints <span class='evidence-highlight'>dynamically load models</span> from S3. Serve <span class='evidence-highlight'>thousands of models</span> from a single endpoint.", source: "AWS Documentation", document: "SageMaker Multi-Model Endpoints", section: "Overview", url: "https://docs.aws.amazon.com/sagemaker/latest/dg/multi-model-endpoints.html" }] },
+            { vendor: "azure", domain: "Compute Instance", question: "Your data scientists need personal development environments with GPUs. What Azure ML resource provides this?", options: ["Compute Instances for personal development VMs", "Compute Clusters", "Kubernetes Compute", "Serverless Compute"], correct: 0, explanation: "<strong>Compute Instances</strong> are managed VMs for individual development with pre-installed ML tools.", evidence: [{ quote: "Compute Instances are <span class='evidence-highlight'>managed cloud workstations</span> with pre-installed ML tools. <span class='evidence-highlight'>Personal development</span> environments with GPU options.", source: "Microsoft Documentation", document: "Azure ML Compute", section: "Compute Instance", url: "https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance" }] },
+            { vendor: "azure", domain: "Compute Clusters", question: "Your training jobs need to scale across multiple nodes. What Azure ML resource provides auto-scaling compute?", options: ["Compute Clusters for auto-scaling training", "Compute Instances", "Kubernetes Compute", "Serverless Compute"], correct: 0, explanation: "<strong>Compute Clusters</strong> auto-scale based on job queue, providing cost-efficient distributed training.", evidence: [{ quote: "Compute Clusters <span class='evidence-highlight'>auto-scale</span> based on job queue. <span class='evidence-highlight'>Scale to zero</span> when idle for cost efficiency.", source: "Microsoft Documentation", document: "Azure ML Compute", section: "Compute Clusters", url: "https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-attach-compute-cluster" }] },
+            { vendor: "gcp", domain: "Preemptible VMs", question: "Your training jobs are fault-tolerant and can use checkpointing. What GCP compute option provides 60-91% cost savings?", options: ["Preemptible/Spot VMs for cost-efficient training", "On-demand instances", "Reserved instances", "Committed use"], correct: 0, explanation: "<strong>Preemptible/Spot VMs</strong> provide up to 91% cost savings for fault-tolerant workloads with checkpointing.", evidence: [{ quote: "Preemptible VMs provide <span class='evidence-highlight'>60-91% cost savings</span>. Use <span class='evidence-highlight'>checkpointing</span> for fault-tolerant training workloads.", source: "Google Cloud Documentation", document: "Compute Engine Pricing", section: "Preemptible VMs", url: "https://cloud.google.com/compute/docs/instances/preemptible" }] },
+            { vendor: "gcp", domain: "Committed Use", question: "Your ML workloads need predictable GPU capacity for 1-3 years. What GCP pricing provides maximum discounts?", options: ["Committed Use Discounts for reserved capacity", "Sustained use", "Preemptible VMs", "On-demand"], correct: 0, explanation: "<strong>Committed Use Discounts</strong> provide up to 57% savings for 1-3 year GPU commitments.", evidence: [{ quote: "Committed Use provides <span class='evidence-highlight'>up to 57% discount</span> for 1-3 year commitments. <span class='evidence-highlight'>Predictable capacity</span> for GPU workloads.", source: "Google Cloud Documentation", document: "Compute Engine Pricing", section: "Committed Use", url: "https://cloud.google.com/compute/docs/instances/committed-use-discounts" }] }
         ];
 
         let selectedVendors = ['nvidia', 'aws', 'azure', 'gcp'];

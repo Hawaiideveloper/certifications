@@ -4,7 +4,7 @@ Practice exam covering **NVIDIA, AWS, Azure, and GCP** certifications for high-p
 
 ## Features
 
-- **120 Prometric-style questions** (30 per vendor)
+- **259 Prometric-style questions** with comprehensive coverage
 - **Official documentation evidence** for every answer
 - **Exact quotes with highlighted key phrases**
 - **Document links with specific sections** for verification
@@ -16,10 +16,10 @@ Practice exam covering **NVIDIA, AWS, Azure, and GCP** certifications for high-p
 
 | Vendor | Topics | Questions |
 |--------|--------|-----------|
-| **NVIDIA** | CUDA, TensorRT, Triton, Multi-GPU, NVLink, DeepSpeed, vLLM | 30 |
-| **AWS** | SageMaker, Bedrock, EFA, Trainium, Inferentia, Cost Optimization | 30 |
-| **Azure** | Azure ML, OpenAI, InfiniBand, AKS, Cognitive Services | 30 |
-| **GCP** | Vertex AI, TPU, BigQuery ML, Gemini, GKE, Dataflow | 30 |
+| **NVIDIA** | CUDA, TensorRT, Triton, Multi-GPU, NVLink, DeepSpeed, vLLM, Flash Attention, MIG, FP8, NeMo | 74 |
+| **AWS** | SageMaker, Bedrock, EFA, Trainium, Inferentia, HyperPod, Guardrails, Feature Store | 64 |
+| **Azure** | Azure ML, OpenAI Service, InfiniBand, AKS, Cognitive Services, Prompt Flow, Content Safety | 60 |
+| **GCP** | Vertex AI, TPU, BigQuery ML, Gemini, GKE, Dataflow, Document AI, Model Garden | 61 |
 
 ## Usage
 
