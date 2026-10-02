@@ -23,10 +23,12 @@ Practice exam covering **NVIDIA, AWS, Azure, and GCP** certifications for high-p
 
 ## Usage
 
-Open `quiz.html` in any browser - no server required.
+**Live Demo:** https://hawaiideveloper.github.io/certifications/
+
+Or open `index.html` locally in any browser:
 
 ```bash
-open quiz.html
+open index.html
 ```
 
 ## Target Certifications
