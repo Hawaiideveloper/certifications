@@ -4,7 +4,7 @@ Practice exam covering **NVIDIA, AWS, Azure, and GCP** certifications for high-p
 
 ## Features
 
-- **259 Prometric-style questions** with comprehensive coverage
+- **1012 Prometric-style questions** with comprehensive coverage
 - **Official documentation evidence** for every answer
 - **Exact quotes with highlighted key phrases**
 - **Document links with specific sections** for verification
@@ -16,10 +16,10 @@ Practice exam covering **NVIDIA, AWS, Azure, and GCP** certifications for high-p
 
 | Vendor | Topics | Questions |
 |--------|--------|-----------|
-| **NVIDIA** | CUDA, TensorRT, Triton, Multi-GPU, NVLink, DeepSpeed, vLLM, Flash Attention, MIG, FP8, NeMo | 74 |
-| **AWS** | SageMaker, Bedrock, EFA, Trainium, Inferentia, HyperPod, Guardrails, Feature Store | 64 |
-| **Azure** | Azure ML, OpenAI Service, InfiniBand, AKS, Cognitive Services, Prompt Flow, Content Safety | 60 |
-| **GCP** | Vertex AI, TPU, BigQuery ML, Gemini, GKE, Dataflow, Document AI, Model Garden | 61 |
+| **NVIDIA** | CUDA, TensorRT, TensorRT-LLM, Triton, Multi-GPU, NVLink, NVSwitch, DeepSpeed, vLLM, Flash Attention, MIG, FP8, Transformer Engine, cuDNN, Megatron-LM, CUDA Graphs, Nsight, RAPIDS, Hopper Architecture | 259 |
+| **AWS** | SageMaker, Bedrock, EFA, Trainium, Inferentia, HyperPod, Guardrails, Feature Store, Ground Truth, Comprehend, Rekognition, Step Functions, Lambda for ML, EKS for ML, Model Monitor | 242 |
+| **Azure** | Azure ML, OpenAI Service, InfiniBand, AKS, Cognitive Services, Prompt Flow, Content Safety, Synapse Analytics, Databricks, AI Search, Cosmos DB, MLflow, Responsible AI | 261 |
+| **GCP** | Vertex AI, TPU, BigQuery ML, Gemini, GKE, Dataflow, Document AI, Model Garden, Cloud Run, Recommendations AI, TFX, Feature Store, Cost Management, Security | 250 |
 
 ## Usage
 
