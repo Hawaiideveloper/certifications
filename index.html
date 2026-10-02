@@ -130,6 +130,103 @@
             background: linear-gradient(135deg, rgba(255, 107, 53, 0.25), rgba(247, 147, 30, 0.1));
             color: #ff9966;
             border: 1px solid rgba(255, 107, 53, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .badge.domain:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(255, 107, 53, 0.4);
+        }
+
+        .domain-badge-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cert-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 8px;
+            min-width: 420px;
+            background: linear-gradient(145deg, #1e2a4a, #1a2240);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .cert-dropdown.show {
+            display: block;
+        }
+
+        .cert-dropdown-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            color: #ff9966;
+            font-size: 0.9rem;
+        }
+
+        .cert-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s ease;
+            cursor: pointer;
+        }
+
+        .cert-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .cert-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .cert-item.mixed {
+            background: rgba(255, 153, 102, 0.1);
+            border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .cert-item.mixed:hover {
+            background: rgba(255, 153, 102, 0.2);
+        }
+
+        .cert-code {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 4px;
+            margin-right: 10px;
+            font-family: monospace;
+            color: #aaa;
+        }
+
+        .cert-name {
+            font-size: 0.85rem;
+            color: #e8e8e8;
+        }
+
+        .cert-description {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .question-text {
@@ -594,6 +691,311 @@
     </div>
 
     <script>
+        // ============================================
+        // CERTIFICATION MAPPING
+        // ============================================
+        const certificationMap = {
+            nvidia: {
+                exams: [
+                    { id: "ncp-genl", code: "NCP-GENL", name: "NVIDIA-Certified Professional: Generative AI LLMs", description: "Deploying, fine-tuning, and optimizing LLMs with NeMo, TensorRT-LLM, Triton" },
+                    { id: "nca-genl", code: "NCA-GENL", name: "NVIDIA-Certified Associate: Generative AI and LLMs", description: "LLM concepts, prompt engineering, RAG, responsible AI" },
+                    { id: "ncp-aai", code: "NCP-AAI", name: "NVIDIA-Certified Professional: Agentic AI", description: "Multi-agent autonomous AI systems and workflows" },
+                    { id: "nca-genm", code: "NCA-GENM", name: "NVIDIA-Certified Associate: Multimodal Generative AI", description: "Text, image, audio, and video processing models" },
+                    { id: "ncsa-ai", code: "NCSA-AI", name: "NVIDIA Certified Solutions Architect - AI Infrastructure", description: "Hardware architecture, multi-GPU systems, NVLink, MIG" }
+                ],
+                domainToExams: {
+                    "LLM Inference": ["ncp-genl", "nca-genl"],
+                    "TensorRT-LLM": ["ncp-genl"],
+                    "TensorRT": ["ncp-genl", "ncsa-ai"],
+                    "Triton Inference Server": ["ncp-genl"],
+                    "Triton Server": ["ncp-genl"],
+                    "NeMo": ["ncp-genl", "nca-genl"],
+                    "vLLM": ["ncp-genl", "nca-genl"],
+                    "PagedAttention": ["ncp-genl"],
+                    "Continuous Batching": ["ncp-genl"],
+                    "Speculative Decoding": ["ncp-genl"],
+                    "Flash Attention": ["ncp-genl", "nca-genl"],
+                    "LoRA": ["ncp-genl", "nca-genl"],
+                    "QLoRA": ["ncp-genl", "nca-genl"],
+                    "Quantization": ["ncp-genl"],
+                    "INT8 Calibration": ["ncp-genl"],
+                    "INT4 Quantization": ["ncp-genl"],
+                    "AWQ": ["ncp-genl"],
+                    "GPTQ": ["ncp-genl"],
+                    "FP8 Training": ["ncp-genl", "ncsa-ai"],
+                    "NIM": ["ncp-genl", "ncp-aai"],
+                    "CUDA Programming": ["ncsa-ai"],
+                    "CUDA Optimization": ["ncsa-ai"],
+                    "CUDA Graphs": ["ncsa-ai", "ncp-genl"],
+                    "CUDA Streams": ["ncsa-ai"],
+                    "cuDNN": ["ncsa-ai", "ncp-genl"],
+                    "cuBLAS": ["ncsa-ai"],
+                    "cuBLAS/cuSPARSE": ["ncsa-ai"],
+                    "Tensor Cores": ["ncsa-ai", "ncp-genl"],
+                    "NVLink": ["ncsa-ai"],
+                    "NVSwitch": ["ncsa-ai"],
+                    "Multi-GPU Systems": ["ncsa-ai"],
+                    "Multi-GPU": ["ncsa-ai"],
+                    "MIG": ["ncsa-ai"],
+                    "Multi-Instance GPU": ["ncsa-ai"],
+                    "MPS": ["ncsa-ai"],
+                    "Hopper Architecture": ["ncsa-ai"],
+                    "Blackwell Architecture": ["ncsa-ai"],
+                    "Hardware Architecture": ["ncsa-ai"],
+                    "Grace Hopper": ["ncsa-ai"],
+                    "GH200": ["ncsa-ai"],
+                    "H100 PCIe vs SXM": ["ncsa-ai"],
+                    "GPU Memory": ["ncsa-ai", "ncp-genl"],
+                    "Memory Coalescing": ["ncsa-ai"],
+                    "Memory Optimization": ["ncsa-ai", "ncp-genl"],
+                    "Warp Divergence": ["ncsa-ai"],
+                    "Occupancy": ["ncsa-ai"],
+                    "Thread Block Clusters": ["ncsa-ai"],
+                    "NCCL": ["ncsa-ai", "ncp-genl"],
+                    "Collective Communication": ["ncsa-ai"],
+                    "Collective Communications": ["ncsa-ai"],
+                    "GPU Direct Storage": ["ncsa-ai"],
+                    "InfiniBand": ["ncsa-ai"],
+                    "DeepSpeed": ["ncp-genl", "nca-genl"],
+                    "Megatron-LM": ["ncp-genl"],
+                    "Tensor Parallelism": ["ncp-genl", "ncsa-ai"],
+                    "Model Parallelism": ["ncp-genl", "ncsa-ai"],
+                    "Sequence Parallelism": ["ncp-genl"],
+                    "Distributed Training": ["ncp-genl", "ncsa-ai"],
+                    "Gradient Checkpointing": ["ncp-genl"],
+                    "Sparse Training": ["ncp-genl"],
+                    "Transformer Engine": ["ncp-genl", "ncsa-ai"],
+                    "RAPIDS": ["ncsa-ai"],
+                    "DALI": ["ncsa-ai", "nca-genm"],
+                    "Nsight Systems": ["ncsa-ai"],
+                    "Nsight Systems/Compute": ["ncsa-ai"],
+                    "Profiling": ["ncsa-ai"],
+                    "Inference Optimization": ["ncp-genl"],
+                    "Inference Serving": ["ncp-genl"],
+                    "Layer Fusion": ["ncp-genl"]
+                }
+            },
+            aws: {
+                exams: [
+                    { id: "mls-c01", code: "MLS-C01", name: "AWS Certified Machine Learning - Specialty", description: "SageMaker, data engineering, modeling, and ML implementation" },
+                    { id: "sap-c02", code: "SAP-C02", name: "AWS Certified Solutions Architect - Professional", description: "Complex solutions design, infrastructure, and optimization" },
+                    { id: "dea-c01", code: "DEA-C01", name: "AWS Certified Data Engineer - Associate", description: "Data pipelines, analytics, and data management" },
+                    { id: "aif-c01", code: "AIF-C01", name: "AWS Certified AI Practitioner", description: "Foundational AI/ML concepts and AWS AI services" }
+                ],
+                domainToExams: {
+                    "SageMaker Training": ["mls-c01"],
+                    "SageMaker Inference": ["mls-c01", "sap-c02"],
+                    "SageMaker Pipelines": ["mls-c01"],
+                    "SageMaker Feature Store": ["mls-c01"],
+                    "SageMaker Experiments": ["mls-c01"],
+                    "SageMaker Debugger": ["mls-c01"],
+                    "SageMaker Clarify": ["mls-c01"],
+                    "SageMaker Model Cards": ["mls-c01"],
+                    "SageMaker JumpStart": ["mls-c01", "aif-c01"],
+                    "SageMaker HyperPod": ["mls-c01", "sap-c02"],
+                    "SageMaker Distributed": ["mls-c01"],
+                    "SageMaker Ground Truth": ["mls-c01"],
+                    "Amazon Bedrock": ["aif-c01", "mls-c01"],
+                    "Bedrock": ["aif-c01", "mls-c01"],
+                    "Bedrock Agents": ["aif-c01"],
+                    "Bedrock Guardrails": ["aif-c01"],
+                    "Bedrock Knowledge Bases": ["aif-c01"],
+                    "Feature Store": ["mls-c01"],
+                    "Ground Truth": ["mls-c01"],
+                    "Ground Truth Plus": ["mls-c01"],
+                    "Model Monitor": ["mls-c01"],
+                    "Model Registry": ["mls-c01"],
+                    "Inference Recommender": ["mls-c01"],
+                    "Multi-Model Endpoints": ["mls-c01"],
+                    "Serverless Inference": ["mls-c01"],
+                    "Batch Endpoints": ["mls-c01"],
+                    "EFA": ["sap-c02", "mls-c01"],
+                    "ParallelCluster": ["sap-c02"],
+                    "EKS for ML": ["sap-c02", "mls-c01"],
+                    "EC2 for ML": ["sap-c02", "mls-c01"],
+                    "Trainium": ["mls-c01", "sap-c02"],
+                    "Inferentia": ["mls-c01"],
+                    "Inferentia2": ["mls-c01"],
+                    "Trainium/Inferentia": ["mls-c01"],
+                    "Neuron SDK": ["mls-c01"],
+                    "Neuron Compiler": ["mls-c01"],
+                    "Graviton for ML": ["sap-c02"],
+                    "Amazon Comprehend": ["mls-c01", "aif-c01"],
+                    "Comprehend": ["mls-c01", "aif-c01"],
+                    "Amazon Rekognition": ["mls-c01", "aif-c01"],
+                    "Rekognition": ["mls-c01", "aif-c01"],
+                    "Textract": ["mls-c01", "aif-c01"],
+                    "Transcribe": ["mls-c01", "aif-c01"],
+                    "Polly": ["mls-c01", "aif-c01"],
+                    "Lex": ["mls-c01", "aif-c01"],
+                    "Kendra": ["aif-c01"],
+                    "Personalize": ["mls-c01"],
+                    "Step Functions": ["sap-c02", "mls-c01"],
+                    "Lambda for ML": ["sap-c02", "mls-c01"],
+                    "EventBridge for ML": ["sap-c02"],
+                    "CloudWatch for ML": ["mls-c01"],
+                    "S3 for ML": ["mls-c01", "dea-c01"],
+                    "FSx for Lustre": ["sap-c02", "mls-c01"],
+                    "ECR": ["mls-c01"],
+                    "Glue for ML": ["dea-c01", "mls-c01"],
+                    "Kinesis for ML": ["dea-c01", "mls-c01"],
+                    "Athena for ML": ["dea-c01"],
+                    "AWS Batch": ["sap-c02"],
+                    "CloudFront for ML": ["sap-c02"],
+                    "IAM for ML": ["sap-c02", "mls-c01"],
+                    "Data Wrangler": ["mls-c01"]
+                }
+            },
+            azure: {
+                exams: [
+                    { id: "ai-102", code: "AI-102", name: "Azure AI Engineer Associate", description: "Cognitive Services, OpenAI, computer vision, NLP" },
+                    { id: "dp-100", code: "DP-100", name: "Azure Data Scientist Associate", description: "Azure ML, AutoML, MLOps, responsible AI" },
+                    { id: "az-305", code: "AZ-305", name: "Azure Solutions Architect Expert", description: "Infrastructure design, networking, security" },
+                    { id: "ai-900", code: "AI-900", name: "Azure AI Fundamentals", description: "Core AI concepts and Azure AI services" }
+                ],
+                domainToExams: {
+                    "Azure ML": ["dp-100"],
+                    "Azure ML Workspace": ["dp-100"],
+                    "Azure ML Compute": ["dp-100"],
+                    "Azure ML Pipelines": ["dp-100"],
+                    "Azure ML Endpoints": ["dp-100"],
+                    "Azure ML Registry": ["dp-100"],
+                    "Azure OpenAI Service": ["ai-102"],
+                    "Azure OpenAI": ["ai-102"],
+                    "Cognitive Services": ["ai-102", "ai-900"],
+                    "Computer Vision": ["ai-102", "ai-900"],
+                    "Form Recognizer": ["ai-102"],
+                    "Speech Services": ["ai-102", "ai-900"],
+                    "Language Understanding": ["ai-102"],
+                    "Translator": ["ai-102"],
+                    "Content Safety": ["ai-102"],
+                    "Prompt Flow": ["ai-102", "dp-100"],
+                    "Semantic Kernel": ["ai-102"],
+                    "Responsible AI": ["dp-100", "ai-102"],
+                    "MLflow Integration": ["dp-100"],
+                    "AutoML": ["dp-100"],
+                    "ML Designer": ["dp-100"],
+                    "Model Catalog": ["dp-100", "ai-102"],
+                    "Managed Online Endpoints": ["dp-100"],
+                    "Batch Endpoints": ["dp-100"],
+                    "Compute Clusters": ["dp-100"],
+                    "Compute Instance": ["dp-100"],
+                    "AKS for ML": ["az-305", "dp-100"],
+                    "ND/NC Virtual Machines": ["az-305", "dp-100"],
+                    "InfiniBand": ["az-305"],
+                    "Azure Databricks": ["dp-100", "az-305"],
+                    "Databricks on Azure": ["dp-100"],
+                    "Azure Synapse": ["dp-100", "az-305"],
+                    "Synapse ML": ["dp-100"],
+                    "Azure AI Search": ["ai-102"],
+                    "Azure Search": ["ai-102"],
+                    "Cosmos DB for AI": ["az-305", "ai-102"],
+                    "Cosmos DB for ML": ["az-305"],
+                    "Azure Data Factory": ["dp-100", "az-305"],
+                    "Data Factory": ["dp-100"],
+                    "Azure Monitor for ML": ["dp-100"],
+                    "Monitor for ML": ["dp-100"],
+                    "Managed Identity": ["az-305", "dp-100"],
+                    "Key Vault": ["az-305"],
+                    "Private Endpoints": ["az-305"],
+                    "Container Apps": ["az-305"],
+                    "Logic Apps": ["az-305"],
+                    "Event Hubs for ML": ["az-305"],
+                    "Azure Batch AI": ["az-305"],
+                    "Video Indexer": ["ai-102"],
+                    "Defender for AI": ["az-305"],
+                    "DevOps for ML": ["dp-100"],
+                    "MLOps": ["dp-100"]
+                }
+            },
+            gcp: {
+                exams: [
+                    { id: "gcp-pmle", code: "GCP-PMLE", name: "Google Cloud Professional ML Engineer", description: "Vertex AI, ML pipelines, model deployment, MLOps" },
+                    { id: "gcp-pde", code: "GCP-PDE", name: "Google Cloud Professional Data Engineer", description: "Data pipelines, BigQuery, Dataflow, Pub/Sub" },
+                    { id: "gcp-pca", code: "GCP-PCA", name: "Google Cloud Professional Cloud Architect", description: "Infrastructure design, GKE, networking, security" },
+                    { id: "gcp-ace", code: "GCP-ACE", name: "Google Cloud Associate Cloud Engineer", description: "Core GCP services and operations" }
+                ],
+                domainToExams: {
+                    "Vertex AI": ["gcp-pmle"],
+                    "Vertex AI Training": ["gcp-pmle"],
+                    "Vertex AI Prediction": ["gcp-pmle"],
+                    "Vertex AI Pipelines": ["gcp-pmle"],
+                    "Vertex AI Feature Store": ["gcp-pmle"],
+                    "Vertex AI Experiments": ["gcp-pmle"],
+                    "Vertex AI Tensorboard": ["gcp-pmle"],
+                    "Vertex AI Model Monitoring": ["gcp-pmle"],
+                    "Vertex AI Search": ["gcp-pmle"],
+                    "Vertex AI Workbench": ["gcp-pmle"],
+                    "Model Garden": ["gcp-pmle"],
+                    "AutoML Vertex": ["gcp-pmle"],
+                    "Workbench": ["gcp-pmle"],
+                    "Gemini API": ["gcp-pmle"],
+                    "Gemini Function Calling": ["gcp-pmle"],
+                    "Grounding": ["gcp-pmle"],
+                    "TPU": ["gcp-pmle", "gcp-pca"],
+                    "TPU Training": ["gcp-pmle"],
+                    "TPU v5e": ["gcp-pmle"],
+                    "TPU Multislice": ["gcp-pmle", "gcp-pca"],
+                    "Cloud TPU": ["gcp-pmle"],
+                    "BigQuery ML": ["gcp-pmle", "gcp-pde"],
+                    "Dataflow for ML": ["gcp-pde", "gcp-pmle"],
+                    "Dataflow ML": ["gcp-pde"],
+                    "Pub/Sub for ML": ["gcp-pde"],
+                    "Pub/Sub ML": ["gcp-pde"],
+                    "GKE for ML": ["gcp-pca", "gcp-pmle"],
+                    "Cloud Run for ML": ["gcp-pca", "gcp-pmle"],
+                    "Cloud Run ML": ["gcp-pca"],
+                    "Cloud Functions for ML": ["gcp-ace", "gcp-pmle"],
+                    "Document AI": ["gcp-pmle"],
+                    "Vision AI": ["gcp-pmle"],
+                    "Video Intelligence": ["gcp-pmle"],
+                    "Natural Language": ["gcp-pmle"],
+                    "Speech-to-Text": ["gcp-pmle"],
+                    "Translation": ["gcp-pmle"],
+                    "Dialogflow": ["gcp-pmle"],
+                    "Recommendations AI": ["gcp-pmle"],
+                    "Recommendation AI": ["gcp-pmle"],
+                    "Matching Engine": ["gcp-pmle"],
+                    "Feature Store": ["gcp-pmle"],
+                    "ML Metadata": ["gcp-pmle"],
+                    "ML Model Registry": ["gcp-pmle"],
+                    "Model Evaluation": ["gcp-pmle"],
+                    "Model Monitoring": ["gcp-pmle"],
+                    "TFX": ["gcp-pmle"],
+                    "AI Platform Notebooks": ["gcp-pmle"],
+                    "Explainable AI": ["gcp-pmle"],
+                    "Data Labeling": ["gcp-pmle"],
+                    "Data Catalog": ["gcp-pde"],
+                    "Cloud Composer": ["gcp-pde", "gcp-pmle"],
+                    "Cloud Storage": ["gcp-ace", "gcp-pde"],
+                    "Artifact Registry": ["gcp-pca"],
+                    "Secret Manager": ["gcp-pca"],
+                    "VPC-SC": ["gcp-pca"],
+                    "VPC Design": ["gcp-pca"],
+                    "Networking": ["gcp-pca"],
+                    "Security": ["gcp-pca"],
+                    "Imagen": ["gcp-pmle"],
+                    "Batch for ML": ["gcp-pmle"],
+                    "Batch Prediction": ["gcp-pmle"],
+                    "Preemptible VMs": ["gcp-ace"],
+                    "Committed Use": ["gcp-ace", "gcp-pca"],
+                    "Cost Management": ["gcp-ace"],
+                    "Cost Optimization": ["gcp-ace", "gcp-pca"],
+                    "Hybrid/Multi-cloud": ["gcp-pca"],
+                    "Anthos for ML": ["gcp-pca"],
+                    "Multi-Region ML": ["gcp-pca"],
+                    "Monitoring for ML": ["gcp-pmle"],
+                    "Monitoring": ["gcp-ace"],
+                    "Data Engineering": ["gcp-pde"],
+                    "Savings Plans": ["gcp-ace"],
+                    "Storage": ["gcp-pde"],
+                    "Customer-Managed Encryption": ["gcp-pca"],
+                    "Confidential Computing": ["gcp-pca"],
+                    "Shadow Testing": ["gcp-pmle"]
+                }
+            }
+        };
+
         // ============================================
         // QUESTION BANK — 120 Questions
         // ============================================
@@ -18655,6 +19057,72 @@ Continuing from where I left off:
         let startTime;
         let timerInterval;
 
+        // Certification dropdown toggle
+        function toggleCertDropdown(event, vendor, domain) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('cert-dropdown');
+
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+                return;
+            }
+
+            const vendorCerts = certificationMap[vendor];
+            if (!vendorCerts) {
+                dropdown.innerHTML = '<div class="cert-item">No certifications mapped</div>';
+                dropdown.classList.add('show');
+                return;
+            }
+
+            const examIds = vendorCerts.domainToExams[domain] || [];
+            const exams = examIds.map(id => vendorCerts.exams.find(e => e.id === id)).filter(Boolean);
+
+            let html = `<div class="cert-dropdown-header">Applicable Certifications</div>`;
+
+            // Always show "Mixed Questions" option first
+            html += `
+                <div class="cert-item mixed" onclick="closeCertDropdown()">
+                    <div><span class="cert-code">ALL</span><span class="cert-name">Mixed Questions (All ${domain})</span></div>
+                    <div class="cert-description">Continue with questions from all certification tracks</div>
+                </div>
+            `;
+
+            if (exams.length === 0) {
+                html += `
+                    <div class="cert-item">
+                        <div><span class="cert-code">GEN</span><span class="cert-name">General ${vendor.toUpperCase()} Knowledge</span></div>
+                        <div class="cert-description">Foundational concepts applicable to multiple exams</div>
+                    </div>
+                `;
+            } else {
+                exams.forEach(exam => {
+                    html += `
+                        <div class="cert-item" onclick="closeCertDropdown()">
+                            <div><span class="cert-code">${exam.code}</span><span class="cert-name">${exam.name}</span></div>
+                            <div class="cert-description">${exam.description}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            dropdown.innerHTML = html;
+            dropdown.classList.add('show');
+        }
+
+        function closeCertDropdown() {
+            const dropdown = document.getElementById('cert-dropdown');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.domain-badge-container')) {
+                closeCertDropdown();
+            }
+        });
+
         function getQuestionsByVendors(vendors) {
             return allQuestions.filter(q => vendors.includes(q.vendor));
         }
@@ -18710,7 +19178,10 @@ Continuing from where I left off:
                     <div class="question-number">Question ${currentQuestion + 1} of ${currentQuestions.length}</div>
                     <div class="question-badges">
                         <span class="badge ${q.vendor}">${q.vendor.toUpperCase()}</span>
-                        <span class="badge domain">${q.domain}</span>
+                        <div class="domain-badge-container">
+                            <span class="badge domain" onclick="toggleCertDropdown(event, '${q.vendor}', '${q.domain}')">${q.domain}</span>
+                            <div class="cert-dropdown" id="cert-dropdown"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="question-text">${q.question}</div>
