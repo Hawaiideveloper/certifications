@@ -1,0 +1,183 @@
+CERTIFICATION PREP PLATFORM — BUSINESS PLAN
+=============================================
+As of: 2026-10-04
+
+Turn our 3,111-question quiz app into a revenue-generating certification
+prep platform modeled on the best in the industry.
+
+
+COMPETITIVE LANDSCAPE
+---------------------
+The certification prep market splits into three tiers: premium subscription
+platforms ($15-60/mo), per-exam purchasers ($6-120 each), and free/ad-supported
+sites. Here are the key players:
+
+  Platform          Model          Price                Questions         Key Strength                                    Key Weakness
+  --------          -----          -----                ---------         ------------                                    ------------
+  Pocket Prep       Subscription   $15-21/mo, $125/yr   400-2,100/exam    Polished mobile app, 135+ certs, notifications  Restrictive free tier, limited cloud certs
+  Whizlabs          Per-exam       $15-30/exam           Varies            Hands-on cloud labs (AWS/Azure/GCP)              Inconsistent quality, dated UI
+  ExamCert          Freemium       Free + $5.99/exam     30,000+ (120+)    Massive free tier, unbeatable price              No hands-on labs
+  MeasureUp         Per-exam       $79-119/test          100-200           Official vendor endorsements                     Expensive, 30-day access window
+  Kaplan IT         Subscription   ~$59/mo               Varies            Enterprise brand, video + practice combined      Corporate feel, narrow catalog, costly
+  ExamTopics        Free (ads)     Free                  Massive           Covers niche certs, community-sourced            Answer reliability concerns
+  CompTIA CertMaster Per-product   $100-350              Varies            Official CompTIA content, adaptive learning      Only CompTIA certs, premium price
+
+What wins: ExamCert's freemium model ($5.99 lifetime) is the fastest-growing
+approach. Pocket Prep's subscription ($15-21/mo) works for mobile-first users.
+MeasureUp charges premium ($79-119) because of vendor endorsement. The
+ad-supported model (ExamTopics) generates traffic but has trust issues.
+
+
+WHAT WE ALREADY HAVE
+---------------------
+Most competitors charge $6-120 for what we're giving away. Our current position:
+
+  - 3,111 expert-written questions across 11 certifications — ExamCert charges
+    $5.99/exam for similar banks; at 11 exams that's $66 of content we already own
+  - Multi-category coverage that no single competitor matches — Pocket Prep covers
+    trades + nursing but not AI/cloud; Whizlabs covers cloud but not trades; we
+    cover both plus CDL and PMP
+  - Detailed evidence-based explanations with source citations on every question —
+    ExamTopics (the largest free site) has unreliable answers with no citations
+  - Clean, modern UI with dark theme, progress tracking, vendor filtering, timed
+    exams, and score breakdowns — comparable to Pocket Prep's $21/mo app
+  - Zero infrastructure cost — static HTML on GitHub Pages, no server, no database,
+    no hosting bill
+  - Tabbed category system — users pick their field (AI, Trades, Healthcare, etc.)
+    then select specific exams within it
+
+The gap: No user accounts, no mobile app, no adaptive learning, no payment
+system. These are the features that separate a free tool from a business.
+
+
+MONETIZATION STRATEGY
+---------------------
+Use a freemium model inspired by ExamCert's pricing (proven fastest-growing)
+combined with Pocket Prep's subscription retention.
+
+  TIER 1 — Free (lead generation)
+    - 10 questions per exam (110 total across all 11 exams)
+    - Basic quiz mode, no timer, no score history
+    - Ads via Google AdSense (sidebar + between questions)
+    - Goal: drive traffic from Google, build email list
+
+  TIER 2 — Single Exam Pass: $7.99 one-time
+    - Full question bank for one exam (250-300 questions)
+    - Timed exam simulation mode
+    - Detailed explanations + evidence citations
+    - Score history and domain breakdown
+    - Undercuts MeasureUp ($79-119) and Whizlabs ($15-30) dramatically
+
+  TIER 3 — Category Bundle: $19.99 one-time
+    - All exams in one category (e.g., all 4 AI certs, or all 3 Trades certs)
+    - Everything in Tier 2 plus cross-exam progress dashboard
+    - Sweet spot: cheaper than buying exams individually
+
+  TIER 4 — All Access: $39.99/year or $4.99/month
+    - Every exam, every category, unlimited
+    - Adaptive learning (prioritize weak domains)
+    - Offline mode, mobile-optimized
+    - New exams added automatically
+    - Positioned below Pocket Prep ($21/mo) and Kaplan ($59/mo)
+
+  ADDITIONAL REVENUE STREAMS:
+    - Google AdSense on free tier: $3-8 RPM on education content = $300-800/mo
+      at 100K pageviews
+    - Affiliate links to official exam registration, study guides, and tools
+      (Amazon Associates, vendor programs)
+    - Team/enterprise licenses: $99/year for 10 seats (target trade schools,
+      nursing programs, boot camps)
+
+
+FEATURE ROADMAP
+---------------
+Prioritized by revenue impact. Build in this order:
+
+  Phase  Feature                          Why It Matters                                              Effort       Revenue Impact
+  -----  -------                          --------------                                              ------       --------------
+  1      Landing page + SEO               Free traffic from Google; "HVAC practice test" = 12K/mo     1 week       Enables everything
+  1      Google AdSense integration        Immediate revenue from free users                           2 days       $300-800/mo at 100K views
+  1      Email capture (quiz teaser)       Build list for launches, upsells                            2 days       List = future revenue
+  2      Payment system (Stripe/Gumroad)   Gate premium content behind paywall                         1 week       Unlocks paid tiers
+  2      User accounts (Firebase Auth)     Save progress, track scores, enable subscriptions           1-2 weeks    Required for retention
+  2      Score history + progress dash     Users see improvement; key retention driver                  1 week       Reduces churn
+  3      Mobile-responsive PWA             60%+ of study happens on phones                             1-2 weeks    Expands market 3x
+  3      Adaptive learning                 Serve more questions from weak domains                      1 week       Premium differentiator
+  3      Exam simulation mode              Full timed test matching real exam format                    3-5 days     Conversion driver
+  4      Affiliate program page            Link to exam registration + study materials                 2-3 days     $500-2K/mo passive
+  4      Team/enterprise dashboard         Bulk licenses for trade schools, nursing programs            2-3 weeks    $99/seat, high LTV
+  4      More certifications               CompTIA A+/Net+, AWS SA, CNA, EMT, Welding, Real Estate    Ongoing      Expands TAM
+
+
+REVENUE PROJECTIONS
+-------------------
+Based on competitor benchmarks and education content RPMs.
+Conservative estimates assume organic growth only (no paid ads).
+
+  Metric                      Month 3     Month 6     Month 12    Month 24
+  ------                      -------     -------     --------    --------
+  Monthly visitors            5,000       25,000      100,000     300,000
+  Free users (registered)     500         3,000       15,000      50,000
+  Paid conversions (2-4%)     10          90          450         1,500
+  Ad revenue (AdSense)        $25         $150        $600        $1,800
+  Single exam sales ($7.99)   $40         $360        $1,800      $6,000
+  Bundle sales ($19.99)       $20         $180        $900        $3,000
+  Subscriptions ($4.99/mo)    $25         $225        $2,250      $12,000
+  Affiliate commissions       $0          $100        $500        $2,000
+  MONTHLY REVENUE             $110        $1,015      $6,050      $24,800
+  ANNUAL RUN RATE             $1,320      $12,180     $72,600     $297,600
+
+Key assumptions: 2-4% free-to-paid conversion (industry average for education
+freemium). Education content AdSense RPM of $5-6. SEO-driven organic traffic
+with no paid acquisition spend. Subscription churn of 8%/mo (industry average).
+These numbers scale significantly with paid marketing and social media presence.
+
+
+GO-TO-MARKET STRATEGY
+---------------------
+
+PHASE 1: SEO-first launch (Weeks 1-4)
+
+  Certification keywords have high intent and low competition in trades. Target:
+    - "EPA 608 practice test free" — 8,100 searches/mo
+    - "NCLEX practice questions" — 40,500 searches/mo
+    - "journeyman electrician practice test" — 6,600 searches/mo
+    - "CDL practice test" — 33,100 searches/mo
+    - "PMP practice exam free" — 9,900 searches/mo
+    - "CompTIA Security+ practice test" — 14,800 searches/mo
+
+  Create individual landing pages per exam with 10 free questions as a teaser.
+  Each page targets its keyword, includes schema markup for FAQ rich snippets,
+  and ends with an email capture + upgrade CTA.
+
+PHASE 2: Content marketing (Weeks 4-12)
+
+  - Publish 2-3 blog posts per week: "How to Pass the EPA 608 in 2026,"
+    "NCLEX Study Guide," "Electrician Exam Tips"
+  - Each post links to the free quiz as a lead magnet
+  - YouTube shorts: 60-second question walkthroughs ("Can you answer this
+    CDL question?") — high engagement, low effort
+  - TikTok/Instagram Reels: same format, trades and nursing content performs
+    well on these platforms
+
+PHASE 3: Community and partnerships (Months 3-6)
+
+  - Reddit: post in r/HVAC, r/electricians, r/nursing, r/CompTIA,
+    r/projectmanagement — offer free access, collect feedback
+  - Partner with trade schools and nursing programs: offer bulk licenses at
+    $99/10 seats
+  - Facebook groups: trades study groups have 10K-50K members each
+  - Affiliate partnerships: link to official exam registration pages
+    (CompTIA, PMI, FMCSA) for commission
+
+PHASE 4: Paid growth (Month 6+)
+
+  - Google Ads on high-intent certification keywords (CPC $1-3 for trades,
+    $3-8 for IT)
+  - Retarget free users with upgrade offers via email drip campaigns
+  - Launch on Product Hunt and Hacker News for initial visibility spike
+
+The playbook that works: ExamCert grew to 120+ certifications by offering a
+generous free tier that ranks on Google, then converting 2-4% to a $5.99
+lifetime purchase. We follow the same model but with broader category coverage
+(trades + healthcare + IT + business) that no single competitor matches.
