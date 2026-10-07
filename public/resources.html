@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-838VRSM2CM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-838VRSM2CM');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Resources & Exam Registration — CertsOnTheFly</title>
+    <meta name="description" content="Official exam registration links, recommended study guides, and tools for HVAC, Electrician, Plumbing, Nursing, Security+, CDL, PMP, and AI certifications.">
+    <link rel="canonical" href="https://hawaiideveloper.github.io/certifications/resources.html">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .resources-hero {
+            padding: 48px 32px 36px;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+        }
+        .resources-hero-inner { max-width: 900px; }
+        .resources-hero h1 {
+            font-size: 1.9rem; font-weight: 800; color: var(--text);
+            margin-bottom: 10px;
+        }
+        .resources-hero p {
+            font-size: 0.95rem; color: var(--text-secondary);
+            line-height: 1.6; max-width: 640px;
+        }
+        .resources-content {
+            padding: 28px 32px; max-width: 1000px;
+        }
+        .cert-section { margin-bottom: 36px; }
+        .cert-section-head {
+            display: flex; align-items: center; gap: 14px;
+            margin-bottom: 16px;
+        }
+        .cert-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; flex-shrink: 0;
+        }
+        .cert-section-head h2 {
+            font-size: 1.15rem; font-weight: 700; color: var(--text);
+        }
+        .cert-section-head span {
+            font-size: 0.8rem; color: var(--text-light);
+        }
+        .resource-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .resource-card {
+            display: flex; gap: 14px; padding: 18px;
+            background: var(--bg-white); border-radius: var(--radius);
+            box-shadow: var(--shadow); text-decoration: none; color: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+            align-items: flex-start;
+        }
+        .resource-card:hover {
+            transform: translateY(-3px); box-shadow: var(--shadow-lg);
+        }
+        .rc-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; flex-shrink: 0;
+        }
+        .rc-icon.register { background: rgba(14,165,233,0.1); }
+        .rc-icon.book { background: rgba(249,115,22,0.1); }
+        .rc-icon.tool { background: rgba(16,185,129,0.1); }
+        .rc-icon.video { background: rgba(139,92,246,0.1); }
+        .rc-info h3 {
+            font-size: 0.88rem; font-weight: 600; color: var(--text);
+            margin-bottom: 4px; line-height: 1.3;
+        }
+        .rc-info p {
+            font-size: 0.78rem; color: var(--text-light); line-height: 1.4;
+        }
+        .rc-info .rc-price {
+            display: inline-block; margin-top: 6px;
+            font-size: 0.72rem; font-weight: 600; color: var(--accent-green);
+            background: rgba(16,185,129,0.08); padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .rc-info .rc-tag {
+            display: inline-block; margin-top: 6px; margin-left: 4px;
+            font-size: 0.68rem; font-weight: 600; color: var(--primary);
+            background: rgba(14,165,233,0.08); padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .affiliate-note {
+            font-size: 0.75rem; color: var(--text-light);
+            text-align: center; padding: 16px 32px;
+            border-top: 1px solid var(--border);
+            margin-top: 12px;
+        }
+        @media (max-width: 768px) {
+            .resources-hero, .resources-content { padding-left: 16px; padding-right: 16px; }
+            .resources-hero h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top Nav -->
+<nav class="topnav">
+    <a href="index.html" class="topnav-logo">
+        <div class="topnav-logo-icon">✈️</div>
+        <span class="topnav-logo-text">CertsOn<span class="fly">TheFly</span></span>
+    </a>
+    <div class="topnav-links" style="margin-left:auto">
+        <a href="dashboard.html" class="topnav-link">Dashboard</a>
+        <a href="quiz.html" class="topnav-link">All Exams</a>
+        <a href="resources.html" class="topnav-link" style="color:var(--primary);font-weight:600;">Resources</a>
+        <a href="quiz.html" class="topnav-btn topnav-btn-primary">Start Free</a>
+        <a href="#" class="topnav-btn topnav-btn-outline auth-login-btn" onclick="event.preventDefault();openAuth('login')">Log In</a>
+    </div>
+    <button class="topnav-hamburger" id="hamburgerBtn">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="topnav-mobile-menu" id="mobileMenu">
+    <div class="topnav-mobile-panel">
+        <button class="topnav-mobile-close" id="mobileClose">&times;</button>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="quiz.html">All Exams</a>
+        <a href="resources.html" class="active">Resources</a>
+        <a href="exams/hvac.html">HVAC EPA 608</a>
+        <a href="exams/electrician.html">Electrician</a>
+        <a href="exams/plumbing.html">Plumbing</a>
+        <a href="exams/nursing.html">Nursing</a>
+        <a href="exams/security.html">Security+</a>
+        <a href="exams/cdl.html">CDL</a>
+        <a href="exams/pmp.html">PMP</a>
+        <a href="#" class="auth-mobile-link" onclick="event.preventDefault();openAuth('login')">Log In</a>
+    </div>
+</div>
+
+<!-- Hero -->
+<div class="resources-hero reveal">
+    <div class="resources-hero-inner">
+        <div class="exam-badge">Study Smarter</div>
+        <h1>Exam Registration & Study Resources</h1>
+        <p>Official registration links, top-rated study guides, and tools recommended by certified professionals. Everything you need beyond practice questions.</p>
+    </div>
+</div>
+
+<!-- Resources Content -->
+<div class="resources-content">
+
+    <!-- HVAC -->
+    <div class="cert-section reveal">
+        <div class="cert-section-head">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#06b6d4,#0284c7)">❄️</div>
+            <div><h2>HVAC EPA 608</h2><span>Refrigerant Handling Certification</span></div>
+        </div>
+        <div class="resource-grid">
+            <a href="https://www.esco.group/en/epaExam/landing" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>Register for EPA 608 Exam</h3>
+                    <p>ESCO Group — official EPA-approved testing organization</p>
+                    <span class="rc-price">~$30 exam fee</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1305578295?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>Refrigeration & Air Conditioning Technology</h3>
+                    <p>Whitman, Johnson, Tomczyk — the industry-standard HVAC textbook</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1260011887?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>EPA 608 Study Guide</h3>
+                    <p>Comprehensive prep covering all four EPA 608 certification types</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Electrician -->
+    <div class="cert-section reveal">
+        <div class="cert-section-head">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#f97316,#ea580c)">⚡</div>
+            <div><h2>Journeyman Electrician</h2><span>NEC Code & Electrical Theory</span></div>
+        </div>
+        <div class="resource-grid">
+            <a href="https://www.prometric.com/trades" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>Register for Electrician Exam</h3>
+                    <p>Prometric — official testing center for trade exams in most states</p>
+                    <span class="rc-price">$75–150 varies by state</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1950431223?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>Ugly's Electrical References</h3>
+                    <p>Pocket-sized field reference — the electrician's bible</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/0357767594?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>Delmar's Standard Textbook of Electricity</h3>
+                    <p>Stephen Herman — comprehensive electrical theory and NEC code</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Plumbing -->
+    <div class="cert-section reveal">
+        <div class="cert-section-head">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#0ea5e9,#0369a1)">🔧</div>
+            <div><h2>Journeyman Plumber</h2><span>UPC/IPC Plumbing Code</span></div>
+        </div>
+        <div class="resource-grid">
+            <a href="https://www.prometric.com/trades" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>Register for Plumbing Exam</h3>
+                    <p>Prometric — state licensing exams for plumbing professionals</p>
+                    <span class="rc-price">$75–150 varies by state</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1889892971?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>Plumber's Handbook Revised</h3>
+                    <p>Howard Massey — essential reference for UPC/IPC code prep</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Nursing -->
+    <div class="cert-section reveal">
+        <div class="cert-section-head">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#ec4899,#be185d)">🏥</div>
+            <div><h2>NCLEX-RN Nursing</h2><span>Registered Nurse Licensure</span></div>
+        </div>
+        <div class="resource-grid">
+            <a href="https://www.ncsbn.org/nclex.page" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>Register for NCLEX-RN</h3>
+                    <p>NCSBN / Pearson VUE — official NCLEX registration portal</p>
+                    <span class="rc-price">$200 exam fee</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/0323795307?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>Saunders Comprehensive Review for NCLEX-RN</h3>
+                    <p>Linda Silvestri — #1 bestselling NCLEX review book</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/0323551610?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>Prioritization, Delegation & Assignment</h3>
+                    <p>LaCharity — critical thinking exercises for NCLEX prep</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Security+ -->
+    <div class="cert-section reveal">
+        <div class="cert-section-head">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">🔒</div>
+            <div><h2>CompTIA Security+</h2><span>SY0-701 Cybersecurity Certification</span></div>
+        </div>
+        <div class="resource-grid">
+            <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>Register for Security+ Exam</h3>
+                    <p>CompTIA — official SY0-701 exam via Pearson VUE</p>
+                    <span class="rc-price">$404 exam fee</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1394211449?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>CompTIA Security+ Get Certified Get Ahead: SY0-701</h3>
+                    <p>Darril Gibson — highest rated Security+ study guide</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1119736250?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon video">🎥</div>
+                <div class="rc-info">
+                    <h3>Professor Messer's Security+ Course</h3>
+                    <p>Free video course + paid notes and practice exams</p>
+                    <span class="rc-price">Free videos</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- CDL -->
+    <div class="cert-section reveal">
+        <div class="cert-section-head">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#84cc16,#65a30d)">🚛</div>
+            <div><h2>CDL Class A</h2><span>Commercial Driver's License</span></div>
+        </div>
+        <div class="resource-grid">
+            <a href="https://www.fmcsa.dot.gov/registration/commercial-drivers-license" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>CDL Requirements by State</h3>
+                    <p>FMCSA — official federal CDL information and state DMV links</p>
+                    <span class="rc-price">$50–150 varies by state</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1635309018?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>CDL Study Guide 2024-2025</h3>
+                    <p>Complete prep for all CDL endorsements with practice tests</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/0768943523?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon tool">🔧</div>
+                <div class="rc-info">
+                    <h3>CDL Pre-Trip Inspection Checklist</h3>
+                    <p>Laminated pocket guide for the vehicle inspection skills test</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- PMP -->
+    <div class="cert-section reveal">
+        <div class="cert-section-head">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">📊</div>
+            <div><h2>PMP Certification</h2><span>Project Management Professional</span></div>
+        </div>
+        <div class="resource-grid">
+            <a href="https://www.pmi.org/certifications/project-management-pmp" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>Register for PMP Exam</h3>
+                    <p>PMI — official PMP certification application and exam scheduling</p>
+                    <span class="rc-price">$405 members / $555 non-members</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1119904730?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>Rita Mulcahy's PMP Exam Prep</h3>
+                    <p>The gold standard PMP study guide — updated for current exam</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1628257040?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>PMBOK Guide 7th Edition</h3>
+                    <p>PMI's official guide — the primary PMP exam reference</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- AI Infrastructure -->
+    <div class="cert-section reveal">
+        <div class="cert-section-head">
+            <div class="cert-icon" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">🤖</div>
+            <div><h2>AI Infrastructure</h2><span>NVIDIA · AWS · Azure · GCP</span></div>
+        </div>
+        <div class="resource-grid">
+            <a href="https://www.nvidia.com/en-us/training/" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>NVIDIA Deep Learning Institute</h3>
+                    <p>Official NVIDIA training and certification programs</p>
+                    <span class="rc-tag">Official</span>
+                </div>
+            </a>
+            <a href="https://aws.amazon.com/certification/certified-machine-learning-specialty/" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>AWS ML Specialty Certification</h3>
+                    <p>Amazon Web Services machine learning certification</p>
+                    <span class="rc-price">$300 exam fee</span>
+                </div>
+            </a>
+            <a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon register">📋</div>
+                <div class="rc-info">
+                    <h3>Azure AI Engineer Associate</h3>
+                    <p>Microsoft Azure AI certification — AI-102 exam</p>
+                    <span class="rc-price">$165 exam fee</span>
+                </div>
+            </a>
+            <a href="https://www.amazon.com/dp/1098149246?tag=certsonthefly-20" target="_blank" rel="noopener" class="resource-card stagger-item">
+                <div class="rc-icon book">📖</div>
+                <div class="rc-info">
+                    <h3>Designing Machine Learning Systems</h3>
+                    <p>Chip Huyen — practical ML infrastructure and deployment</p>
+                    <span class="rc-tag">Amazon</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <p class="affiliate-note">
+        Some links on this page are affiliate links. If you purchase through them, we may earn a small commission at no extra cost to you. This helps keep CertsOnTheFly free for everyone.
+    </p>
+</div>
+
+<footer class="app-footer">
+    <p>&copy; 2026 CertsOnTheFly · <a href="quiz.html">All Exams</a> · <a href="resources.html">Resources</a> · <a href="exams/hvac.html">HVAC</a> · <a href="exams/electrician.html">Electrician</a> · <a href="exams/plumbing.html">Plumbing</a> · <a href="exams/nursing.html">Nursing</a> · <a href="exams/security.html">Security+</a> · <a href="exams/cdl.html">CDL</a> · <a href="exams/pmp.html">PMP</a></p>
+</footer>
+
+<script>
+(function() {
+    document.getElementById('hamburgerBtn').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+    document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+    document.getElementById('mobileMenu').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('open'); });
+
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                e.target.querySelectorAll('.stagger-item').forEach((item, i) => setTimeout(() => item.classList.add('visible'), i * 80));
+                obs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+</script>
+<script src="js/auth.js"></script>
+<script src="js/ads.js"></script>
+</body>
+</html>

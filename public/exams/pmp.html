@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-838VRSM2CM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-838VRSM2CM');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free PMP Practice Test 2026 | Project Management Exam Prep | 300 Questions</title>
@@ -42,8 +50,9 @@
         <div class="topnav-links">
             <a href="../dashboard.html" class="topnav-link">Dashboard</a>
             <a href="../quiz.html" class="topnav-link">All Exams</a>
+            <a href="../resources.html" class="topnav-link">Resources</a>
             <a href="../quiz.html" class="topnav-btn topnav-btn-primary">▶ Start Quiz</a>
-            <a href="#" class="topnav-btn topnav-btn-outline">Log In</a>
+            <a href="#" class="topnav-btn topnav-btn-outline auth-login-btn" onclick="event.preventDefault();openAuth('login')">Log In</a>
         </div>
         <button class="topnav-hamburger" id="hamburgerBtn">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -61,7 +70,8 @@
             <a href="security.html">Security+</a>
             <a href="cdl.html">CDL</a>
             <a href="pmp.html">PMP</a>
-            <a href="#">Log In</a>
+            <a href="../resources.html">Resources</a>
+            <a href="#" class="auth-mobile-link" onclick="event.preventDefault();openAuth('login')">Log In</a>
         </div>
     </div>
 
@@ -273,10 +283,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="card card-pad" style="background:linear-gradient(135deg,rgba(167,139,250,0.05),rgba(124,58,237,0.05));border:1px solid rgba(167,139,250,0.15)">
+            <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">Ready to Take the PMP Exam?</h3>
+            <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Register through PMI, or get Rita Mulcahy's PMP Exam Prep — the gold standard study guide.</p>
+            <a href="https://www.pmi.org/certifications/project-management-pmp" target="_blank" rel="noopener" class="btn btn-primary" style="margin-right:10px;margin-bottom:8px">Register for PMP</a>
+            <a href="../resources.html" class="btn btn-secondary" style="margin-bottom:8px">View Study Guides</a>
+        </div>
     </div>
 
     <footer class="app-footer">
-        <p>&copy; 2026 CertsOnTheFly · <a href="../index.html">Home</a> · <a href="../quiz.html">All Exams</a> · <a href="hvac.html">HVAC</a> · <a href="electrician.html">Electrician</a> · <a href="plumbing.html">Plumbing</a> · <a href="nursing.html">Nursing</a> · <a href="security.html">Security+</a> · <a href="cdl.html">CDL</a> · <a href="pmp.html">PMP</a></p>
+        <p>&copy; 2026 CertsOnTheFly · <a href="../index.html">Home</a> · <a href="../quiz.html">All Exams</a> · <a href="../resources.html">Resources</a> · <a href="hvac.html">HVAC</a> · <a href="electrician.html">Electrician</a> · <a href="plumbing.html">Plumbing</a> · <a href="nursing.html">Nursing</a> · <a href="security.html">Security+</a> · <a href="cdl.html">CDL</a> · <a href="pmp.html">PMP</a></p>
     </footer>
 
     <script>
@@ -303,5 +320,7 @@
         document.querySelectorAll('.reveal, .question-card, .domain-item').forEach(el => obs.observe(el));
     })();
     </script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/ads.js"></script>
 </body>
 </html>

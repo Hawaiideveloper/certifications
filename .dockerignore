@@ -1,0 +1,9 @@
+node_modules
+data
+*.py
+*.zip
+.git
+.gitignore
+BUSINESS_PLAN.txt
+README.md
+LICENSE

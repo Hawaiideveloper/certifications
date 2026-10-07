@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-838VRSM2CM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-838VRSM2CM');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certification Exam Prep | AI • Trades • Healthcare • Security • CDL • PMP</title>
@@ -411,8 +419,9 @@
     <div class="topnav-links">
         <a href="dashboard.html" class="topnav-link">Dashboard</a>
         <a href="quiz.html" class="topnav-link" style="color:var(--primary);font-weight:600;">All Exams</a>
+        <a href="resources.html" class="topnav-link">Resources</a>
         <a href="quiz.html" class="topnav-btn topnav-btn-primary">▶ Start Quiz</a>
-        <a href="#" class="topnav-btn topnav-btn-outline">Log In</a>
+        <a href="#" class="topnav-btn topnav-btn-outline auth-login-btn" onclick="event.preventDefault();openAuth('login')">Log In</a>
     </div>
     <button class="topnav-hamburger" id="hamburgerBtn">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -432,7 +441,8 @@
         <a href="exams/security.html">Security+</a>
         <a href="exams/cdl.html">CDL</a>
         <a href="exams/pmp.html">PMP</a>
-        <a href="#">Log In</a>
+        <a href="resources.html">Resources</a>
+        <a href="#" class="auth-mobile-link" onclick="event.preventDefault();openAuth('login')">Log In</a>
     </div>
 </div>
 
@@ -60560,7 +60570,38 @@
             document.getElementById('timer').textContent = `Time: ${minutes}:${seconds}`;
         }
 
+        const FREE_QUESTION_LIMIT = 10;
+
+        function getFreeCount() {
+            return parseInt(localStorage.getItem('cotf_free_qs') || '0', 10);
+        }
+        function incrementFreeCount() {
+            localStorage.setItem('cotf_free_qs', getFreeCount() + 1);
+        }
+
+        function showSignupGate() {
+            clearInterval(timerInterval);
+            document.getElementById('question-card').innerHTML = `
+                <div class="score-container">
+                    <div style="font-size:3rem;margin-bottom:20px">🔒</div>
+                    <div class="score-message">You've used your 10 free questions!</div>
+                    <div class="score-details" style="max-width:420px;margin:0 auto 28px">
+                        Create a free account to unlock all 3,111+ questions, track your scores, and see detailed progress — forever free.
+                    </div>
+                    <button class="btn btn-primary btn-lg" onclick="openAuth('register')" style="margin-bottom:14px">Create Free Account</button>
+                    <br>
+                    <button class="btn btn-secondary" onclick="openAuth('login')">Already have an account? Log In</button>
+                </div>
+            `;
+        }
+
         function showQuestion() {
+            // Free question gate — 10 questions for non-logged-in users
+            if (!currentUser && currentQuestion > 0 && getFreeCount() >= FREE_QUESTION_LIMIT) {
+                showSignupGate();
+                return;
+            }
+
             answered = false;
             const q = currentQuestions[currentQuestion];
             const progress = ((currentQuestion) / currentQuestions.length) * 100;
@@ -60606,6 +60647,9 @@
         function selectOption(idx) {
             if (answered) return;
             answered = true;
+
+            // Track free questions for non-logged-in users
+            if (!currentUser) incrementFreeCount();
 
             const q = currentQuestions[currentQuestion];
             const isCorrect = idx === q.correct;
@@ -60662,6 +60706,13 @@
             currentQuestion++;
             if (currentQuestion >= currentQuestions.length) {
                 showResults();
+            } else if (!currentUser && currentQuestion > 0 && currentQuestion % 5 === 0 && typeof createAdUnit === 'function') {
+                // Show interstitial ad every 5 questions for free users
+                const adCard = document.getElementById('question-card');
+                adCard.innerHTML = '<div style="padding:40px 20px;text-align:center"><p style="color:var(--text-light);margin-bottom:16px;font-size:0.9rem">Loading next question...</p></div>';
+                const ad = createAdUnit('between-questions');
+                adCard.querySelector('div').insertBefore(ad, adCard.querySelector('p'));
+                setTimeout(() => showQuestion(), 3000);
             } else {
                 showQuestion();
             }
@@ -60677,6 +60728,23 @@
 
             document.getElementById('progress-fill').style.width = '100%';
             document.getElementById('question-counter').textContent = 'Exam Complete';
+
+            // Save score to database if logged in
+            if (typeof currentUser !== 'undefined' && currentUser) {
+                const vendor = selectedVendors.length === 1 ? selectedVendors[0] : activeCategory;
+                fetch('/api/scores', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        vendor: vendor,
+                        total_questions: currentQuestions.length,
+                        correct: score,
+                        percentage: percentage,
+                        passed: passed,
+                        time_seconds: elapsed
+                    })
+                }).catch(() => {});
+            }
 
             let breakdownHTML = selectedVendors.map(v => {
                 const vs = vendorScores[v];
@@ -60809,6 +60877,13 @@
             showStartScreen();
         })();
 
+        // When user signs up/logs in from the gate, resume the quiz
+        function onAuthSuccess() {
+            if (currentQuestions.length > 0 && currentQuestion < currentQuestions.length) {
+                showQuestion();
+            }
+        }
+
         // Mobile menu
         document.getElementById('hamburgerBtn').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
         document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
@@ -60816,7 +60891,9 @@
     </script>
 
 <footer class="app-footer">
-    <p>&copy; 2026 CertsOnTheFly · <a href="quiz.html">All Exams</a> · <a href="exams/hvac.html">HVAC</a> · <a href="exams/electrician.html">Electrician</a> · <a href="exams/plumbing.html">Plumbing</a> · <a href="exams/nursing.html">Nursing</a> · <a href="exams/security.html">Security+</a> · <a href="exams/cdl.html">CDL</a> · <a href="exams/pmp.html">PMP</a></p>
+    <p>&copy; 2026 CertsOnTheFly · <a href="quiz.html">All Exams</a> · <a href="resources.html">Resources</a> · <a href="exams/hvac.html">HVAC</a> · <a href="exams/electrician.html">Electrician</a> · <a href="exams/plumbing.html">Plumbing</a> · <a href="exams/nursing.html">Nursing</a> · <a href="exams/security.html">Security+</a> · <a href="exams/cdl.html">CDL</a> · <a href="exams/pmp.html">PMP</a></p>
 </footer>
+<script src="js/auth.js"></script>
+<script src="js/ads.js"></script>
 </body>
 </html>
