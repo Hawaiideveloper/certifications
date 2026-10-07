@@ -1,51 +1,101 @@
-# AI Infrastructure Certification Practice Exam
+# CertsOnTheFly
 
-Practice exam covering **NVIDIA, AWS, Azure, and GCP** certifications for high-paying AI/ML infrastructure roles ($500K+).
+Free certification exam prep platform with 3,111 practice questions across 11 professional certifications.
+
+**Live:** [certsonthefly.fly.dev](https://certsonthefly.fly.dev)
+
+## Certifications Covered
+
+| Category | Exam | Questions |
+|----------|------|-----------|
+| **Trades** | HVAC EPA 608 & NATE | 299 |
+| | Journeyman Electrician | 300 |
+| | Journeyman Plumber | 300 |
+| **Healthcare** | NCLEX-RN Nursing | 300 |
+| **IT & Security** | CompTIA Security+ SY0-701 | 300 |
+| **Transportation** | Commercial Driver's License (CDL) | 300 |
+| **Project Management** | PMP | 300 |
+| **AI Infrastructure** | NVIDIA (CUDA, TensorRT, Triton, Multi-GPU) | 259 |
+| | AWS (SageMaker, Bedrock, Trainium, Inferentia) | 242 |
+| | Azure (Azure ML, OpenAI Service, Cognitive Services) | 261 |
+| | GCP (Vertex AI, TPU, BigQuery ML, Gemini) | 250 |
 
 ## Features
 
-- **1012 Prometric-style questions** with comprehensive coverage
-- **Official documentation evidence** for every answer
-- **Exact quotes with highlighted key phrases**
-- **Document links with specific sections** for verification
-- **Vendor selection** to focus on specific platforms
+- **3,111 exam-style questions** with detailed explanations
+- **Official documentation evidence** with source links for every answer
+- **User accounts** with registration/login (session-based auth)
+- **Score history** saved to PostgreSQL database
+- **Dashboard** with stats, streak tracking, and achievements
+- **10 free questions** for guests, unlimited for registered users
+- **Vendor/exam filtering** to focus on specific certifications
 - **Per-vendor scoring** to identify weak areas
 - **Timer and progress tracking**
+- **Mobile responsive** design
 
-## Vendors Covered
+## Tech Stack
 
-| Vendor | Topics | Questions |
-|--------|--------|-----------|
-| **NVIDIA** | CUDA, TensorRT, TensorRT-LLM, Triton, Multi-GPU, NVLink, NVSwitch, DeepSpeed, vLLM, Flash Attention, MIG, FP8, Transformer Engine, cuDNN, Megatron-LM, CUDA Graphs, Nsight, RAPIDS, Hopper Architecture | 259 |
-| **AWS** | SageMaker, Bedrock, EFA, Trainium, Inferentia, HyperPod, Guardrails, Feature Store, Ground Truth, Comprehend, Rekognition, Step Functions, Lambda for ML, EKS for ML, Model Monitor | 242 |
-| **Azure** | Azure ML, OpenAI Service, InfiniBand, AKS, Cognitive Services, Prompt Flow, Content Safety, Synapse Analytics, Databricks, AI Search, Cosmos DB, MLflow, Responsible AI | 261 |
-| **GCP** | Vertex AI, TPU, BigQuery ML, Gemini, GKE, Dataflow, Document AI, Model Garden, Cloud Run, Recommendations AI, TFX, Feature Store, Cost Management, Security | 250 |
+- **Frontend:** Vanilla HTML/CSS/JS
+- **Backend:** Node.js + Express
+- **Database:** PostgreSQL (Fly.io Postgres)
+- **Auth:** express-session + connect-pg-simple + bcryptjs
+- **Hosting:** Fly.io (2 app machines, auto-stop idle)
+- **Analytics:** Google Analytics (gtag.js)
+- **Monetization:** Google AdSense, Amazon Associates affiliate links
 
-## Usage
+## Project Structure
 
-**Live Demo:** https://hawaiideveloper.github.io/certifications/
-
-Or open `index.html` locally in any browser:
-
-```bash
-open index.html
+```
+certifications/
+├── server.js              # Express server entry point
+├── db/init.js             # PostgreSQL schema (users, scores, sessions)
+├── routes/
+│   ├── auth.js            # Register, login, logout, session check
+│   └── scores.js          # Save scores, history, stats, streaks
+├── public/
+│   ├── index.html         # Landing page
+│   ├── dashboard.html     # User dashboard with stats
+│   ├── quiz.html          # Quiz engine (3,111 questions)
+│   ├── resources.html     # Exam registration & study guide links
+│   ├── ads.txt            # AdSense verification
+│   ├── js/
+│   │   ├── auth.js        # Auth modal & session management
+│   │   └── ads.js         # AdSense ad placement
+│   ├── styles/main.css    # Shared design system
+│   └── exams/             # Individual exam detail pages
+│       ├── hvac.html
+│       ├── electrician.html
+│       ├── plumbing.html
+│       ├── nursing.html
+│       ├── security.html
+│       ├── cdl.html
+│       └── pmp.html
+├── Dockerfile
+├── fly.toml
+└── package.json
 ```
 
-## Target Certifications
+## Local Development
 
-- NVIDIA Certified Solutions Architect - AI Infrastructure
-- AWS Solutions Architect Professional + ML Specialty
-- Azure AI Engineer Associate + Data Scientist Associate
-- Google Cloud Professional ML Engineer + Cloud Architect
+```bash
+# Install dependencies
+npm install
 
-## Question Format
+# Set database URL (or use local Postgres)
+export DATABASE_URL=postgres://user:pass@localhost:5432/certsonthefly
 
-Each question includes:
-1. **Scenario-based problem** resembling real certification exams
-2. **Four multiple-choice options**
-3. **Detailed explanation** of correct/incorrect answers
-4. **Official documentation quotes** with highlighted key phrases
-5. **Direct links** to vendor documentation sections
+# Start server
+node server.js
+# → http://localhost:8080
+```
+
+## Deployment
+
+Hosted on [Fly.io](https://fly.io) with automatic deploys:
+
+```bash
+fly deploy
+```
 
 ## License
 
