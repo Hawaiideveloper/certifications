@@ -27,7 +27,9 @@ Free certification exam prep platform with 3,111 practice questions across 11 pr
 - **User accounts** with registration/login (session-based auth)
 - **Score history** saved to PostgreSQL database
 - **Dashboard** with stats, streak tracking, and achievements
-- **10 free questions** for guests, unlimited for registered users
+- **Freemium model** — 10 free questions per exam, then upgrade
+- **Stripe payments** — single exam ($7.99), category bundle ($19.99), all-access ($4.99/mo)
+- **Pricing page** with tier comparison and FAQ
 - **Vendor/exam filtering** to focus on specific certifications
 - **Per-vendor scoring** to identify weak areas
 - **Timer and progress tracking**
@@ -41,6 +43,7 @@ Free certification exam prep platform with 3,111 practice questions across 11 pr
 - **Auth:** express-session + connect-pg-simple + bcryptjs
 - **Hosting:** Fly.io (2 app machines, auto-stop idle)
 - **Analytics:** Google Analytics (gtag.js)
+- **Payments:** Stripe Checkout (one-time + subscriptions)
 - **Monetization:** Google AdSense, Amazon Associates affiliate links
 
 ## Project Structure
@@ -51,11 +54,13 @@ certifications/
 ├── db/init.js             # PostgreSQL schema (users, scores, sessions)
 ├── routes/
 │   ├── auth.js            # Register, login, logout, session check
-│   └── scores.js          # Save scores, history, stats, streaks
+│   ├── scores.js          # Save scores, history, stats, streaks
+│   └── payments.js        # Stripe checkout, webhooks, access control
 ├── public/
 │   ├── index.html         # Landing page
 │   ├── dashboard.html     # User dashboard with stats
 │   ├── quiz.html          # Quiz engine (3,111 questions)
+│   ├── pricing.html       # Pricing tiers & Stripe checkout
 │   ├── resources.html     # Exam registration & study guide links
 │   ├── ads.txt            # AdSense verification
 │   ├── js/

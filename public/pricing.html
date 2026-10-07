@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-838VRSM2CM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-838VRSM2CM');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing — CertsOnTheFly</title>
+    <meta name="description" content="Unlock unlimited certification practice questions. Single exam $7.99, category bundles $19.99, or all access for $4.99/month.">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .pricing-hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
+        }
+        .pricing-hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .pricing-hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1000px;
+            margin: -20px auto 40px;
+            padding: 0 20px;
+        }
+
+        .price-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .price-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .price-card.featured {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(56,189,248,0.15);
+        }
+        .price-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 16px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .price-card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .price-card-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .price-amount {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .price-amount span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .price-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .price-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+            flex: 1;
+        }
+        .price-features li {
+            padding: 8px 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .price-features li::before {
+            content: '\2713';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .price-btn {
+            display: block;
+            text-align: center;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        .price-btn:hover { opacity: 0.9; }
+        .price-btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        .price-btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #000;
+        }
+
+        /* Exam / category selectors in modal */
+        .checkout-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+        }
+        .checkout-modal.active { display: flex; }
+        .checkout-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 480px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .checkout-panel h2 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .checkout-panel p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .checkout-option {
+            display: block;
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-bottom: 10px;
+            text-align: left;
+            transition: border-color 0.2s;
+        }
+        .checkout-option:hover {
+            border-color: var(--primary);
+        }
+        .checkout-option .opt-price {
+            float: right;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .checkout-close {
+            display: block;
+            margin-top: 16px;
+            text-align: center;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        /* Success/cancel banners */
+        .pricing-banner {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 16px 24px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .pricing-banner.success {
+            background: rgba(34,197,94,0.15);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+        .pricing-banner.canceled {
+            background: rgba(239,68,68,0.15);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        /* Comparison table */
+        .compare-section {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .compare-section h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .compare-table th, .compare-table td {
+            padding: 12px 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .compare-table th:first-child, .compare-table td:first-child {
+            text-align: left;
+        }
+        .compare-table th {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .compare-table td { color: var(--text-secondary); }
+
+        /* FAQ */
+        .faq-section {
+            max-width: 700px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .faq-section h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+        .faq-q {
+            font-weight: 600;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .faq-a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+            .pricing-hero h1 { font-size: 1.6rem; }
+            .price-amount { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top Nav -->
+<nav class="topnav">
+    <a href="index.html" class="topnav-logo">
+        <div class="topnav-logo-icon">&#9992;&#65039;</div>
+        <span class="topnav-logo-text">CertsOn<span class="fly">TheFly</span></span>
+    </a>
+    <div class="topnav-links" style="margin-left:auto">
+        <a href="dashboard.html" class="topnav-link">Dashboard</a>
+        <a href="quiz.html" class="topnav-link">All Exams</a>
+        <a href="resources.html" class="topnav-link">Resources</a>
+        <a href="pricing.html" class="topnav-link" style="color:var(--primary);font-weight:600;">Pricing</a>
+        <a href="#" class="topnav-btn topnav-btn-outline auth-login-btn" onclick="event.preventDefault();openAuth('login')">Log In</a>
+    </div>
+    <button class="topnav-hamburger" id="hamburgerBtn">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="topnav-mobile-menu" id="mobileMenu">
+    <div class="topnav-mobile-panel">
+        <button class="topnav-mobile-close" id="mobileClose">&times;</button>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="quiz.html">All Exams</a>
+        <a href="resources.html">Resources</a>
+        <a href="pricing.html" class="active">Pricing</a>
+        <a href="#" class="auth-mobile-link" onclick="event.preventDefault();openAuth('login')">Log In</a>
+    </div>
+</div>
+
+<!-- Hero -->
+<div class="pricing-hero">
+    <h1>Pass Your Exam. Pay Less Than a Study Guide.</h1>
+    <p>3,111+ expert-written questions with evidence-based explanations. Pick one exam, a full category, or unlock everything.</p>
+</div>
+
+<!-- Success / Cancel Banners -->
+<div id="pricingBanner"></div>
+
+<!-- Pricing Cards -->
+<div class="pricing-grid">
+
+    <!-- Single Exam -->
+    <div class="price-card">
+        <div class="price-card-title">Single Exam</div>
+        <div class="price-card-desc">Full question bank for one certification exam</div>
+        <div class="price-amount">$7.99 <span>one-time</span></div>
+        <div class="price-note">Lifetime access, no expiration</div>
+        <ul class="price-features">
+            <li>250-300 practice questions</li>
+            <li>Detailed explanations with citations</li>
+            <li>Score history and domain breakdown</li>
+            <li>Timed exam simulation mode</li>
+        </ul>
+        <button class="price-btn price-btn-outline" onclick="openCheckout('single_exam')">Choose Exam</button>
+    </div>
+
+    <!-- Category Bundle -->
+    <div class="price-card featured">
+        <div class="price-card-title">Category Bundle</div>
+        <div class="price-card-desc">All exams in one category — save up to 60%</div>
+        <div class="price-amount">$19.99 <span>one-time</span></div>
+        <div class="price-note">Lifetime access, all exams in category</div>
+        <ul class="price-features">
+            <li>Every exam in your category</li>
+            <li>Up to 1,012 questions (AI bundle)</li>
+            <li>Cross-exam progress dashboard</li>
+            <li>Score history and domain breakdown</li>
+            <li>Timed exam simulation mode</li>
+        </ul>
+        <button class="price-btn price-btn-primary" onclick="openCheckout('category_bundle')">Choose Category</button>
+    </div>
+
+    <!-- All Access -->
+    <div class="price-card">
+        <div class="price-card-title">All Access</div>
+        <div class="price-card-desc">Every exam, every category, unlimited</div>
+        <div class="price-amount">$4.99<span>/mo</span></div>
+        <div class="price-note">Cancel anytime, new exams included</div>
+        <ul class="price-features">
+            <li>All 3,111+ questions, 11 exams</li>
+            <li>New certifications added automatically</li>
+            <li>Priority access to new features</li>
+            <li>Score history and domain breakdown</li>
+            <li>Timed exam simulation mode</li>
+            <li>No ads</li>
+        </ul>
+        <button class="price-btn price-btn-outline" onclick="handleCheckout('all_access')">Subscribe</button>
+    </div>
+</div>
+
+<!-- Checkout Modal -->
+<div class="checkout-modal" id="checkoutModal">
+    <div class="checkout-panel">
+        <h2 id="checkoutTitle">Select an Exam</h2>
+        <p id="checkoutDesc">Choose which exam to unlock.</p>
+        <div id="checkoutOptions"></div>
+        <button class="checkout-close" onclick="closeCheckout()">&times; Cancel</button>
+    </div>
+</div>
+
+<!-- Comparison Table -->
+<section class="compare-section">
+    <h2>Compare Plans</h2>
+    <table class="compare-table">
+        <thead>
+            <tr><th>Feature</th><th>Free</th><th>Single Exam</th><th>Bundle</th><th>All Access</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Practice questions</td><td>10 per exam</td><td>Full bank</td><td>Full bank</td><td>All 3,111+</td></tr>
+            <tr><td>Detailed explanations</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+            <tr><td>Score history</td><td>&mdash;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+            <tr><td>Timed simulation</td><td>&mdash;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+            <tr><td>Domain breakdown</td><td>&mdash;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+            <tr><td>Cross-exam dashboard</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td><td>&#10003;</td></tr>
+            <tr><td>New exams included</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td></tr>
+            <tr><td>Ad-free experience</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+        <div class="faq-q">What payment methods do you accept?</div>
+        <div class="faq-a">We accept all major credit cards, debit cards, and Apple Pay / Google Pay through our secure Stripe checkout.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">Do single exam and bundle purchases expire?</div>
+        <div class="faq-a">No. Single exam passes and category bundles are one-time purchases with lifetime access. Your questions and score history never expire.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">Can I cancel my All Access subscription?</div>
+        <div class="faq-a">Yes, cancel anytime from your dashboard. You'll keep access until the end of your billing period.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">What's included in the free tier?</div>
+        <div class="faq-a">10 practice questions per exam (110 total across all 11 certifications) with full explanations. No account required.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">How do category bundles work?</div>
+        <div class="faq-a">Each bundle unlocks every exam in a category. For example, the AI Infrastructure bundle gives you NVIDIA, AWS, Azure, and GCP — all 1,012 questions for $19.99 instead of $31.96 individually.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">How does this compare to other prep platforms?</div>
+        <div class="faq-a">MeasureUp charges $79-119 per exam. Pocket Prep is $21/month. Kaplan is $59/month. Our single exam pass is $7.99 one-time, and All Access is $4.99/month — with the same quality evidence-based explanations.</div>
+    </div>
+</section>
+
+<footer class="app-footer">
+    <p>&copy; 2026 CertsOnTheFly · <a href="quiz.html">All Exams</a> · <a href="resources.html">Resources</a> · <a href="pricing.html">Pricing</a> · <a href="exams/hvac.html">HVAC</a> · <a href="exams/electrician.html">Electrician</a> · <a href="exams/plumbing.html">Plumbing</a> · <a href="exams/nursing.html">Nursing</a> · <a href="exams/security.html">Security+</a> · <a href="exams/cdl.html">CDL</a> · <a href="exams/pmp.html">PMP</a></p>
+</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/ads.js"></script>
+<script>
+// Mobile menu
+(function() {
+    const btn = document.getElementById('hamburgerBtn');
+    const menu = document.getElementById('mobileMenu');
+    const close = document.getElementById('mobileClose');
+    if (btn && menu) {
+        btn.addEventListener('click', () => menu.classList.add('open'));
+        close.addEventListener('click', () => menu.classList.remove('open'));
+        menu.addEventListener('click', e => { if (e.target === menu) menu.classList.remove('open'); });
+    }
+})();
+
+// Show success/cancel banners
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const banner = document.getElementById('pricingBanner');
+    if (params.get('success') === '1') {
+        banner.innerHTML = '<div class="pricing-banner success">Payment successful! Your exam access is now active. <a href="quiz.html" style="color:inherit;text-decoration:underline">Start practicing</a></div>';
+        window.history.replaceState({}, '', '/pricing.html');
+    } else if (params.get('canceled') === '1') {
+        banner.innerHTML = '<div class="pricing-banner canceled">Checkout was canceled. No charge was made.</div>';
+        window.history.replaceState({}, '', '/pricing.html');
+    }
+})();
+
+// Vendor and category data
+const VENDOR_NAMES = {
+    nvidia: 'NVIDIA AI Infrastructure', aws: 'AWS AI/ML', azure: 'Azure AI', gcp: 'GCP AI/ML',
+    hvac: 'HVAC EPA 608', electrician: 'Journeyman Electrician', plumbing: 'Journeyman Plumber',
+    nursing: 'NCLEX-RN Nursing', security: 'CompTIA Security+', cdl: 'CDL', pmp: 'PMP'
+};
+const CATEGORY_NAMES = {
+    ai: 'AI Infrastructure (NVIDIA, AWS, Azure, GCP)',
+    trades: 'Trades (HVAC, Electrician, Plumbing)',
+    healthcare: 'Healthcare (Nursing)',
+    it: 'IT & Security (Security+)',
+    transportation: 'Transportation (CDL)',
+    management: 'Project Management (PMP)'
+};
+
+let checkoutType = '';
+
+function openCheckout(type) {
+    if (typeof currentUser === 'undefined' || !currentUser) {
+        openAuth('register');
+        return;
+    }
+    checkoutType = type;
+    const modal = document.getElementById('checkoutModal');
+    const title = document.getElementById('checkoutTitle');
+    const desc = document.getElementById('checkoutDesc');
+    const opts = document.getElementById('checkoutOptions');
+    opts.innerHTML = '';
+
+    if (type === 'single_exam') {
+        title.textContent = 'Choose an Exam';
+        desc.textContent = 'Select which certification exam to unlock — $7.99 one-time.';
+        for (const [key, name] of Object.entries(VENDOR_NAMES)) {
+            const btn = document.createElement('button');
+            btn.className = 'checkout-option';
+            btn.innerHTML = `${name} <span class="opt-price">$7.99</span>`;
+            btn.onclick = () => handleCheckout('single_exam', key);
+            opts.appendChild(btn);
+        }
+    } else if (type === 'category_bundle') {
+        title.textContent = 'Choose a Category';
+        desc.textContent = 'Select a category bundle to unlock all exams in it — $19.99 one-time.';
+        for (const [key, name] of Object.entries(CATEGORY_NAMES)) {
+            const btn = document.createElement('button');
+            btn.className = 'checkout-option';
+            btn.innerHTML = `${name} <span class="opt-price">$19.99</span>`;
+            btn.onclick = () => handleCheckout('category_bundle', null, key);
+            opts.appendChild(btn);
+        }
+    }
+
+    modal.classList.add('active');
+}
+
+function closeCheckout() {
+    document.getElementById('checkoutModal').classList.remove('active');
+}
+
+async function handleCheckout(type, vendor, category) {
+    if (typeof currentUser === 'undefined' || !currentUser) {
+        openAuth('register');
+        return;
+    }
+    closeCheckout();
+
+    const body = { type };
+    if (vendor) body.vendor = vendor;
+    if (category) body.category = category;
+
+    try {
+        const res = await fetch('/api/payments/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert(data.error || 'Something went wrong. Please try again.');
+        }
+    } catch (err) {
+        alert('Connection error. Please try again.');
+    }
+}
+
+// Close modal on backdrop click
+document.getElementById('checkoutModal').addEventListener('click', function(e) {
+    if (e.target === this) closeCheckout();
+});
+</script>
+</body>
+</html>

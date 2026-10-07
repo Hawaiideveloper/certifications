@@ -420,6 +420,7 @@
         <a href="dashboard.html" class="topnav-link">Dashboard</a>
         <a href="quiz.html" class="topnav-link" style="color:var(--primary);font-weight:600;">All Exams</a>
         <a href="resources.html" class="topnav-link">Resources</a>
+        <a href="pricing.html" class="topnav-link">Pricing</a>
         <a href="quiz.html" class="topnav-btn topnav-btn-primary">▶ Start Quiz</a>
         <a href="#" class="topnav-btn topnav-btn-outline auth-login-btn" onclick="event.preventDefault();openAuth('login')">Log In</a>
     </div>
@@ -442,6 +443,7 @@
         <a href="exams/cdl.html">CDL</a>
         <a href="exams/pmp.html">PMP</a>
         <a href="resources.html">Resources</a>
+        <a href="pricing.html">Pricing</a>
         <a href="#" class="auth-mobile-link" onclick="event.preventDefault();openAuth('login')">Log In</a>
     </div>
 </div>
@@ -60571,12 +60573,30 @@
         }
 
         const FREE_QUESTION_LIMIT = 10;
+        let userAccess = { vendors: [], allAccess: false };
 
         function getFreeCount() {
             return parseInt(localStorage.getItem('cotf_free_qs') || '0', 10);
         }
         function incrementFreeCount() {
             localStorage.setItem('cotf_free_qs', getFreeCount() + 1);
+        }
+
+        async function loadUserAccess() {
+            if (!currentUser) { userAccess = { vendors: [], allAccess: false }; return; }
+            try {
+                const res = await fetch('/api/payments/access');
+                if (res.ok) userAccess = await res.json();
+            } catch(e) {}
+        }
+
+        function hasAccessToVendor(vendor) {
+            return userAccess.allAccess || userAccess.vendors.includes(vendor);
+        }
+
+        function getCurrentQuestionVendor() {
+            if (currentQuestions.length === 0 || currentQuestion >= currentQuestions.length) return null;
+            return currentQuestions[currentQuestion].vendor;
         }
 
         function showSignupGate() {
@@ -60586,19 +60606,48 @@
                     <div style="font-size:3rem;margin-bottom:20px">🔒</div>
                     <div class="score-message">You've used your 10 free questions!</div>
                     <div class="score-details" style="max-width:420px;margin:0 auto 28px">
-                        Create a free account to unlock all 3,111+ questions, track your scores, and see detailed progress — forever free.
+                        Create a free account to continue practicing, or unlock unlimited access with a paid plan.
                     </div>
                     <button class="btn btn-primary btn-lg" onclick="openAuth('register')" style="margin-bottom:14px">Create Free Account</button>
                     <br>
-                    <button class="btn btn-secondary" onclick="openAuth('login')">Already have an account? Log In</button>
+                    <a href="pricing.html" class="btn btn-secondary" style="margin-bottom:14px">View Pricing Plans</a>
+                    <br>
+                    <button class="btn btn-secondary" onclick="openAuth('login')" style="opacity:0.7">Already have an account? Log In</button>
+                </div>
+            `;
+        }
+
+        function showUpgradeGate() {
+            clearInterval(timerInterval);
+            const vendor = getCurrentQuestionVendor();
+            const vendorName = vendor ? (vendorLabels[vendor] || vendor) : 'this exam';
+            document.getElementById('question-card').innerHTML = `
+                <div class="score-container">
+                    <div style="font-size:3rem;margin-bottom:20px">🔒</div>
+                    <div class="score-message">Unlock ${vendorName} — Full Exam Access</div>
+                    <div class="score-details" style="max-width:460px;margin:0 auto 28px">
+                        You've completed your free preview. Unlock the full question bank with detailed explanations, score tracking, and timed exam mode.
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:20px">
+                        <a href="pricing.html" class="btn btn-primary btn-lg">View Pricing — from $4.99/mo</a>
+                    </div>
+                    <div style="color:var(--text-secondary);font-size:0.85rem">
+                        <strong>$7.99</strong> single exam · <strong>$19.99</strong> category bundle · <strong>$4.99/mo</strong> all access
+                    </div>
                 </div>
             `;
         }
 
         function showQuestion() {
-            // Free question gate — 10 questions for non-logged-in users
+            // Gate logic: not logged in → signup gate after 10 free questions
             if (!currentUser && currentQuestion > 0 && getFreeCount() >= FREE_QUESTION_LIMIT) {
                 showSignupGate();
+                return;
+            }
+            // Gate logic: logged in but no access to this vendor → upgrade gate after 10 free
+            const qVendor = getCurrentQuestionVendor();
+            if (currentUser && qVendor && !hasAccessToVendor(qVendor) && currentQuestion > 0 && getFreeCount() >= FREE_QUESTION_LIMIT) {
+                showUpgradeGate();
                 return;
             }
 
@@ -60878,7 +60927,8 @@
         })();
 
         // When user signs up/logs in from the gate, resume the quiz
-        function onAuthSuccess() {
+        async function onAuthSuccess() {
+            await loadUserAccess();
             if (currentQuestions.length > 0 && currentQuestion < currentQuestions.length) {
                 showQuestion();
             }
@@ -60891,7 +60941,7 @@
     </script>
 
 <footer class="app-footer">
-    <p>&copy; 2026 CertsOnTheFly · <a href="quiz.html">All Exams</a> · <a href="resources.html">Resources</a> · <a href="exams/hvac.html">HVAC</a> · <a href="exams/electrician.html">Electrician</a> · <a href="exams/plumbing.html">Plumbing</a> · <a href="exams/nursing.html">Nursing</a> · <a href="exams/security.html">Security+</a> · <a href="exams/cdl.html">CDL</a> · <a href="exams/pmp.html">PMP</a></p>
+    <p>&copy; 2026 CertsOnTheFly · <a href="quiz.html">All Exams</a> · <a href="resources.html">Resources</a> · <a href="pricing.html">Pricing</a> · <a href="exams/hvac.html">HVAC</a> · <a href="exams/electrician.html">Electrician</a> · <a href="exams/plumbing.html">Plumbing</a> · <a href="exams/nursing.html">Nursing</a> · <a href="exams/security.html">Security+</a> · <a href="exams/cdl.html">CDL</a> · <a href="exams/pmp.html">PMP</a></p>
 </footer>
 <script src="js/auth.js"></script>
 <script src="js/ads.js"></script>

@@ -8,12 +8,16 @@ const { Pool } = require('pg');
 const { initDb } = require('./db/init');
 const authRoutes = require('./routes/auth');
 const scoreRoutes = require('./routes/scores');
+const { router: paymentRoutes, handleWebhook } = require('./routes/payments');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Trust Fly.io reverse proxy (required for secure cookies behind SSL termination)
 app.set('trust proxy', 1);
+
+// Stripe webhook needs raw body — must be before express.json()
+app.post('/api/payments/webhook', express.raw({ type: 'application/json' }), handleWebhook);
 
 // Middleware
 app.use(compression());
@@ -38,6 +42,7 @@ app.use(session({
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/scores', scoreRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));

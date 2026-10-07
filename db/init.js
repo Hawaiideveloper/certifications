@@ -34,6 +34,28 @@ async function initDb() {
 
     await pool.query('CREATE INDEX IF NOT EXISTS idx_scores_user ON scores(user_id)');
     await pool.query('CREATE INDEX IF NOT EXISTS idx_scores_vendor ON scores(user_id, vendor)');
+
+    // Stripe customer ID on users
+    await pool.query(`
+        ALTER TABLE users ADD COLUMN IF NOT EXISTS stripe_customer_id TEXT
+    `);
+
+    // Purchases table
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS purchases (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER NOT NULL REFERENCES users(id),
+            purchase_type TEXT NOT NULL,
+            exam_vendor TEXT,
+            category TEXT,
+            stripe_session_id TEXT,
+            stripe_subscription_id TEXT,
+            status TEXT NOT NULL DEFAULT 'active',
+            created_at TIMESTAMPTZ DEFAULT NOW(),
+            expires_at TIMESTAMPTZ
+        )
+    `);
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_purchases_user ON purchases(user_id)');
 }
 
 function getPool() {

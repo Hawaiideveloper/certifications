@@ -128,6 +128,7 @@ async function checkSession() {
         if (res.ok) {
             currentUser = await res.json();
             updateNavForUser();
+            if (typeof loadUserAccess === 'function') loadUserAccess();
         }
     } catch (e) { /* not logged in */ }
 }
