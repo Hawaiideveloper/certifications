@@ -2,7 +2,7 @@
 
 Free certification exam prep platform with 3,111 practice questions across 11 professional certifications.
 
-**Live:** [certsonthefly.fly.dev](https://certsonthefly.fly.dev)
+**Live:** [certsonthefly.com](https://certsonthefly.com)
 
 ## Certifications Covered
 
