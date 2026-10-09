@@ -67,6 +67,7 @@ function updateAuthForm() {
         : 'Start tracking your progress today.';
     document.getElementById('usernameField').style.display = isLogin ? 'none' : 'block';
     document.getElementById('authSubmitBtn').textContent = isLogin ? 'Log In' : 'Create Account';
+    document.getElementById('authSubmitBtn').disabled = false;
     document.getElementById('authSwitchText').textContent = isLogin ? "Don't have an account?" : 'Already have an account?';
     document.getElementById('authSwitchLink').textContent = isLogin ? 'Sign Up' : 'Log In';
     document.getElementById('authError').textContent = '';
@@ -106,6 +107,10 @@ async function handleAuth(e) {
         currentUser = data;
         closeAuth();
         updateNavForUser();
+        if (new URLSearchParams(location.search).get('login') === 'dashboard') {
+            location.replace('/dashboard.html');
+            return false;
+        }
         if (typeof onAuthSuccess === 'function') onAuthSuccess(data);
     } catch (err) {
         errorEl.textContent = 'Network error. Please try again.';
@@ -119,6 +124,7 @@ async function logout() {
     await fetch('/api/auth/logout', { method: 'POST' });
     currentUser = null;
     updateNavForUser();
+    if (document.body.hasAttribute('data-requires-auth')) location.replace('/index.html');
     if (typeof onAuthLogout === 'function') onAuthLogout();
 }
 
@@ -128,18 +134,22 @@ async function checkSession() {
         if (res.ok) {
             currentUser = await res.json();
             updateNavForUser();
-            if (typeof loadUserAccess === 'function') loadUserAccess();
+            if (typeof loadUserAccess === 'function') await loadUserAccess();
         }
     } catch (e) { /* not logged in */ }
 }
 
 function updateNavForUser() {
+    document.querySelectorAll('[data-auth-only]').forEach(el => { el.hidden = !currentUser; });
+    if (document.body.hasAttribute('data-requires-auth')) {
+        document.body.classList.toggle('session-verified', !!currentUser);
+    }
     // Desktop nav
     document.querySelectorAll('.auth-login-btn').forEach(el => {
         if (currentUser) {
             el.textContent = currentUser.username;
             el.onclick = null;
-            el.href = 'dashboard.html';
+            el.href = '/dashboard.html';
             el.className = 'topnav-btn topnav-btn-outline auth-login-btn';
         } else {
             el.textContent = 'Log In';
@@ -164,7 +174,16 @@ function updateNavForUser() {
 }
 
 // Initialize on load
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initAuthModal();
-    checkSession();
+    await checkSession();
+    if (document.body.hasAttribute('data-requires-auth')) {
+        if (!currentUser) { location.replace('/index.html?login=dashboard'); return; }
+        if (typeof loadDashboardStats === 'function') await loadDashboardStats();
+    }
+    if (new URLSearchParams(location.search).get('login') === 'dashboard') {
+        if (currentUser) { location.replace('/dashboard.html'); return; }
+        openAuth('login');
+    }
+    document.dispatchEvent(new Event('auth-ready'));
 });

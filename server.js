@@ -44,6 +44,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/scores', scoreRoutes);
 app.use('/api/payments', paymentRoutes);
 
+// Keep the dashboard outside the public directory so static URLs cannot bypass login.
+app.get('/dashboard.html', require('./routes/dashboard'));
+
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 

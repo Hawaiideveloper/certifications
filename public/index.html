@@ -11,317 +11,53 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CertsOnTheFly — Free Certification Practice Tests | 3,111+ Questions</title>
-    <meta name="description" content="Pass your certification exam on the first try. 3,111+ free practice questions for HVAC, Electrician, Plumbing, Nursing, Security+, CDL, PMP, and AI Infrastructure.">
+    <title>CertsOnTheFly — Certification Practice | Try 10 Questions Free</title>
+    <meta name="description" content="Build confidence with exam-style practice for trades, healthcare, IT, and more. Try your first 10 questions free, then continue with a paid plan.">
     <meta name="keywords" content="free practice test, certification exam prep, HVAC practice test, CDL practice test, Security+ practice exam, NCLEX practice questions, PMP exam prep, electrician practice test, plumbing exam, AI certification">
-    <link rel="canonical" href="https://hawaiideveloper.github.io/certifications/">
-    <meta property="og:title" content="CertsOnTheFly — Free Certification Practice Tests">
-    <meta property="og:description" content="Pass your certification exam on the first try. 3,111+ free questions across 11 exams with detailed explanations.">
+    <link rel="canonical" href="https://certsonthefly.com/">
+    <meta property="og:title" content="CertsOnTheFly — Certification Practice | Try 10 Questions Free">
+    <meta property="og:description" content="Your next certification starts here. Try your first 10 questions free, with detailed explanations. Paid plans available for continued practice.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://hawaiideveloper.github.io/certifications/">
+    <meta property="og:url" content="https://certsonthefly.com/">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="CertsOnTheFly — Free Certification Practice Tests">
-    <meta name="twitter:description" content="3,111+ free practice questions. HVAC, CDL, Security+, Nursing, PMP, Electrician, Plumbing & AI Infrastructure.">
+    <meta name="twitter:title" content="CertsOnTheFly — Certification Practice | Try 10 Questions Free">
+    <meta name="twitter:description" content="Exam-style practice for HVAC, CDL, Security+, Nursing, PMP, and more. First 10 questions free; paid plans for continued practice.">
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebSite","name":"CertsOnTheFly","url":"https://hawaiideveloper.github.io/certifications/","description":"Free certification practice tests with 3,111+ questions across 11 exams."}
+    {"@context":"https://schema.org","@type":"WebSite","name":"CertsOnTheFly","url":"https://certsonthefly.com/","description":"Certification practice across 11 exams. Try the first 10 questions free, then continue with a paid plan."}
     </script>
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-        {"@type":"Question","name":"How many practice questions are available?","acceptedAnswer":{"@type":"Answer","text":"Over 3,111 expert-written practice questions across 11 certification exams in 6 categories including AI Infrastructure, Trades, Healthcare, Cybersecurity, Transportation, and Business."}},
-        {"@type":"Question","name":"Are the practice tests really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. All 3,111+ questions are completely free with detailed, evidence-based explanations and source citations on every answer."}},
-        {"@type":"Question","name":"What certifications can I study for?","acceptedAnswer":{"@type":"Answer","text":"HVAC EPA 608, Journeyman Electrician, Journeyman Plumber, NCLEX-RN Nursing, CompTIA Security+ SY0-701, CDL Class A, PMP, and AI Infrastructure (NVIDIA, AWS, Azure, GCP)."}},
-        {"@type":"Question","name":"How is CertsOnTheFly different from other practice test sites?","acceptedAnswer":{"@type":"Answer","text":"Unlike competitors charging $6-120 per exam, all our content is free. Every question includes expert-written explanations with source citations — no unreliable community-sourced answers. We cover trades, healthcare, IT, and business certifications in one place."}},
-        {"@type":"Question","name":"Do I need to create an account?","acceptedAnswer":{"@type":"Answer","text":"No account is required to start practicing. Just pick your certification and begin. Account features for progress tracking are coming soon."}}
-    ]}
-    </script>
+
     <link rel="stylesheet" href="styles/main.css">
-    <style>
-        /* ═══ Landing — Hero ═══ */
-        .hero {
-            padding: 80px 32px 60px;
-            text-align: center;
-            background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute; inset: 0;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(14,165,233,0.06) 0%, transparent 50%),
-                radial-gradient(circle at 80% 30%, rgba(249,115,22,0.05) 0%, transparent 50%),
-                radial-gradient(circle at 50% 80%, rgba(139,92,246,0.04) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        .hero-inner {
-            max-width: 780px; margin: 0 auto; position: relative; z-index: 1;
-        }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(14,165,233,0.08); color: var(--primary);
-            padding: 8px 18px; border-radius: 20px;
-            font-size: 0.82rem; font-weight: 600; margin-bottom: 24px;
-        }
-        .hero h1 {
-            font-size: 3rem; font-weight: 900;
-            line-height: 1.15; margin-bottom: 20px;
-            color: var(--text); letter-spacing: -0.5px;
-        }
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, var(--primary), var(--accent-orange));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-sub {
-            font-size: 1.15rem; color: var(--text-secondary);
-            line-height: 1.7; margin-bottom: 36px; max-width: 600px;
-            margin-left: auto; margin-right: auto;
-        }
-        .hero-ctas {
-            display: flex; align-items: center; justify-content: center;
-            gap: 14px; flex-wrap: wrap; margin-bottom: 48px;
-        }
-        .hero-ctas .btn { font-size: 1.05rem; padding: 16px 36px; border-radius: 14px; }
-        .btn-secondary {
-            background: var(--bg-white); color: var(--text);
-            border: 1.5px solid var(--border); font-weight: 600;
-        }
-        .btn-secondary:hover {
-            border-color: var(--primary); background: rgba(14,165,233,0.04);
-            transform: translateY(-2px);
-        }
-
-        /* ═══ Landing — Stats Bar ═══ */
-        .stats-bar {
-            display: flex; justify-content: center; gap: 48px;
-            flex-wrap: wrap;
-        }
-        .stat-item { text-align: center; }
-        .stat-num {
-            font-size: 2rem; font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; line-height: 1.2;
-        }
-        .stat-label { font-size: 0.82rem; color: var(--text-light); font-weight: 500; margin-top: 4px; }
-
-        /* ═══ Landing — Sections ═══ */
-        .landing-section {
-            padding: 60px 32px;
-            max-width: 1200px; margin: 0 auto;
-        }
-        .landing-section-head {
-            text-align: center; margin-bottom: 40px;
-        }
-        .landing-section-head h2 {
-            font-size: 1.8rem; font-weight: 800; color: var(--text);
-            margin-bottom: 12px;
-        }
-        .landing-section-head p {
-            font-size: 1rem; color: var(--text-secondary);
-            max-width: 560px; margin: 0 auto; line-height: 1.6;
-        }
-
-        /* ═══ Landing — Category Cards ═══ */
-        .category-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        .cat-card {
-            background: var(--bg-white); border-radius: var(--radius);
-            box-shadow: var(--shadow); overflow: hidden;
-            text-decoration: none; color: inherit;
-            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
-            display: block;
-        }
-        .cat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-        .cat-card-top {
-            padding: 28px 24px 20px; display: flex; align-items: center; gap: 16px;
-        }
-        .cat-icon {
-            width: 56px; height: 56px; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.6rem; flex-shrink: 0;
-        }
-        .cat-card-info h3 {
-            font-size: 1.05rem; font-weight: 700; color: var(--text);
-            margin-bottom: 4px;
-        }
-        .cat-card-info p {
-            font-size: 0.8rem; color: var(--text-light); line-height: 1.4;
-        }
-        .cat-card-bottom {
-            padding: 14px 24px; background: var(--bg);
-            border-top: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .cat-card-exams {
-            font-size: 0.78rem; color: var(--text-secondary); font-weight: 500;
-        }
-        .cat-card-arrow {
-            font-size: 0.85rem; color: var(--primary); font-weight: 700;
-        }
-
-        /* ═══ Landing — How It Works ═══ */
-        .steps-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-        }
-        .step-card {
-            text-align: center; padding: 36px 28px;
-            background: var(--bg-white); border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
-        }
-        .step-card:hover { transform: translateY(-4px); }
-        .step-num {
-            width: 44px; height: 44px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; font-weight: 800; color: #fff;
-            margin: 0 auto 20px;
-        }
-        .step-card h3 {
-            font-size: 1rem; font-weight: 700; color: var(--text);
-            margin-bottom: 10px;
-        }
-        .step-card p {
-            font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
-        }
-
-        /* ═══ Landing — Why Us ═══ */
-        .why-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        .why-card {
-            padding: 28px; background: var(--bg-white);
-            border-radius: var(--radius); box-shadow: var(--shadow);
-            display: flex; gap: 18px; align-items: flex-start;
-            transition: transform 0.2s;
-        }
-        .why-card:hover { transform: translateY(-3px); }
-        .why-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; flex-shrink: 0;
-        }
-        .why-card h3 {
-            font-size: 0.95rem; font-weight: 700; color: var(--text);
-            margin-bottom: 6px;
-        }
-        .why-card p {
-            font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;
-        }
-
-        /* ═══ Landing — Popular Exams (reuse quiz-grid) ═══ */
-        .popular-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        /* ═══ Landing — Email Capture ═══ */
-        .cta-section {
-            padding: 60px 32px;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            text-align: center;
-        }
-        .cta-inner { max-width: 560px; margin: 0 auto; }
-        .cta-section h2 {
-            font-size: 1.8rem; font-weight: 800; color: #fff;
-            margin-bottom: 12px;
-        }
-        .cta-section p {
-            font-size: 0.95rem; color: #94a3b8; line-height: 1.6;
-            margin-bottom: 28px;
-        }
-        .email-form {
-            display: flex; gap: 10px; max-width: 460px; margin: 0 auto;
-        }
-        .email-form input {
-            flex: 1; padding: 14px 18px; border-radius: 12px;
-            border: 1.5px solid #334155; background: #1e293b;
-            color: #fff; font-size: 0.92rem; font-family: inherit;
-            outline: none; transition: border-color 0.2s;
-        }
-        .email-form input::placeholder { color: #64748b; }
-        .email-form input:focus { border-color: var(--primary); }
-        .email-form button {
-            padding: 14px 28px; border-radius: 12px;
-            background: var(--primary); color: #fff;
-            font-size: 0.92rem; font-weight: 700;
-            border: none; cursor: pointer; font-family: inherit;
-            transition: background 0.2s, transform 0.2s; white-space: nowrap;
-        }
-        .email-form button:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .email-note {
-            font-size: 0.75rem; color: #64748b; margin-top: 14px;
-        }
-
-        /* ═══ Landing — FAQ ═══ */
-        .faq-grid {
-            max-width: 760px; margin: 0 auto;
-        }
-        .faq-grid .faq-item {
-            padding: 20px 0; border-bottom: 1px solid var(--border);
-        }
-        .faq-grid .faq-item:last-child { border-bottom: none; }
-        .faq-grid .faq-item h3 {
-            font-size: 0.95rem; font-weight: 600; color: var(--text);
-            margin-bottom: 8px; cursor: pointer;
-        }
-        .faq-grid .faq-item p {
-            font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
-        }
-
-        /* ═══ Landing — Responsive ═══ */
-        @media (max-width: 1024px) {
-            .category-grid { grid-template-columns: repeat(2, 1fr); }
-            .popular-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .hero { padding: 48px 20px 40px; }
-            .hero h1 { font-size: 2rem; }
-            .hero-sub { font-size: 1rem; }
-            .stats-bar { gap: 28px; }
-            .stat-num { font-size: 1.5rem; }
-            .landing-section { padding: 40px 20px; }
-            .landing-section-head h2 { font-size: 1.4rem; }
-            .category-grid { grid-template-columns: 1fr; }
-            .steps-grid { grid-template-columns: 1fr; }
-            .why-grid { grid-template-columns: 1fr; }
-            .popular-grid { grid-template-columns: repeat(2, 1fr); }
-            .email-form { flex-direction: column; }
-            .cta-section { padding: 40px 20px; }
-        }
-    </style>
+    <link rel="stylesheet" href="styles/landing.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What can I try for free?", "acceptedAnswer": {"@type": "Answer", "text": "Your first 10 practice questions are free. To continue beyond 10 questions, choose a paid plan on our pricing page."}}, {"@type": "Question", "name": "What certifications can I study for?", "acceptedAnswer": {"@type": "Answer", "text": "Practice for HVAC EPA 608, Journeyman Electrician, Journeyman Plumber, NCLEX-RN Nursing, CompTIA Security+, CDL Class A, PMP, and AI Infrastructure covering NVIDIA, AWS, Azure, and GCP."}}, {"@type": "Question", "name": "What comes with each answer?", "acceptedAnswer": {"@type": "Answer", "text": "Practice questions include explanations and source citations so you can review the reasoning and explore the underlying concepts."}}, {"@type": "Question", "name": "Do I need to create an account?", "acceptedAnswer": {"@type": "Answer", "text": "You can start practicing without an account. Create an account to save scores, track your progress, and manage paid access."}}]}</script>
+    <link rel="stylesheet" href="styles/theme.css">
 </head>
-<body>
+<body class="landing-page">
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- Top Nav -->
-<nav class="topnav">
+<nav class="topnav" aria-label="Main navigation">
     <a href="index.html" class="topnav-logo">
         <div class="topnav-logo-icon">✈️</div>
         <span class="topnav-logo-text">CertsOn<span class="fly">TheFly</span></span>
     </a>
     <div class="topnav-links" style="margin-left:auto">
-        <a href="dashboard.html" class="topnav-link">Dashboard</a>
+        <a href="dashboard.html" class="topnav-link" data-auth-only hidden>Dashboard</a>
         <a href="quiz.html" class="topnav-link">All Exams</a>
-        <a href="resources.html" class="topnav-link">Resources</a>
         <a href="pricing.html" class="topnav-link">Pricing</a>
         <a href="quiz.html" class="topnav-btn topnav-btn-primary">Start Free</a>
         <a href="#" class="topnav-btn topnav-btn-outline auth-login-btn" onclick="event.preventDefault();openAuth('login')">Log In</a>
     </div>
-    <button class="topnav-hamburger" id="hamburgerBtn">
+    <button class="topnav-hamburger" id="hamburgerBtn" aria-label="Open navigation" aria-controls="mobileMenu" aria-expanded="false">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
 </nav>
 
 <!-- Mobile Menu -->
-<div class="topnav-mobile-menu" id="mobileMenu">
+<div class="topnav-mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation">
     <div class="topnav-mobile-panel">
-        <button class="topnav-mobile-close" id="mobileClose">&times;</button>
+        <button class="topnav-mobile-close" id="mobileClose" aria-label="Close navigation">&times;</button>
         <a href="index.html" class="active">Home</a>
-        <a href="dashboard.html">Dashboard</a>
+        <a href="dashboard.html" data-auth-only hidden>Dashboard</a>
         <a href="quiz.html">All Exams</a>
         <a href="exams/hvac.html">HVAC EPA 608</a>
         <a href="exams/electrician.html">Electrician</a>
@@ -330,36 +66,53 @@
         <a href="exams/security.html">Security+</a>
         <a href="exams/cdl.html">CDL</a>
         <a href="exams/pmp.html">PMP</a>
-        <a href="resources.html">Resources</a>
         <a href="pricing.html">Pricing</a>
         <a href="#" class="auth-mobile-link" onclick="event.preventDefault();openAuth('login')">Log In</a>
     </div>
 </div>
 
-<!-- Hero -->
-<section class="hero reveal">
+<main id="main">
+<section class="hero">
     <div class="hero-inner">
-        <div class="hero-badge">100% Free — No Account Required</div>
-        <h1>Pass Your Certification Exam <span class="highlight">On The First Try</span></h1>
-        <p class="hero-sub">3,111+ expert-written practice questions across 11 certifications. Every answer includes detailed explanations with source citations. No paywalls, no tricks.</p>
-        <div class="hero-ctas">
-            <a href="quiz.html" class="btn btn-primary btn-lg">Start Practicing Free</a>
-            <a href="#exams" class="btn btn-secondary">Browse Exams</a>
+        <div class="hero-copy">
+            <div class="eyebrow"><span class="status-dot"></span> A little practice. A bigger future.</div>
+            <h1>Your next certification <span>starts here.</span></h1>
+            <p class="hero-sub">Build confidence with exam-style practice. Try your first <strong>10 questions free.</strong></p>
+            <div class="hero-ctas">
+                <a href="quiz.html" class="btn btn-primary btn-lg">Start Practicing <span aria-hidden="true">&#8599;</span></a>
+                <a href="#exams" class="browse-link">Explore certifications <span aria-hidden="true">&#8595;</span></a>
+            </div>
+            <p class="plan-note">Continue beyond 10 questions with a <a href="pricing.html">paid plan</a>.</p>
+            <div class="hero-proof"><span>&#10003; Detailed explanations</span><span>&#10003; Source citations</span></div>
         </div>
-        <div class="stats-bar">
-            <div class="stat-item stagger-item"><div class="stat-num">3,111+</div><div class="stat-label">Practice Questions</div></div>
-            <div class="stat-item stagger-item"><div class="stat-num">11</div><div class="stat-label">Certification Exams</div></div>
-            <div class="stat-item stagger-item"><div class="stat-num">6</div><div class="stat-label">Career Categories</div></div>
-            <div class="stat-item stagger-item"><div class="stat-num">100%</div><div class="stat-label">Free Forever</div></div>
+        <div class="practice-scene" aria-label="Illustrative practice question">
+            <div class="scene-label"><span class="status-dot"></span> SMALL STEPS. REAL UNDERSTANDING.</div>
+            <div class="practice-card">
+                <div class="practice-top"><span>THE PRACTICE ROOM</span><span class="sample-tag">Sample question</span></div>
+                <div class="sample-track">IT &amp; Cybersecurity <span>01 / 10</span></div>
+                <div class="sample-progress" aria-hidden="true"><span></span></div>
+                <h2>What does multi-factor authentication add to a password?</h2>
+                <div class="sample-option"><span>A</span> A longer username</div>
+                <div class="sample-option selected"><span>B</span> Another way to verify your identity <b aria-hidden="true">&#10003;</b></div>
+                <div class="sample-explanation"><strong>Understand the why.</strong><p>A second factor, such as a security key, helps protect your account even if your password is compromised.</p></div>
+            </div>
+            <div class="scene-note"><span class="note-icon" aria-hidden="true">&#8599;</span><div><strong>Make every answer count.</strong><span>Practice. Understand. Build confidence.</span></div></div>
         </div>
+    </div>
+    <div class="stats-bar">
+        <div class="stat-intro">Built for your<br><strong>next chapter.</strong></div>
+        <div class="stat-item"><div class="stat-num">3,111+</div><div class="stat-label">Practice questions</div></div>
+        <div class="stat-item"><div class="stat-num">11</div><div class="stat-label">Certification exams</div></div>
+        <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Career categories</div></div>
+        <div class="stat-item"><div class="stat-num">10 free</div><div class="stat-label">Questions to get started</div></div>
     </div>
 </section>
 
 <!-- Category Cards -->
 <section class="landing-section reveal" id="exams">
     <div class="landing-section-head">
-        <h2>Pick Your Field, Start Studying</h2>
-        <p>We cover certifications other platforms don't — from HVAC and CDL to AI Infrastructure, all in one place.</p>
+        <span class="eyebrow">FIND YOUR NEXT STEP</span><h2>Different paths. Same ambition.</h2>
+        <p>From hands-on trades to AI infrastructure. Choose your field and start building your confidence.</p>
     </div>
     <div class="category-grid">
         <a href="quiz.html#ai" class="cat-card stagger-item">
@@ -375,7 +128,7 @@
                 <span class="cat-card-arrow">→</span>
             </div>
         </a>
-        <a href="quiz.html#security" class="cat-card stagger-item">
+        <a href="exams/security.html" class="cat-card stagger-item">
             <div class="cat-card-top">
                 <div class="cat-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">🔒</div>
                 <div class="cat-card-info">
@@ -401,7 +154,7 @@
                 <span class="cat-card-arrow">→</span>
             </div>
         </a>
-        <a href="quiz.html#nursing" class="cat-card stagger-item">
+        <a href="exams/nursing.html" class="cat-card stagger-item">
             <div class="cat-card-top">
                 <div class="cat-icon" style="background:linear-gradient(135deg,#ec4899,#be185d)">🏥</div>
                 <div class="cat-card-info">
@@ -414,7 +167,7 @@
                 <span class="cat-card-arrow">→</span>
             </div>
         </a>
-        <a href="quiz.html#cdl" class="cat-card stagger-item">
+        <a href="exams/cdl.html" class="cat-card stagger-item">
             <div class="cat-card-top">
                 <div class="cat-icon" style="background:linear-gradient(135deg,#84cc16,#65a30d)">🚛</div>
                 <div class="cat-card-info">
@@ -427,7 +180,7 @@
                 <span class="cat-card-arrow">→</span>
             </div>
         </a>
-        <a href="quiz.html#pmp" class="cat-card stagger-item">
+        <a href="exams/pmp.html" class="cat-card stagger-item">
             <div class="cat-card-top">
                 <div class="cat-icon" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">📊</div>
                 <div class="cat-card-info">
@@ -444,11 +197,11 @@
 </section>
 
 <!-- How It Works -->
-<section class="landing-section reveal" style="background:var(--bg-white);max-width:100%;padding-left:32px;padding-right:32px;">
+<section class="landing-section reveal" data-surface="white">
     <div style="max-width:1200px;margin:0 auto">
         <div class="landing-section-head">
-            <h2>How It Works</h2>
-            <p>No sign-up required. Start practicing in under 10 seconds.</p>
+            <span class="eyebrow">YOUR STUDY ROUTINE, SIMPLIFIED</span><h2>A little progress, every session.</h2>
+            <p>Choose a certification, try your first 10 questions free, and learn as you go.</p>
         </div>
         <div class="steps-grid">
             <div class="step-card stagger-item">
@@ -458,7 +211,7 @@
             </div>
             <div class="step-card stagger-item">
                 <div class="step-num" style="background:linear-gradient(135deg,var(--accent-orange),var(--accent-amber))">2</div>
-                <h3>Practice With Real Questions</h3>
+                <h3>Practice With Exam-Style Questions</h3>
                 <p>Timed exam simulations with questions that match the style and difficulty of real certification tests.</p>
             </div>
             <div class="step-card stagger-item">
@@ -474,28 +227,28 @@
 <section class="landing-section reveal">
     <div class="landing-section-head">
         <h2>Why CertsOnTheFly?</h2>
-        <p>Other platforms charge $6 to $120 per exam. We believe certification prep should be accessible to everyone.</p>
+        <p>More than a score. Get the context to understand your answers and focus your next study session.</p>
     </div>
     <div class="why-grid">
         <div class="why-card stagger-item">
             <div class="why-icon" style="background:rgba(14,165,233,0.1)">💰</div>
             <div>
-                <h3>Completely Free</h3>
-                <p>No hidden paywalls. No "premium" tiers that lock the good questions. Every question is free, period.</p>
+                <h3>Start With 10 Free Questions</h3>
+                <p>Try the practice experience before choosing a paid plan to continue beyond your first 10 questions.</p>
             </div>
         </div>
         <div class="why-card stagger-item">
             <div class="why-icon" style="background:rgba(16,185,129,0.1)">📚</div>
             <div>
-                <h3>Expert-Written Explanations</h3>
-                <p>Every answer includes detailed reasoning with source citations. No community-sourced guesswork.</p>
+                <h3>Explanations That Go Further</h3>
+                <p>Review detailed reasoning and source citations to understand the concepts behind each answer.</p>
             </div>
         </div>
         <div class="why-card stagger-item">
             <div class="why-icon" style="background:rgba(249,115,22,0.1)">🎯</div>
             <div>
-                <h3>Widest Coverage</h3>
-                <p>The only platform covering trades, healthcare, IT, and business certifications all in one place.</p>
+                <h3>Explore Your Next Move</h3>
+                <p>Explore trades, healthcare, IT, and business certifications in one place, wherever your career takes you.</p>
             </div>
         </div>
         <div class="why-card stagger-item">
@@ -509,34 +262,34 @@
 </section>
 
 <!-- Popular Exams -->
-<section class="landing-section reveal" style="background:var(--bg-white);max-width:100%;padding-left:32px;padding-right:32px;">
+<section class="landing-section reveal" data-surface="white">
     <div style="max-width:1200px;margin:0 auto">
         <div class="landing-section-head">
-            <h2>Most Popular Exams</h2>
-            <p>Jump straight into the exams other students are passing right now.</p>
+            <span class="eyebrow">MAKE YOUR NEXT MOVE</span><h2>Your certification is waiting.</h2>
+            <p>Go straight to your exam and try your first 10 questions free.</p>
         </div>
         <div class="popular-grid">
-            <a href="quiz.html#hvac" class="quiz-card qc-cyan stagger-item">
+            <a href="exams/hvac.html" class="quiz-card qc-cyan stagger-item">
                 <div class="quiz-card-img"><span class="icon">❄️</span><span class="q-count">299 Qs</span><span class="difficulty medium">Medium</span></div>
                 <div class="quiz-card-body"><div class="quiz-card-title">HVAC EPA 608</div><div class="quiz-card-sub">Refrigerant Handling Certification</div></div>
             </a>
-            <a href="quiz.html#security" class="quiz-card qc-purple stagger-item">
+            <a href="exams/security.html" class="quiz-card qc-purple stagger-item">
                 <div class="quiz-card-img"><span class="icon">🔒</span><span class="q-count">300 Qs</span><span class="difficulty hard">Hard</span></div>
                 <div class="quiz-card-body"><div class="quiz-card-title">CompTIA Security+</div><div class="quiz-card-sub">SY0-701 Certification</div></div>
             </a>
-            <a href="quiz.html#cdl" class="quiz-card qc-lime stagger-item">
+            <a href="exams/cdl.html" class="quiz-card qc-lime stagger-item">
                 <div class="quiz-card-img"><span class="icon">🚛</span><span class="q-count">300 Qs</span><span class="difficulty medium">Medium</span></div>
                 <div class="quiz-card-body"><div class="quiz-card-title">CDL Class A</div><div class="quiz-card-sub">Commercial Driver's License</div></div>
             </a>
-            <a href="quiz.html#nursing" class="quiz-card qc-pink stagger-item">
+            <a href="exams/nursing.html" class="quiz-card qc-pink stagger-item">
                 <div class="quiz-card-img"><span class="icon">🏥</span><span class="q-count">300 Qs</span><span class="difficulty hard">Hard</span></div>
                 <div class="quiz-card-body"><div class="quiz-card-title">NCLEX-RN Nursing</div><div class="quiz-card-sub">Registered Nurse Exam</div></div>
             </a>
-            <a href="quiz.html#electrician" class="quiz-card qc-orange stagger-item">
+            <a href="exams/electrician.html" class="quiz-card qc-orange stagger-item">
                 <div class="quiz-card-img"><span class="icon">⚡</span><span class="q-count">300 Qs</span><span class="difficulty medium">Medium</span></div>
                 <div class="quiz-card-body"><div class="quiz-card-title">Journeyman Electrician</div><div class="quiz-card-sub">NEC Code & Theory</div></div>
             </a>
-            <a href="quiz.html#pmp" class="quiz-card qc-indigo stagger-item">
+            <a href="exams/pmp.html" class="quiz-card qc-indigo stagger-item">
                 <div class="quiz-card-img"><span class="icon">📊</span><span class="q-count">300 Qs</span><span class="difficulty hard">Hard</span></div>
                 <div class="quiz-card-body"><div class="quiz-card-title">PMP Certification</div><div class="quiz-card-sub">Project Management Professional</div></div>
             </a>
@@ -544,7 +297,7 @@
                 <div class="quiz-card-img"><span class="icon">🤖</span><span class="q-count">1,012 Qs</span><span class="difficulty hard">Hard</span></div>
                 <div class="quiz-card-body"><div class="quiz-card-title">AI Infrastructure</div><div class="quiz-card-sub">NVIDIA · AWS · Azure · GCP</div></div>
             </a>
-            <a href="quiz.html#plumbing" class="quiz-card qc-sky stagger-item">
+            <a href="exams/plumbing.html" class="quiz-card qc-sky stagger-item">
                 <div class="quiz-card-img"><span class="icon">🔧</span><span class="q-count">300 Qs</span><span class="difficulty medium">Medium</span></div>
                 <div class="quiz-card-body"><div class="quiz-card-title">Journeyman Plumber</div><div class="quiz-card-sub">UPC/IPC Code</div></div>
             </a>
@@ -552,87 +305,35 @@
     </div>
 </section>
 
-<!-- Email Capture CTA -->
+<section class="landing-section faq-section reveal">
+    <div class="landing-section-head"><span class="eyebrow">A FEW THINGS TO KNOW</span><h2>Good questions.<br>Clear answers.</h2><p>Everything you need to take the first step.</p><a class="browse-link" href="pricing.html">Explore paid plans <span aria-hidden="true">&#8599;</span></a></div>
+    <div class="faq-grid"><details class="faq-item stagger-item"><summary>What can I try for free?<span aria-hidden="true">+</span></summary><p>Your first 10 practice questions are free. To continue beyond 10 questions, choose a paid plan on our pricing page.</p></details>
+<details class="faq-item stagger-item"><summary>What certifications can I study for?<span aria-hidden="true">+</span></summary><p>Practice for HVAC EPA 608, Journeyman Electrician, Journeyman Plumber, NCLEX-RN Nursing, CompTIA Security+, CDL Class A, PMP, and AI Infrastructure covering NVIDIA, AWS, Azure, and GCP.</p></details>
+<details class="faq-item stagger-item"><summary>What comes with each answer?<span aria-hidden="true">+</span></summary><p>Practice questions include explanations and source citations so you can review the reasoning and explore the underlying concepts.</p></details>
+<details class="faq-item stagger-item"><summary>Do I need to create an account?<span aria-hidden="true">+</span></summary><p>You can start practicing without an account. Create an account to save scores, track your progress, and manage paid access.</p></details></div>
+</section>
 <section class="cta-section reveal">
-    <div class="cta-inner">
-        <h2>Get Exam Tips & New Questions</h2>
-        <p>Join thousands of students preparing for their certification exams. We'll send you study tips, new question alerts, and pass strategies.</p>
-        <form class="email-form" onsubmit="return handleEmailSubmit(event)">
-            <input type="email" placeholder="Enter your email address" required id="emailInput">
-            <button type="submit">Subscribe</button>
-        </form>
-        <p class="email-note">No spam. Unsubscribe anytime. We respect your inbox.</p>
-    </div>
+    <div class="cta-inner"><span class="eyebrow">START WHERE YOU ARE. GO FURTHER.</span><h2>Your next chapter<br>starts with one question.</h2><p>Make a little room for your future. Try your first 10 questions free.</p><a href="quiz.html" class="btn btn-primary btn-lg">Start Practicing <span aria-hidden="true">&#8599;</span></a><p class="plan-note">Continue beyond 10 questions with a <a href="pricing.html">paid plan</a>.</p></div>
 </section>
+</main>
 
-<!-- FAQ -->
-<section class="landing-section reveal">
-    <div class="landing-section-head">
-        <h2>Frequently Asked Questions</h2>
+<footer class="app-footer site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand"><a href="/index.html">CertsOnTheFly</a><p>A little practice. A bigger future.</p></div>
+        <nav class="footer-links" aria-label="Footer navigation">
+            <a href="/quiz.html">All Exams</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="/resources.html">Resources</a>
+            <a href="/about.html">About</a>
+            <a href="/contact.html">Contact</a>
+            <a href="/terms.html">Terms &amp; Conditions</a>
+            <a href="/privacy.html">Privacy Policy</a>
+        </nav>
     </div>
-    <div class="faq-grid">
-        <div class="faq-item stagger-item">
-            <h3>Are the practice tests really free?</h3>
-            <p>Yes. All 3,111+ questions are completely free with detailed, evidence-based explanations and source citations on every answer. No credit card required, no hidden fees.</p>
-        </div>
-        <div class="faq-item stagger-item">
-            <h3>What certifications can I study for?</h3>
-            <p>HVAC EPA 608, Journeyman Electrician, Journeyman Plumber, NCLEX-RN Nursing, CompTIA Security+ (SY0-701), CDL Class A, PMP, and AI Infrastructure covering NVIDIA, AWS, Azure, and GCP.</p>
-        </div>
-        <div class="faq-item stagger-item">
-            <h3>How is this different from ExamTopics or other free sites?</h3>
-            <p>Unlike community-sourced sites with unreliable answers, every CertsOnTheFly question is expert-written with detailed explanations and source citations. We prioritize accuracy over quantity.</p>
-        </div>
-        <div class="faq-item stagger-item">
-            <h3>Do I need to create an account?</h3>
-            <p>No. Just pick your certification and start practicing. Account features for progress tracking, score history, and achievements are coming soon.</p>
-        </div>
-        <div class="faq-item stagger-item">
-            <h3>How many questions should I practice before my exam?</h3>
-            <p>We recommend completing the full question bank for your certification at least twice, aiming for 85%+ consistently before scheduling your real exam.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Final CTA -->
-<section class="landing-section reveal" style="text-align:center;padding-bottom:80px;">
-    <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:14px;">Ready to Pass Your Certification?</h2>
-    <p style="color:var(--text-secondary);font-size:1rem;margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.6;">Join the students who are passing their exams with confidence. Pick your cert and start today.</p>
-    <a href="quiz.html" class="btn btn-primary btn-lg">Start Practicing — It's Free</a>
-</section>
-
-<footer class="app-footer">
-    <p>&copy; 2026 CertsOnTheFly · <a href="quiz.html">All Exams</a> · <a href="resources.html">Resources</a> · <a href="pricing.html">Pricing</a> · <a href="exams/hvac.html">HVAC</a> · <a href="exams/electrician.html">Electrician</a> · <a href="exams/plumbing.html">Plumbing</a> · <a href="exams/nursing.html">Nursing</a> · <a href="exams/security.html">Security+</a> · <a href="exams/cdl.html">CDL</a> · <a href="exams/pmp.html">PMP</a></p>
+    <p class="footer-copyright">&copy; 2026 CertsOnTheFly</p>
 </footer>
 
-<script>
-(function() {
-    // Mobile menu
-    document.getElementById('hamburgerBtn').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
-    document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
-    document.getElementById('mobileMenu').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('open'); });
-
-    // Reveal animations
-    const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('visible');
-                e.target.querySelectorAll('.stagger-item').forEach((item, i) => setTimeout(() => item.classList.add('visible'), i * 80));
-                obs.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-})();
-
-function handleEmailSubmit(e) {
-    e.preventDefault();
-    const email = document.getElementById('emailInput').value;
-    const form = e.target;
-    form.innerHTML = '<p style="color:#10b981;font-size:1rem;font-weight:600;padding:14px 0;">You\'re in! We\'ll send you exam tips and new questions.</p>';
-    return false;
-}
-</script>
+<script src="js/landing.js" defer></script>
 <script src="js/auth.js"></script>
 <script src="js/ads.js"></script>
 </body>

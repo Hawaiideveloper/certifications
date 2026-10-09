@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | CertsOnTheFly</title>
+<meta name="description" content="Contact CertsOnTheFly support for account, practice question, or payment inquiries.">
+<link rel="canonical" href="https://certsonthefly.com/contact.html">
+<link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="styles/theme.css">
+</head>
+<body>
+<nav class="topnav" aria-label="Main navigation">
+    <a href="index.html" class="topnav-logo">
+        <div class="topnav-logo-icon">✈️</div>
+        <span class="topnav-logo-text">CertsOn<span class="fly">TheFly</span></span>
+    </a>
+    <div class="topnav-links" style="margin-left:auto">
+        <a href="dashboard.html" class="topnav-link" data-auth-only hidden>Dashboard</a>
+        <a href="quiz.html" class="topnav-link">All Exams</a>
+        <a href="pricing.html" class="topnav-link">Pricing</a>
+        <a href="quiz.html" class="topnav-btn topnav-btn-primary">Start Free</a>
+        <a href="#" class="topnav-btn topnav-btn-outline auth-login-btn" onclick="event.preventDefault();openAuth('login')">Log In</a>
+    </div>
+    <button class="topnav-hamburger" id="hamburgerBtn" aria-label="Open navigation" aria-controls="mobileMenu" aria-expanded="false">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="topnav-mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="topnav-mobile-panel">
+        <button class="topnav-mobile-close" id="mobileClose" aria-label="Close navigation">&times;</button>
+        <a href="index.html" class="active">Home</a>
+        <a href="dashboard.html" data-auth-only hidden>Dashboard</a>
+        <a href="quiz.html">All Exams</a>
+        <a href="exams/hvac.html">HVAC EPA 608</a>
+        <a href="exams/electrician.html">Electrician</a>
+        <a href="exams/plumbing.html">Plumbing</a>
+        <a href="exams/nursing.html">Nursing</a>
+        <a href="exams/security.html">Security+</a>
+        <a href="exams/cdl.html">CDL</a>
+        <a href="exams/pmp.html">PMP</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="#" class="auth-mobile-link" onclick="event.preventDefault();openAuth('login')">Log In</a>
+    </div>
+</div>
+
+
+<main><section class="info-hero"><span class="eyebrow">CONTACT</span><h1>We're here to help.</h1><p>Questions about your account, practice material, or paid access? Get in touch.</p></section>
+<div class="info-content"><section class="card card-pad contact-card"><span class="eyebrow">EMAIL SUPPORT</span><h2>Let's talk.</h2><p>Send your inquiry to <a class="contact-email" href="mailto:support@certsonthefly.com">support@certsonthefly.com</a>.</p><a class="btn btn-primary" href="mailto:support@certsonthefly.com">Email Support &nearr;</a><p class="contact-note">Opens your email app.</p></section>
+<div class="info-grid"><section class="card card-pad"><h2>Account or payment help</h2><p>Include the email address associated with your account and a brief description of the issue so we can understand what happened.</p></section><section class="card card-pad"><h2>Question feedback</h2><p>Tell us which exam you were practicing and include the question text, source link, or a screenshot of the issue.</p></section></div><section class="info-note"><h2>Looking for study materials?</h2><p>Find exam registration links, study guides, and learning resources for your certification.</p><a class="browse-link" href="/resources.html">Visit Resources &rarr;</a></section></div></main>
+<footer class="app-footer site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand"><a href="/index.html">CertsOnTheFly</a><p>A little practice. A bigger future.</p></div>
+        <nav class="footer-links" aria-label="Footer navigation">
+            <a href="/quiz.html">All Exams</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="/resources.html">Resources</a>
+            <a href="/about.html">About</a>
+            <a href="/contact.html">Contact</a>
+            <a href="/terms.html">Terms &amp; Conditions</a>
+            <a href="/privacy.html">Privacy Policy</a>
+        </nav>
+    </div>
+    <p class="footer-copyright">&copy; 2026 CertsOnTheFly</p>
+</footer>
+<script src="js/landing.js" defer></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
