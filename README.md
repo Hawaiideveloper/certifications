@@ -96,7 +96,7 @@ node server.js
 
 ## Deployment
 
-Hosted on [Fly.io](https://fly.io) with automatic deploys:
+Hosted on [Fly.io](https://fly.io). Deploy manually from the project directory:
 
 ```bash
 fly deploy
